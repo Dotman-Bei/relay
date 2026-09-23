@@ -1,0 +1,99 @@
+{
+  "schema": "relay.claims/v1",
+  "updatedAt": "2026-09-23",
+  "network": "BOT Chain testnet (chain 968) — not yet deployed",
+  "claims": [
+    {
+      "id": "C-01",
+      "claim": "Release policy is immutable after consent",
+      "earliestWording": "Tested locally",
+      "requiredEvidence": "Contract and property tests",
+      "status": "TESTED_LOCAL",
+      "publicWording": "Tested locally: once another member consents, the contract rejects any change to the rule.",
+      "evidence": [
+        "evidence/contracts/forge-test.txt",
+        "contracts/test/CapsuleRegistry.t.sol",
+        "contracts/test/CapsuleRegistry.invariant.t.sol",
+        "evidence/parity/parity-report.json",
+        "evidence/adversarial/local/latest.json"
+      ],
+      "notes": "Invariant suite found and fixed a capacity-shrink bug before any deployment (DECISIONS.md D-009)."
+    },
+    {
+      "id": "C-02",
+      "claim": "An ineligible release is rejected",
+      "earliestWording": "Observed on BOT Chain testnet",
+      "requiredEvidence": "Failed testnet transaction and verifier trace",
+      "status": "TESTED_LOCAL",
+      "publicWording": "Tested locally (LOCAL FIXTURE): early release attempts revert on-chain. Not yet observed on BOT Chain testnet.",
+      "evidence": [
+        "evidence/adversarial/local/latest.json",
+        "evidence/contracts/forge-test.txt"
+      ],
+      "notes": "Needs a mined failing testnet transaction (pnpm adversarial:testnet) to reach OBSERVED_TESTNET."
+    },
+    {
+      "id": "C-03",
+      "claim": "The capsule lifecycle is independently replayable",
+      "earliestWording": "Verified on BOT Chain testnet",
+      "requiredEvidence": "Published verifier output against deployed contract",
+      "status": "TESTED_LOCAL",
+      "publicWording": "Tested locally (LOCAL FIXTURE): the open-source verifier replays every event from an RPC and rejects mutated histories.",
+      "evidence": [
+        "evidence/unit/verifier.txt",
+        "docs/proofs/local",
+        "evidence/e2e/lifecycle.txt"
+      ],
+      "notes": "Needs `pnpm verify:testnet` output against the deployed registry."
+    },
+    {
+      "id": "C-04",
+      "claim": "Member payload is absent from contract events",
+      "earliestWording": "The protocol does not store plaintext payload on-chain",
+      "requiredEvidence": "ABI/event inspection and testnet proof run",
+      "status": "TESTED_LOCAL",
+      "publicWording": "Tested locally: contract events carry only ids, addresses, counts, timestamps and 32-byte hashes; a local proof run found no plaintext in any event.",
+      "evidence": [
+        "evidence/unit/protocol-types.txt",
+        "docs/proofs/local",
+        "evidence/e2e/lifecycle.txt"
+      ],
+      "notes": "ABI inspection passes; the testnet proof run is still required for the earliest permitted wording."
+    },
+    {
+      "id": "C-05",
+      "claim": "Testnet deployment exists",
+      "earliestWording": "Deployed on BOT Chain testnet",
+      "requiredEvidence": "Address, verified source, explorer link, deployment transaction",
+      "status": "PLANNED",
+      "publicWording": "Not yet deployed. Gate T0 (network probe) passed; deployment is waiting on a funded deployment wallet (owner decision).",
+      "evidence": [
+        "deployments/testnet.probe.json"
+      ],
+      "notes": "Blocked by: testnet faucet requires human verification; deployer and relayer wallets must be funded by the owner."
+    },
+    {
+      "id": "C-06",
+      "claim": "Mainnet deployment exists",
+      "earliestWording": "Deployed on BOT Chain mainnet",
+      "requiredEvidence": "Mainnet address, verified source, and deployment transaction",
+      "status": "PLANNED",
+      "publicWording": "No mainnet deployment. Mainnet is gated by T0–T6 and owner authorisation (M0).",
+      "evidence": [],
+      "notes": "Out of scope until every testnet gate passes."
+    },
+    {
+      "id": "C-07",
+      "claim": "Threshold release prevents all early disclosure",
+      "earliestWording": "Never claim",
+      "requiredEvidence": "The model has a stated collusion and creator-retention limit (§6)",
+      "status": "UNAVAILABLE",
+      "neverClaim": true,
+      "publicWording": "Relay does not claim this. A colluding threshold of relayers could disclose early, and contributors can keep their own copies.",
+      "evidence": [
+        "SECURITY.md"
+      ],
+      "notes": "Permanently unavailable by design."
+    }
+  ]
+}

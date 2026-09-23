@@ -1,0 +1,28 @@
+{
+  "name": "@relay/protocol-types",
+  "version": "0.1.0",
+  "description": "Relay protocol v1 types, runtime schemas and the CapsuleRegistry ABI.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./abi": "./src/abi.ts",
+    "./bytecode": "./src/bytecode.ts"
+  },
+  "publishConfig": {
+    "exports": {
+      ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+      "./abi": { "types": "./dist/abi.d.ts", "import": "./dist/abi.js" },
+      "./bytecode": { "types": "./dist/bytecode.d.ts", "import": "./dist/bytecode.js" }
+    }
+  },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsup src/index.ts src/abi.ts src/bytecode.ts --format esm --dts --clean",
+    "typecheck": "tsc -p . --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": { "zod": "^4.6.5" },
+  "devDependencies": { "tsup": "^8.5.1", "typescript": "5.9.3", "vitest": "^5.0.1" }
+}

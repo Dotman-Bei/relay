@@ -1,0 +1,102 @@
+$ forge test -vv
+# 2026-09-23T04:12:05.401Z · source UNCOMMITTED
+
+No files changed, compilation skipped
+
+Ran 48 tests for test/CapsuleRegistry.t.sol:CapsuleRegistryTest
+[PASS] test_cancel_fromDraftAndAwaitingConsent() (gas: 951369)
+[PASS] test_cancel_impossibleOnceAnotherMemberConsentedOrCommitted() (gas: 802709)
+[PASS] test_cancel_onlyCreator_andBlocksEverything() (gas: 667677)
+[PASS] test_consent_closesAtSealAt() (gas: 638188)
+[PASS] test_consent_requiresMembershipExactHashAndNonZeroKey() (gas: 837792)
+[PASS] test_contribution_atMostOncePerMember() (gas: 785277)
+[PASS] test_contribution_rejectsZeroCommitment() (gas: 516765)
+[PASS] test_contribution_requiresConsent() (gas: 654344)
+[PASS] test_contribution_windowBoundaryAtSealAt() (gas: 1067525)
+[PASS] test_create_rejectsEveryInvalidPolicyCode() (gas: 439529)
+[PASS] test_create_requiresRegisteredRelayerKeys() (gas: 59551)
+[PASS] test_create_startsInDraftWithCreatorAsMember() (gas: 428835)
+[PASS] test_creatorConsentAloneDoesNotLockRule() (gas: 507112)
+[PASS] test_dos_fullCircleAndQuorumStayCheap() (gas: 22944326)
+[PASS] test_invitation_cannotBeRedeemedInDraft() (gas: 462900)
+[PASS] test_invitation_happyPathEmitsAndCounts() (gas: 629518)
+[PASS] test_invitation_isSingleUse() (gas: 633730)
+[PASS] test_invitation_memberCannotJoinTwice() (gas: 698676)
+[PASS] test_invitation_rejectsMalleableAndMalformedSignatures() (gas: 547515)
+[PASS] test_invitation_rejectsWrongSignerAndUnissuedKey() (gas: 561717)
+[PASS] test_invitation_respectsCapacity() (gas: 698954)
+[PASS] test_invitation_signatureIsBoundToRedeemer() (gas: 512810)
+[PASS] test_issueInvitations_capPerCircle() (gas: 3722627)
+[PASS] test_issueInvitations_limitsAndAuth() (gas: 573851)
+[PASS] test_markExpired_onlyWhenExpired_once() (gas: 492933)
+[PASS] test_noExpiryMeansSealedForever() (gas: 939161)
+[PASS] test_open_movesDraftToAwaitingConsent_once() (gas: 466919)
+[PASS] test_open_revertsAfterSealDeadline() (gas: 390161)
+[PASS] test_receipt_allowedAfterExpiryOnceEligible() (gas: 1009520)
+[PASS] test_receipt_onlyQuorumRelayers_once_nonZero() (gas: 1100247)
+[PASS] test_receipt_revertsBeforeEligibility() (gas: 925854)
+[PASS] test_receipt_thresholdGatesReleased() (gas: 1216281)
+[PASS] test_registerRelayerKey_emits() (gas: 59780)
+[PASS] test_registerRelayerKey_rejectsZeroAndDuplicate() (gas: 59495)
+[PASS] test_releaseAtMayEqualSealAt_andExpiryMustFollowRelease() (gas: 359826)
+[PASS] test_releaseRuleStatusIs255OutsideSealed() (gas: 403762)
+[PASS] test_requestRelease_impossibleAfterExpiry() (gas: 955706)
+[PASS] test_requestRelease_requiresContributionThreshold() (gas: 924316)
+[PASS] test_requestRelease_revertsUntilRuleIsTrue() (gas: 1131178)
+[PASS] test_requestRelease_unanimousNeedsEveryJoinedMember() (gas: 1113331)
+[PASS] test_requestRelease_unanimousSatisfied() (gas: 937187)
+[PASS] test_unknownCircleReverts() (gas: 68478)
+[PASS] test_updatePolicy_allowedInDraftAndAwaitingConsent() (gas: 602785)
+[PASS] test_updatePolicy_cannotShrinkCapacityBelowMembers() (gas: 833272)
+[PASS] test_updatePolicy_clearsCreatorConsent() (gas: 709690)
+[PASS] test_updatePolicy_onlyCreator() (gas: 391518)
+[PASS] test_updatePolicy_revertsAfterCreatorContribution() (gas: 591494)
+[PASS] test_updatePolicy_revertsAfterNonCreatorConsent() (gas: 730423)
+Suite result: ok. 48 passed; 0 failed; 0 skipped; finished in 101.29ms (95.41ms CPU time)
+
+Ran 4 tests for test/CapsuleRegistry.fuzz.t.sol:CapsuleRegistryFuzzTest
+[PASS] testFuzz_consentRequiresExactHash(bytes32) (runs: 1024, μ: 641606, ~: 641712)
+[PASS] testFuzz_contributionWindow(uint32,uint32) (runs: 1024, μ: 536898, ~: 516236)
+[PASS] testFuzz_policyValidationMatchesPredicate(uint32,int32,uint32,uint8,uint8,uint8,uint8) (runs: 1024, μ: 45580, ~: 44522)
+[PASS] testFuzz_releaseTimestampBoundary(uint32,uint32,uint32) (runs: 1024, μ: 934745, ~: 942724)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 871.23ms (1.89s CPU time)
+
+Ran 1 test for test/CapsuleRegistry.invariant.t.sol:CapsuleRegistryInvariantTest
+[PASS]
+CapsuleRegistryInvariantTest invariants:
+[PASS] invariant_contractMatchesShadowModel
+[PASS] invariant_countsAreOrdered
+[PASS] invariant_lifecycleMatchesShadow
+[PASS] invariant_noCancelAfterForeignContribution
+[PASS] invariant_noReleaseWithoutValidRule
+[PASS] invariant_releasedImpliesThreshold
+[PASS] invariant_ruleImmutableAfterForeignConsent
+ CapsuleRegistryInvariantTest invariants (runs: 256, calls: 16384, reverts: 0)
+
+╭----------+----------------+-------+---------+----------╮
+| Contract | Selector       | Calls | Reverts | Discards |
++========================================================+
+| Handler  | cancel         | 1635  | 0       | 0        |
+|----------+----------------+-------+---------+----------|
+| Handler  | consent        | 1727  | 0       | 0        |
+|----------+----------------+-------+---------+----------|
+| Handler  | contribute     | 1642  | 0       | 0        |
+|----------+----------------+-------+---------+----------|
+| Handler  | create         | 1585  | 0       | 0        |
+|----------+----------------+-------+---------+----------|
+| Handler  | join           | 1652  | 0       | 0        |
+|----------+----------------+-------+---------+----------|
+| Handler  | open           | 1583  | 0       | 0        |
+|----------+----------------+-------+---------+----------|
+| Handler  | receipt        | 1707  | 0       | 0        |
+|----------+----------------+-------+---------+----------|
+| Handler  | requestRelease | 1585  | 0       | 0        |
+|----------+----------------+-------+---------+----------|
+| Handler  | update         | 1625  | 0       | 0        |
+|----------+----------------+-------+---------+----------|
+| Handler  | warp           | 1643  | 0       | 0        |
+╰----------+----------------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 11.45s (11.44s CPU time)
+
+Ran 3 test suites in 11.46s (12.42s CPU time): 53 tests passed, 0 failed, 0 skipped (53 total tests)

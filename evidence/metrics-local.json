@@ -1,0 +1,28 @@
+{
+  "schema": "relay.metrics/v1",
+  "label": "LOCAL FIXTURE",
+  "measuredAt": "2026-09-23T04:07:49.046Z",
+  "registry": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+  "circlesCreated": 1,
+  "invitationsIssued": 1,
+  "membersJoined": 2,
+  "consentCompletionRate": 1,
+  "contributionCompletionRate": 1,
+  "sealedCapsules": 1,
+  "eligibilityRecorded": 1,
+  "released": 1,
+  "independentlyVerifiedReleases": 1,
+  "eligibilityToThresholdSeconds": {
+    "median": 3,
+    "p95": 3,
+    "samples": 1
+  },
+  "rejectedReleaseAttempts": 0,
+  "participants": {
+    "total": 2,
+    "developerWallets": 2,
+    "external": 0
+  },
+  "memorySteward": "not measured (pass --steward-dir)",
+  "storage": "Upload failures and commitment mismatches are detected client-side and not reported to any server; count them from client and relayer logs."
+}

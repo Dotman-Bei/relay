@@ -1,0 +1,74 @@
+{
+  "schema": "relay.evidence-index/v1",
+  "generatedAt": "2026-09-23T04:14:24.015Z",
+  "sourceCommit": "UNCOMMITTED",
+  "label": "LOCAL FIXTURE and unit evidence — not BOT Chain testnet evidence",
+  "results": [
+    {
+      "id": "contracts",
+      "passed": true,
+      "seconds": 12,
+      "output": "evidence/contracts/forge-test.txt"
+    },
+    {
+      "id": "protocol-types",
+      "passed": true,
+      "seconds": 3,
+      "output": "evidence/unit/protocol-types.txt"
+    },
+    {
+      "id": "reference",
+      "passed": true,
+      "seconds": 4,
+      "output": "evidence/unit/reference.txt"
+    },
+    {
+      "id": "sdk",
+      "passed": true,
+      "seconds": 6,
+      "output": "evidence/unit/sdk.txt"
+    },
+    {
+      "id": "verifier",
+      "passed": true,
+      "seconds": 4,
+      "output": "evidence/unit/verifier.txt"
+    },
+    {
+      "id": "agent",
+      "passed": true,
+      "seconds": 4,
+      "output": "evidence/unit/agent.txt"
+    },
+    {
+      "id": "claim-ledger",
+      "passed": true,
+      "seconds": 3,
+      "output": "evidence/unit/claim-ledger.txt"
+    },
+    {
+      "id": "parity",
+      "passed": true,
+      "seconds": 104,
+      "output": "evidence/parity/parity.txt"
+    },
+    {
+      "id": "proof-local",
+      "passed": true,
+      "seconds": 4,
+      "output": "evidence/proofs/proof-local.txt"
+    },
+    {
+      "id": "adversarial-local",
+      "passed": true,
+      "seconds": 6,
+      "output": "evidence/adversarial/adversarial-local.txt"
+    },
+    {
+      "id": "claims",
+      "passed": true,
+      "seconds": 2,
+      "output": "evidence/claims-check.txt"
+    }
+  ]
+}

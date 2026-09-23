@@ -1,0 +1,7 @@
+
+Running 2 tests using 1 worker
+
+  ✓  1 e2e/states.spec.ts:6:1 › a chain-ID or bytecode mismatch shows PROTOCOL_CONFIG_CHANGED and stops transactions (1.6s)
+  ✓  2 e2e/states.spec.ts:24:1 › with no deployment record the app says so and disables transactions (1.7s)
+
+  2 passed (5.0s)

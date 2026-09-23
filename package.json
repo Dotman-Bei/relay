@@ -1,0 +1,53 @@
+{
+  "name": "relay",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Relay \u2014 a social time-capsule protocol on BOT Chain testnet. Groups encrypt contributions now and receive them only after an immutable on-chain date-and-consent rule is satisfied.",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "type": "module",
+  "scripts": {
+    "contracts:build": "cd contracts && forge build",
+    "contracts:test": "cd contracts && forge test",
+    "abi:sync": "tsx scripts/sync-abi.ts",
+    "typecheck": "pnpm -r --parallel typecheck",
+    "test": "pnpm -r --workspace-concurrency=1 test",
+    "test:parity": "tsx scripts/parity.ts",
+    "probe:testnet": "tsx scripts/probe-network.ts testnet",
+    "probe:mainnet": "tsx scripts/probe-network.ts mainnet",
+    "local:chain": "tsx scripts/local-stack.ts",
+    "proof:local": "tsx scripts/proof-run.ts --network local",
+    "proof:testnet": "tsx scripts/proof-run.ts --network testnet",
+    "adversarial:local": "tsx scripts/adversarial.ts --network local",
+    "adversarial:testnet": "tsx scripts/adversarial.ts --network testnet",
+    "deploy:testnet": "tsx scripts/deploy.ts --network testnet",
+    "verify:local": "tsx packages/verifier/src/cli.ts --deployment deployments/local.json",
+    "verify:testnet": "tsx packages/verifier/src/cli.ts --deployment deployments/testnet.json",
+    "verify:mainnet": "tsx packages/verifier/src/cli.ts --deployment deployments/mainnet.json",
+    "claims:generate": "tsx packages/claim-ledger/src/cli.ts generate",
+    "claims:check": "tsx packages/claim-ledger/src/cli.ts check",
+    "web:dev": "pnpm --filter @relay/web dev",
+    "web:build": "pnpm --filter @relay/web build",
+    "evidence": "tsx scripts/collect-evidence.ts",
+    "metrics": "tsx scripts/metrics.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "@relay/agent": "workspace:*",
+    "@relay/protocol-types": "workspace:*",
+    "@relay/reference": "workspace:*",
+    "@relay/relayer": "workspace:*",
+    "@relay/sdk": "workspace:*",
+    "@relay/verifier": "workspace:*",
+    "@types/node": "^22.19.0",
+    "axe-core": "^4.13.0",
+    "fast-check": "^4.10.2",
+    "tsx": "^4.23.15",
+    "typescript": "5.9.3",
+    "viem": "^2.56.8",
+    "vitest": "^5.0.1",
+    "zod": "^4.6.5"
+  }
+}

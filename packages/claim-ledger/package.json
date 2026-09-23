@@ -1,0 +1,14 @@
+{
+  "name": "@relay/claim-ledger",
+  "version": "0.1.0",
+  "description": "Relay's public claim and evidence ledger (PRD §21). claims.json is the source of truth; docs/claims.md is generated.",
+  "type": "module",
+  "license": "MIT",
+  "exports": { ".": "./src/index.ts", "./data/claims.json": "./data/claims.json" },
+  "scripts": {
+    "typecheck": "tsc -p . --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": { "@relay/protocol-types": "workspace:*", "zod": "^4.6.5" },
+  "devDependencies": { "typescript": "5.9.3", "vitest": "^5.0.1" }
+}

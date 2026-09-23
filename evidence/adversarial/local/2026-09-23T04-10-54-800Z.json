@@ -1,0 +1,159 @@
+{
+  "schema": "relay.adversarial-report/v1",
+  "label": "LOCAL FIXTURE",
+  "network": "local",
+  "runId": "2026-09-23T04-10-54-800Z",
+  "registry": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+  "chainId": 31337,
+  "sourceCommit": "UNCOMMITTED",
+  "control": {
+    "lifecycle": "RELEASED",
+    "receipts": 2,
+    "opened": 2
+  },
+  "passed": true,
+  "attempts": [
+    {
+      "id": "ADV-1",
+      "attempt": "Change the date after member consent",
+      "expected": "Revert",
+      "observed": "status reverted, RuleLocked: The rule is locked: another member has already consented to it.; stored rule is still the consented one",
+      "passed": true,
+      "evidence": {
+        "tx": "0xa1deda9dafae5165220d33c5f05fce9883cc8fe1a35e5d7bccefb322750f46bd",
+        "explorer": null,
+        "block": "20",
+        "decoded": {
+          "name": "RuleLocked",
+          "reason": "The rule is locked: another member has already consented to it."
+        },
+        "policyHashBefore": "0xadf8193648d0e5de726002a900a5318e8a80e9bde0df869070281015f5db3e0d",
+        "policyHashAfter": "0xadf8193648d0e5de726002a900a5318e8a80e9bde0df869070281015f5db3e0d"
+      }
+    },
+    {
+      "id": "ADV-2",
+      "attempt": "Commit twice as one participant",
+      "expected": "Revert",
+      "observed": "status reverted, AlreadyContributed: You have already committed your contribution. One per member.",
+      "passed": true,
+      "evidence": {
+        "tx": "0x451bea6ef5f07ff4458f0007d34334148239cd27d0a50a0face7f82cc3431e9f",
+        "explorer": null,
+        "block": "25",
+        "decoded": {
+          "name": "AlreadyContributed",
+          "reason": "You have already committed your contribution. One per member."
+        },
+        "contractTest": "test_contribution_atMostOncePerMember"
+      }
+    },
+    {
+      "id": "ADV-3",
+      "attempt": "Request release before the rule is true",
+      "expected": "Revert",
+      "observed": "collecting: reverted WrongLifecycle; sealed before date: reverted RuleNotSatisfied (The release rule is not true yet: Release date has not arrived.)",
+      "passed": true,
+      "evidence": {
+        "whileCollecting": {
+          "tx": "0xac17cf5583acbc3778e2d196e21ed445309853bb93c393aba594cae20d2a8516",
+          "explorer": null,
+          "decoded": {
+            "name": "WrongLifecycle",
+            "reason": "Not allowed while the Circle is collecting contributions."
+          }
+        },
+        "sealedBeforeDate": {
+          "tx": "0xf9323973e82aae8bb21e4d5855f62bba1aa4ab35d6d8ad9046b605f33316f919",
+          "explorer": null,
+          "decoded": {
+            "name": "RuleNotSatisfied",
+            "reason": "The release rule is not true yet: Release date has not arrived."
+          }
+        },
+        "contractTest": "test_requestRelease_revertsUntilRuleIsTrue"
+      }
+    },
+    {
+      "id": "ADV-4",
+      "attempt": "Submit a receipt before eligibility",
+      "expected": "Revert",
+      "observed": "status reverted, EligibilityNotRecorded: Release eligibility has not been recorded on-chain yet.",
+      "passed": true,
+      "evidence": {
+        "tx": "0xf966d0b22f45181d3451c339561156c3d67c7c993392532ddd56128adb7254f3",
+        "explorer": null,
+        "block": "29",
+        "decoded": {
+          "name": "EligibilityNotRecorded",
+          "reason": "Release eligibility has not been recorded on-chain yet."
+        },
+        "contractTest": "test_receipt_revertsBeforeEligibility"
+      }
+    },
+    {
+      "id": "ADV-5",
+      "attempt": "Serve modified ciphertext",
+      "expected": "Client detects commitment mismatch",
+      "observed": "reveal with modified ciphertext refused: Commitment mismatch for ciphertext: expected 07987977cd1d9c0 | Commitment mismatch for ciphertext: expected ff479658e9caef5. Upload through tampering storage blocked before any transaction: Commitment mismatch for ciphertext (read-back): expected 9cfe391e3107493e47a286b3370ffd241",
+      "passed": true,
+      "evidence": {
+        "readDetected": true,
+        "uploadBlocked": true,
+        "integrationTest": "packages/relay-sdk/test/crypto.test.ts › detects modified ciphertext served by storage"
+      }
+    },
+    {
+      "id": "ADV-6",
+      "attempt": "Point verifier at a false server response",
+      "expected": "Verifier derives state from chain and reports the actual state",
+      "observed": "claimed RELEASED; chain-derived RELEASE_ELIGIBLE; claim rejected: claimed lifecycle RELEASED, chain says RELEASE_ELIGIBLE; claimed 2 receipts, chain has 1; claimed released=true, chain says RELEASE_ELIGIBLE",
+      "passed": true,
+      "evidence": {
+        "claimed": {
+          "lifecycle": "RELEASED",
+          "released": true,
+          "receiptCount": 2
+        },
+        "derivedLifecycle": "RELEASE_ELIGIBLE",
+        "differences": [
+          "claimed lifecycle RELEASED, chain says RELEASE_ELIGIBLE",
+          "claimed 2 receipts, chain has 1",
+          "claimed released=true, chain says RELEASE_ELIGIBLE"
+        ],
+        "verdictOnChainHistory": "VALID"
+      }
+    },
+    {
+      "id": "ADV-7",
+      "attempt": "Withhold one relayer receipt",
+      "expected": "State remains RELEASE_UNAVAILABLE, not RELEASED",
+      "observed": "lifecycle RELEASE_ELIGIBLE; receipts 1/2; delivery {\"kind\":\"RELEASE_UNAVAILABLE\",\"receipts\":1,\"threshold\":2,\"missing\":1}; member reveal: Release unavailable: 1 of 2 key shares delivered | Release unavailable: 1 of 2 key shares delivered",
+      "passed": true,
+      "evidence": {
+        "eventTrace": [
+          "RelayerKeyRegistered@5",
+          "RelayerKeyRegistered@6",
+          "CircleCreated@10",
+          "CircleOpened@11",
+          "InvitationIssued@16",
+          "InvitationAccepted@17",
+          "ConsentRecorded@18",
+          "ConsentRecorded@19",
+          "ContributionCommitted@23",
+          "ContributionCommitted@24",
+          "ReleaseEligibilityReached@32",
+          "ReleaseReceiptRecorded@35"
+        ],
+        "delivery": {
+          "kind": "RELEASE_UNAVAILABLE",
+          "receipts": 1,
+          "threshold": 2,
+          "missing": 1
+        },
+        "verifierVerdict": "VALID",
+        "withheldBy": "0x6A73E0Ec4BB3Ad5d2Ba1597FF064de704A4021DA"
+      }
+    }
+  ]
+}

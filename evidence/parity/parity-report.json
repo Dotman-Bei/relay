@@ -1,0 +1,29 @@
+{
+  "schema": "relay.parity-report/v1",
+  "label": "LOCAL FIXTURE",
+  "generatedAt": "2026-09-23T04:14:12.302Z",
+  "seed": 1234,
+  "sequences": 80,
+  "stepsPerSequence": 30,
+  "transactions": 1880,
+  "accepted": 414,
+  "reverted": 1466,
+  "mismatches": [],
+  "viewChecks": 1860,
+  "hashChecks": 80,
+  "errorsSeen": {
+    "NotMember": 135,
+    "InvitationInvalid": 82,
+    "RuleNotSatisfied": 46,
+    "WrongLifecycle": 983,
+    "NotCreator": 96,
+    "PolicyHashMismatch": 4,
+    "InvalidPolicy": 27,
+    "EligibilityNotRecorded": 46,
+    "RelayerKeyMissing": 8,
+    "ConsentRequired": 28,
+    "AlreadyConsented": 9,
+    "AlreadyMember": 2
+  },
+  "verdict": "PASS"
+}

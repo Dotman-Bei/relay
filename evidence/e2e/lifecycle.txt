@@ -1,0 +1,6 @@
+
+Running 1 test using 1 worker
+
+  ✓  1 e2e/lifecycle.spec.ts:36:1 › two members seal, the rule releases, a member reveals, the verifier agrees (17.8s)
+
+  1 passed (20.1s)

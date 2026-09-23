@@ -1,0 +1,6 @@
+$ pnpm -s test:parity --sequences 80 --steps 30
+# 2026-09-23T04:14:12.416Z · source UNCOMMITTED
+
+parity PASS: 1880 transactions (414 accepted, 1466 reverted), 1860 view comparisons, 80 policy-hash comparisons, 0 mismatches
+errors exercised: NotMember×135, InvitationInvalid×82, RuleNotSatisfied×46, WrongLifecycle×983, NotCreator×96, PolicyHashMismatch×4, InvalidPolicy×27, EligibilityNotRecorded×46, RelayerKeyMissing×8, ConsentRequired×28, AlreadyConsented×9, AlreadyMember×2
+report: /root/relay/evidence/parity/parity-report.json

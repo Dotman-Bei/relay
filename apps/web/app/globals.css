@@ -1,0 +1,216 @@
+/*
+ * Relay visual system — the "Bareng" soft-neobrutalism grammar (frontend.md), applied to Relay.
+ *
+ * Decisions (frontend.md §11 "decide the layering deliberately"):
+ *  - Tokens live in @theme, so utilities read `bg-yellow`, `text-ink/70`. Tailwind's default palette
+ *    is switched off (`--color-*: initial`) so the §10 drift — red-300 on red-900/20, orange-600 on
+ *    green — cannot be written at all. The raw names from frontend.md §2 (--bg, --ink …) stay as aliases.
+ *  - The seven neo classes sit in @layer components: utilities may override them on purpose, and no
+ *    `disabled:` utility is ever dead. Error cues are red fills with ink text, never rings (§1, §10).
+ *  - The global focus ring stays unlayered inside :where(), so `outline-none` can never remove it.
+ */
+@import "tailwindcss";
+
+@theme {
+  --color-*: initial;
+  --color-bg: #fdf6e3;
+  --color-panel: #ffffff;
+  --color-ink: #111111;
+  --color-line: #111111;
+  --color-yellow: #ffd93d;
+  --color-pink: #ff8fce;
+  --color-blue: #4d9dff;
+  --color-green: #4ade80;
+  --color-purple: #b799ff;
+  --color-orange: #ff9f43;
+  --color-red: #ff6b6b;
+  --color-lime: #d3f26a;
+  --color-white: #ffffff;
+  --color-black: #111111;
+
+  --animate-neo-rise: neo-rise 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+:root {
+  --bg: var(--color-bg);
+  --panel: var(--color-panel);
+  --ink: var(--color-ink);
+  --line: var(--color-line);
+  --yellow: var(--color-yellow);
+  --pink: var(--color-pink);
+  --blue: var(--color-blue);
+  --green: var(--color-green);
+  --purple: var(--color-purple);
+  --orange: var(--color-orange);
+  --red: var(--color-red);
+  --lime: var(--color-lime);
+  color-scheme: light;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-weight: 500;
+  min-height: 100dvh;
+}
+
+@layer components {
+  /* Three lift levels (§4). Nested objects go flat so shadows never stack. */
+  .neo {
+    border: 3px solid var(--line);
+    box-shadow: 5px 5px 0 0 var(--ink);
+  }
+  .neo-sm {
+    border: 3px solid var(--line);
+    box-shadow: 3px 3px 0 0 var(--ink);
+  }
+  .neo-flat {
+    border: 3px solid var(--line);
+  }
+
+  /* The two-stage press: translate + remaining shadow always sums to 4px, so the hole stays put. */
+  .neo-btn {
+    border: 3px solid var(--line);
+    box-shadow: 4px 4px 0 0 var(--ink);
+    font-weight: 800;
+    transition:
+      transform 0.08s ease,
+      box-shadow 0.08s ease;
+  }
+  .neo-btn:hover:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 0 var(--ink);
+  }
+  .neo-btn:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 0 var(--ink);
+  }
+  .neo-btn:disabled,
+  .neo-btn[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  /* Inputs rise where buttons sink. */
+  .neo-input {
+    border: 3px solid var(--line);
+    background: var(--panel);
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .neo-input:focus {
+    outline: none;
+    box-shadow: 3px 3px 0 0 var(--ink);
+  }
+  .neo-input[aria-invalid="true"] {
+    background: var(--red);
+  }
+
+  .neo-tag {
+    border: 2px solid var(--line);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .neo-label {
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+
+  /* One highlighted phrase per headline; clone keeps padding on every wrapped line. */
+  .hl {
+    padding-inline: 0.25rem;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /*
+   * Relay's own ornament: the postmark. A cancellation stamp for "opens on" dates —
+   * double ink ring, flat, no shadow (it sits inside bordered objects).
+   */
+  .postmark {
+    display: inline-grid;
+    place-items: center;
+    border-radius: 9999px;
+    border: 3px solid var(--line);
+    outline: 2px solid var(--line);
+    outline-offset: 3px;
+    text-align: center;
+    line-height: 1.05;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* Hash links: dotted underline that turns solid on hover (§6 receipts). */
+  .hash-link {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .hash-link:hover {
+    text-decoration-style: solid;
+  }
+}
+
+/* Global focus ring: unlayered on purpose, zero specificity via :where(). textarea/select/summary added (§8). */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+.neo-input:focus-visible {
+  outline: none;
+}
+
+@keyframes neo-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.neo-rise {
+  animation: neo-rise 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+/* Staggers run only when the group scrolls into view (§7 fix): see components/reveal.tsx. */
+.neo-stagger[data-reveal="pending"] > * {
+  opacity: 0;
+}
+.neo-stagger[data-reveal="shown"] > * {
+  animation: neo-rise 0.55s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.neo-stagger[data-reveal="shown"] > *:nth-child(2) { animation-delay: 0.06s; }
+.neo-stagger[data-reveal="shown"] > *:nth-child(3) { animation-delay: 0.12s; }
+.neo-stagger[data-reveal="shown"] > *:nth-child(4) { animation-delay: 0.18s; }
+.neo-stagger[data-reveal="shown"] > *:nth-child(5) { animation-delay: 0.24s; }
+.neo-stagger[data-reveal="shown"] > *:nth-child(6) { animation-delay: 0.3s; }
+
+/* Reduced motion zeroes duration AND delay, so nothing waits invisible (§7 fix). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .neo-stagger[data-reveal="pending"] > * {
+    opacity: 1;
+  }
+}

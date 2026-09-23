@@ -1,0 +1,24 @@
+{
+  "name": "@relay/verifier",
+  "version": "0.1.0",
+  "description": "Independent Relay verifier: replays CapsuleRegistry events from any RPC through the reference model and reports whether each release was eligible under the original rule. Needs no Relay backend.",
+  "type": "module",
+  "license": "MIT",
+  "sideEffects": false,
+  "bin": { "relay-verify": "./src/cli.ts" },
+  "exports": { ".": "./src/index.ts" },
+  "publishConfig": { "exports": { ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" } } },
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc -p . --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@relay/protocol-types": "workspace:*",
+    "@relay/reference": "workspace:*",
+    "@relay/sdk": "workspace:*",
+    "viem": "^2.56.8"
+  },
+  "devDependencies": { "tsup": "^8.5.1", "typescript": "5.9.3", "vitest": "^5.0.1" }
+}
