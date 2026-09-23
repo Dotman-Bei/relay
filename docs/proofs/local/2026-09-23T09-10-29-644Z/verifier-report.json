@@ -1,0 +1,318 @@
+{
+  "schema": "relay.verifier-report/v1",
+  "verifierVersion": "0.1.0",
+  "generatedAt": "2026-09-23T09:10:31.828Z",
+  "label": "LOCAL FIXTURE",
+  "source": {
+    "kind": "rpc",
+    "rpcUrl": "http://127.0.0.1:8646",
+    "chainId": 31337,
+    "registry": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    "observedAtBlock": "22",
+    "observedAt": 1790155830,
+    "runtimeSha256": "77a4b893d3b1add5d9cfe5ffdf67d0e54b8653f763e0736fd3955362bb921838",
+    "expectedRuntimeSha256": "77a4b893d3b1add5d9cfe5ffdf67d0e54b8653f763e0736fd3955362bb921838",
+    "bytecodeMatches": true
+  },
+  "circleId": "1",
+  "rule": {
+    "policyHash": "0x21fcbb1ad8a524da70cbcff98d8fa82afa2c0271ecaf628a6135786444b979f8",
+    "policyHashValid": true,
+    "releaseAt": 1790155830,
+    "sealAt": 1790155230,
+    "expiresAt": 0,
+    "capacity": 2,
+    "minContributions": 2,
+    "unanimousConsent": true,
+    "receiptThreshold": 2,
+    "relayers": [
+      "0xFc4C2FFd82402825aac0350d2e604106e69CC712",
+      "0x3bFF0B9beF8CAD8EdF0e6DcF35A3138F8Eeb434E",
+      "0xA91e3690C3B1D590a0fAb1ecF8f54307C6004170"
+    ],
+    "lockedByNonCreatorConsent": true
+  },
+  "events": [
+    {
+      "index": 0,
+      "name": "RelayerKeyRegistered",
+      "blockNumber": "5",
+      "logIndex": 0,
+      "transactionHash": "0x6264acc4bdd7386efcbb86044b1b5a618c91f404b8f7c14ac3c384e80632f1cf",
+      "timestamp": 1790154630,
+      "actor": "0xfc4c2ffd82402825aac0350d2e604106e69cc712",
+      "summary": "Relayer 0xFc4C…C712 published key 0x9e0e…724f",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 1,
+      "name": "RelayerKeyRegistered",
+      "blockNumber": "6",
+      "logIndex": 0,
+      "transactionHash": "0xcf1a43d11c333c923b472d04af17e67154b9013587608ce1ffd9943db2a8c867",
+      "timestamp": 1790154630,
+      "actor": "0x3bff0b9bef8cad8edf0e6dcf35a3138f8eeb434e",
+      "summary": "Relayer 0x3bFF…434E published key 0x486c…d65e",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 2,
+      "name": "RelayerKeyRegistered",
+      "blockNumber": "7",
+      "logIndex": 0,
+      "transactionHash": "0xbd4ac6d4db131541242692867ce87238995cf6f16bd48eaa4ea552acb6a5cbc4",
+      "timestamp": 1790154630,
+      "actor": "0xa91e3690c3b1d590a0fab1ecf8f54307c6004170",
+      "summary": "Relayer 0xA91e…4170 published key 0x39fe…dc92",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 3,
+      "name": "CircleCreated",
+      "blockNumber": "8",
+      "logIndex": 0,
+      "transactionHash": "0xe821a52d1c01c16988bc489bc945ec42d42e42f1c3cf40d869e9807713397985",
+      "timestamp": 1790154630,
+      "actor": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+      "summary": "Circle created by 0x7099…79C8 with rule 0x21fc…79f8",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 4,
+      "name": "CircleOpened",
+      "blockNumber": "9",
+      "logIndex": 0,
+      "transactionHash": "0x9108614e9f882484e434407c650f05bd1ed4a3338e8c9206fea7d25863c6cd4a",
+      "timestamp": 1790154630,
+      "actor": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+      "summary": "Rule published; consent open",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 5,
+      "name": "InvitationIssued",
+      "blockNumber": "10",
+      "logIndex": 0,
+      "transactionHash": "0x5d4040384546cc8ddd8fc03f5441ebb661181d9ef2a2645503babb046d5deb6f",
+      "timestamp": 1790154630,
+      "actor": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+      "summary": "Invitation key 0x5604…A3A5 issued",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 6,
+      "name": "InvitationAccepted",
+      "blockNumber": "11",
+      "logIndex": 0,
+      "transactionHash": "0x0148eaaab5a16a3aef1526b8b86d85f29be151d7859636ab213b10597e4c2153",
+      "timestamp": 1790154630,
+      "actor": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+      "summary": "0x3C44…93BC joined (member 2)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 7,
+      "name": "ConsentRecorded",
+      "blockNumber": "12",
+      "logIndex": 0,
+      "transactionHash": "0xaf59fc8425bf8196b2c825aed1ee4898ccff0335110318847a4f70bfddeb7056",
+      "timestamp": 1790154630,
+      "actor": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+      "summary": "0x7099…79C8 consented to rule 0x21fc…79f8",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 8,
+      "name": "ConsentRecorded",
+      "blockNumber": "13",
+      "logIndex": 0,
+      "transactionHash": "0x47d573480d9d882313ffe83f1d1500bcdaa80ed3ec3585adbe3beb6da6a29288",
+      "timestamp": 1790154630,
+      "actor": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+      "summary": "0x3C44…93BC consented to rule 0x21fc…79f8",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 9,
+      "name": "ContributionCommitted",
+      "blockNumber": "14",
+      "logIndex": 0,
+      "transactionHash": "0xde13dcd158ea67be1ae6917f6a6adf7f38d606534ba1c74b208072f592dc0760",
+      "timestamp": 1790154630,
+      "actor": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+      "summary": "0x7099…79C8 committed 0x0da7…0c98",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 10,
+      "name": "ContributionCommitted",
+      "blockNumber": "15",
+      "logIndex": 0,
+      "transactionHash": "0x5e67f4ace044d889697a7635e9e13b42ff304fafd4a25d1486483594619e358d",
+      "timestamp": 1790154630,
+      "actor": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+      "summary": "0x3C44…93BC committed 0x96ab…4379",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 11,
+      "name": "ReleaseEligibilityReached",
+      "blockNumber": "19",
+      "logIndex": 0,
+      "transactionHash": "0xab4fa19924be9c5302db8baaf60794cb4d8815bcfe174fef5c3e74f04e2d2193",
+      "timestamp": 1790155830,
+      "actor": null,
+      "summary": "Release eligibility recorded (2 contributions, 2/2 consents)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 12,
+      "name": "ReleaseReceiptRecorded",
+      "blockNumber": "20",
+      "logIndex": 0,
+      "transactionHash": "0xdd063fa6c55c4ecac7b916af1662aa6e80dda46d00e5e0ac1ffd978d17ff654e",
+      "timestamp": 1790155830,
+      "actor": "0xfc4c2ffd82402825aac0350d2e604106e69cc712",
+      "summary": "Relayer 0xFc4C…C712 recorded receipt 1 (0x6df7…5e53)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 13,
+      "name": "ReleaseReceiptRecorded",
+      "blockNumber": "21",
+      "logIndex": 0,
+      "transactionHash": "0xbc62d058cb9af5390a8810e1e1f804d08d334eab4c843c5b2e80f6d64ec2c40a",
+      "timestamp": 1790155830,
+      "actor": "0x3bff0b9bef8cad8edf0e6dcf35a3138f8eeb434e",
+      "summary": "Relayer 0x3bFF…434E recorded receipt 2 (0x3967…4ad5)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    },
+    {
+      "index": 14,
+      "name": "ReleaseReceiptRecorded",
+      "blockNumber": "22",
+      "logIndex": 0,
+      "transactionHash": "0x25145f0c872795c4caa4f36e9873885dc21bf8bdc0b21738e1f724d7d9ac3aa2",
+      "timestamp": 1790155830,
+      "actor": "0xa91e3690c3b1d590a0fab1ecf8f54307c6004170",
+      "summary": "Relayer 0xA91e…4170 recorded receipt 3 (0x0fb6…f098)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": null
+    }
+  ],
+  "evaluation": {
+    "lifecycle": "RELEASED",
+    "delivery": {
+      "kind": "RELEASED",
+      "receipts": 3,
+      "threshold": 2
+    },
+    "eligibility": {
+      "at": 1790155830,
+      "releaseAt": 1790155830,
+      "contributions": 2,
+      "minContributions": 2,
+      "consents": 2,
+      "members": 2,
+      "unanimousConsent": true,
+      "ruleSatisfied": true
+    },
+    "members": [
+      {
+        "address": "0x70997970c51812dc3a010c7d01b50e0d17dc79c8",
+        "consented": true,
+        "contributed": true,
+        "commitment": "0x0da7de036290d73c68852c922943842937807f3401c2eca3910976a65c770c98"
+      },
+      {
+        "address": "0x3c44cdddb6a900fa2b585dd299e03d12fa4293bc",
+        "consented": true,
+        "contributed": true,
+        "commitment": "0x96abb15f7a609927a26394c29d6af2fe61bff23e5cb939198c77aad2bab24379"
+      }
+    ]
+  },
+  "relayers": [
+    {
+      "address": "0xFc4C2FFd82402825aac0350d2e604106e69CC712",
+      "label": "local-relayer-1",
+      "independence": "LOCAL FIXTURE",
+      "receiptDigest": "0x6df750dd0d4bbef47afaa272bcaba3156b911e9a503aba3d4a63fa6fea435e53",
+      "delivery": {
+        "fetched": true,
+        "hashMatches": true,
+        "signatureValid": true,
+        "coverage": "4/4 member×contribution shares"
+      }
+    },
+    {
+      "address": "0x3bFF0B9beF8CAD8EdF0e6DcF35A3138F8Eeb434E",
+      "label": "local-relayer-2",
+      "independence": "LOCAL FIXTURE",
+      "receiptDigest": "0x39673a01d49d0e9c21ef6790f19171d798d20eb6ffb63177316343b910f14ad5",
+      "delivery": {
+        "fetched": true,
+        "hashMatches": true,
+        "signatureValid": true,
+        "coverage": "4/4 member×contribution shares"
+      }
+    },
+    {
+      "address": "0xA91e3690C3B1D590a0fAb1ecF8f54307C6004170",
+      "label": "local-relayer-3",
+      "independence": "LOCAL FIXTURE",
+      "receiptDigest": "0x0fb6ceff27b841a2c011a32d9a6ef2c9205d13953be96dc2d92dc1d9fc38f098",
+      "delivery": {
+        "fetched": true,
+        "hashMatches": true,
+        "signatureValid": true,
+        "coverage": "4/4 member×contribution shares"
+      }
+    }
+  ],
+  "crossCheck": {
+    "performed": true,
+    "matches": true,
+    "differences": []
+  },
+  "claimedStateCheck": null,
+  "adminAuthority": "None. CapsuleRegistry has no owner, pause, upgrade or admin function; the bytecode hash above pins that build.",
+  "limitations": [
+    "Relay records consent and release; it does not prove plaintext was never copied. A contributor can keep their own plaintext, and a creator can keep anything they contributed.",
+    "A colluding threshold of release relayers could reconstruct content keys before the release date. The verifier shows who the relayers are and how independent they are; it cannot detect off-chain collusion.",
+    "Events do not carry the transaction sender for creator-only actions; the verifier relies on the audited contract bytecode (checked by hash) to enforce that only the creator performed them.",
+    "The verifier trusts the RPC endpoint it is pointed at. Run it against more than one endpoint, or your own node, for stronger assurance.",
+    "LOCAL FIXTURE: this run used a local development chain, not BOT Chain."
+  ],
+  "verdict": "VALID",
+  "violations": []
+}

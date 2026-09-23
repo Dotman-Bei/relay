@@ -1,0 +1,317 @@
+{
+  "schema": "relay.verifier-report/v1",
+  "verifierVersion": "0.1.0",
+  "generatedAt": "2026-09-23T09:09:56.728Z",
+  "label": "BOT Chain testnet",
+  "source": {
+    "kind": "rpc",
+    "rpcUrl": "https://rpc.bohr.life",
+    "chainId": 968,
+    "registry": "0x6f6e2c0fb44016d621e133612c61069de15cd710",
+    "observedAtBlock": "24393475",
+    "observedAt": 1790154590,
+    "runtimeSha256": "77a4b893d3b1add5d9cfe5ffdf67d0e54b8653f763e0736fd3955362bb921838",
+    "expectedRuntimeSha256": "77a4b893d3b1add5d9cfe5ffdf67d0e54b8653f763e0736fd3955362bb921838",
+    "bytecodeMatches": true
+  },
+  "circleId": "2",
+  "rule": {
+    "policyHash": "0x132fcf0b7dc3b6e1bf01c7e04a7dd7a17500397d975fa8532b2bc3016c97009f",
+    "policyHashValid": true,
+    "releaseAt": 1790154531,
+    "sealAt": 1790154351,
+    "expiresAt": 0,
+    "capacity": 2,
+    "minContributions": 2,
+    "unanimousConsent": true,
+    "receiptThreshold": 2,
+    "relayers": [
+      "0xE0CFEB20c38b4FB2D5F558258b746c73fA04fBB1",
+      "0x66273F615E4548486eE3B4b2d9F435059CCA3AC9",
+      "0xaC7CE4Ec20E839a4B7c3d52f4C6Df1dD283D0631"
+    ],
+    "lockedByNonCreatorConsent": true
+  },
+  "events": [
+    {
+      "index": 0,
+      "name": "RelayerKeyRegistered",
+      "blockNumber": "24389840",
+      "logIndex": 0,
+      "transactionHash": "0x947e2b609a98880d115ce050fceb9f406ce7a832494b0b59574f2d2aa60e6bcc",
+      "timestamp": 1790151863,
+      "actor": "0xe0cfeb20c38b4fb2d5f558258b746c73fa04fbb1",
+      "summary": "Relayer 0xE0CF…fBB1 published key 0xca8b…246c",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x947e2b609a98880d115ce050fceb9f406ce7a832494b0b59574f2d2aa60e6bcc"
+    },
+    {
+      "index": 1,
+      "name": "RelayerKeyRegistered",
+      "blockNumber": "24389842",
+      "logIndex": 0,
+      "transactionHash": "0x3f70bb99b741f452402819c78259e6b83053368f37b2150fdf0861ec1533ae8a",
+      "timestamp": 1790151865,
+      "actor": "0x66273f615e4548486ee3b4b2d9f435059cca3ac9",
+      "summary": "Relayer 0x6627…3AC9 published key 0x3be1…c0d7",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x3f70bb99b741f452402819c78259e6b83053368f37b2150fdf0861ec1533ae8a"
+    },
+    {
+      "index": 2,
+      "name": "RelayerKeyRegistered",
+      "blockNumber": "24389845",
+      "logIndex": 0,
+      "transactionHash": "0x308ebb88c39a8865edaa0e241655d587ca1d270b8fdd0bb1b0c1a54893383b5c",
+      "timestamp": 1790151867,
+      "actor": "0xac7ce4ec20e839a4b7c3d52f4c6df1dd283d0631",
+      "summary": "Relayer 0xaC7C…0631 published key 0x18dd…1c0d",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x308ebb88c39a8865edaa0e241655d587ca1d270b8fdd0bb1b0c1a54893383b5c"
+    },
+    {
+      "index": 3,
+      "name": "CircleCreated",
+      "blockNumber": "24392919",
+      "logIndex": 0,
+      "transactionHash": "0x9225c231a2730e855f84494bea2584d514995673dad2bb241c94a37c7f4affa7",
+      "timestamp": 1790154173,
+      "actor": "0xefac0ae9143fc09d98891cf9a280be1b97b6fe7e",
+      "summary": "Circle created by 0xEFAc…Fe7e with rule 0x132f…009f",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x9225c231a2730e855f84494bea2584d514995673dad2bb241c94a37c7f4affa7"
+    },
+    {
+      "index": 4,
+      "name": "CircleOpened",
+      "blockNumber": "24392933",
+      "logIndex": 0,
+      "transactionHash": "0x5192fcecc3e07d684d8bace2226985e4bd09a18b0749b66271ed778302bec909",
+      "timestamp": 1790154183,
+      "actor": "0xefac0ae9143fc09d98891cf9a280be1b97b6fe7e",
+      "summary": "Rule published; consent open",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x5192fcecc3e07d684d8bace2226985e4bd09a18b0749b66271ed778302bec909"
+    },
+    {
+      "index": 5,
+      "name": "InvitationIssued",
+      "blockNumber": "24392946",
+      "logIndex": 0,
+      "transactionHash": "0x7079a921ba34f06d46302edb828b8cca77558c812ecc93b5467ee109cfe31be3",
+      "timestamp": 1790154193,
+      "actor": "0xefac0ae9143fc09d98891cf9a280be1b97b6fe7e",
+      "summary": "Invitation key 0x4cc4…44E7 issued",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x7079a921ba34f06d46302edb828b8cca77558c812ecc93b5467ee109cfe31be3"
+    },
+    {
+      "index": 6,
+      "name": "InvitationAccepted",
+      "blockNumber": "24392959",
+      "logIndex": 0,
+      "transactionHash": "0x95afedcf6c8583e4ebc2a5d189684fb65eac27aed661d04058e26e966a17a2b5",
+      "timestamp": 1790154203,
+      "actor": "0x86e54f544534a24949e8e9cfd00dd69526b0c265",
+      "summary": "0x86e5…C265 joined (member 2)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x95afedcf6c8583e4ebc2a5d189684fb65eac27aed661d04058e26e966a17a2b5"
+    },
+    {
+      "index": 7,
+      "name": "ConsentRecorded",
+      "blockNumber": "24392973",
+      "logIndex": 0,
+      "transactionHash": "0x5d070dfcb1d2933ede8abebd74de5814f724214cb83543cb5ed8f6f1a5c529f4",
+      "timestamp": 1790154213,
+      "actor": "0xefac0ae9143fc09d98891cf9a280be1b97b6fe7e",
+      "summary": "0xEFAc…Fe7e consented to rule 0x132f…009f",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x5d070dfcb1d2933ede8abebd74de5814f724214cb83543cb5ed8f6f1a5c529f4"
+    },
+    {
+      "index": 8,
+      "name": "ConsentRecorded",
+      "blockNumber": "24392987",
+      "logIndex": 0,
+      "transactionHash": "0x8fc1bfd2b86e5f05c0824b6a79b593d0aecf7b64a2a66328278265e990d37bf2",
+      "timestamp": 1790154224,
+      "actor": "0x86e54f544534a24949e8e9cfd00dd69526b0c265",
+      "summary": "0x86e5…C265 consented to rule 0x132f…009f",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x8fc1bfd2b86e5f05c0824b6a79b593d0aecf7b64a2a66328278265e990d37bf2"
+    },
+    {
+      "index": 9,
+      "name": "ContributionCommitted",
+      "blockNumber": "24393001",
+      "logIndex": 0,
+      "transactionHash": "0xfbf142b93d949b623cd4d2873ef6c1eee2766839c166a013c5719a491c76713b",
+      "timestamp": 1790154234,
+      "actor": "0xefac0ae9143fc09d98891cf9a280be1b97b6fe7e",
+      "summary": "0xEFAc…Fe7e committed 0xd05c…2747",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0xfbf142b93d949b623cd4d2873ef6c1eee2766839c166a013c5719a491c76713b"
+    },
+    {
+      "index": 10,
+      "name": "ContributionCommitted",
+      "blockNumber": "24393015",
+      "logIndex": 0,
+      "transactionHash": "0x2f3b312afe0bc5c9543d819ed1ef4fa181077ce71550acaf359af2a6443512bb",
+      "timestamp": 1790154245,
+      "actor": "0x86e54f544534a24949e8e9cfd00dd69526b0c265",
+      "summary": "0x86e5…C265 committed 0xa9a0…883f",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0x2f3b312afe0bc5c9543d819ed1ef4fa181077ce71550acaf359af2a6443512bb"
+    },
+    {
+      "index": 11,
+      "name": "ReleaseEligibilityReached",
+      "blockNumber": "24393402",
+      "logIndex": 0,
+      "transactionHash": "0xc3d118e888699f7f5421d96777a86971559c9da4ef70e02a4cd0fc31e146f274",
+      "timestamp": 1790154535,
+      "actor": null,
+      "summary": "Release eligibility recorded (2 contributions, 2/2 consents)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0xc3d118e888699f7f5421d96777a86971559c9da4ef70e02a4cd0fc31e146f274"
+    },
+    {
+      "index": 12,
+      "name": "ReleaseReceiptRecorded",
+      "blockNumber": "24393422",
+      "logIndex": 0,
+      "transactionHash": "0xc5de4823f0cbb6c475a71962a0f65fdbb32683301f4a5e832467114016ed1598",
+      "timestamp": 1790154550,
+      "actor": "0xe0cfeb20c38b4fb2d5f558258b746c73fa04fbb1",
+      "summary": "Relayer 0xE0CF…fBB1 recorded receipt 1 (0x7417…fac7)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0xc5de4823f0cbb6c475a71962a0f65fdbb32683301f4a5e832467114016ed1598"
+    },
+    {
+      "index": 13,
+      "name": "ReleaseReceiptRecorded",
+      "blockNumber": "24393439",
+      "logIndex": 0,
+      "transactionHash": "0xa94b754370eb2130804aa5b5fb4cae9564bfe6ab40d797b62c1742257dbc9294",
+      "timestamp": 1790154563,
+      "actor": "0x66273f615e4548486ee3b4b2d9f435059cca3ac9",
+      "summary": "Relayer 0x6627…3AC9 recorded receipt 2 (0xea13…f862)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0xa94b754370eb2130804aa5b5fb4cae9564bfe6ab40d797b62c1742257dbc9294"
+    },
+    {
+      "index": 14,
+      "name": "ReleaseReceiptRecorded",
+      "blockNumber": "24393458",
+      "logIndex": 0,
+      "transactionHash": "0xd147208db95436efbb9f724b43e598b8c17d6cddd6c285c72a46a6b01bf5d8a4",
+      "timestamp": 1790154577,
+      "actor": "0xac7ce4ec20e839a4b7c3d52f4c6df1dd283d0631",
+      "summary": "Relayer 0xaC7C…0631 recorded receipt 3 (0x2aed…9544)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.bohr.life/tx/0xd147208db95436efbb9f724b43e598b8c17d6cddd6c285c72a46a6b01bf5d8a4"
+    }
+  ],
+  "evaluation": {
+    "lifecycle": "RELEASED",
+    "delivery": {
+      "kind": "RELEASED",
+      "receipts": 3,
+      "threshold": 2
+    },
+    "eligibility": {
+      "at": 1790154535,
+      "releaseAt": 1790154531,
+      "contributions": 2,
+      "minContributions": 2,
+      "consents": 2,
+      "members": 2,
+      "unanimousConsent": true,
+      "ruleSatisfied": true
+    },
+    "members": [
+      {
+        "address": "0xefac0ae9143fc09d98891cf9a280be1b97b6fe7e",
+        "consented": true,
+        "contributed": true,
+        "commitment": "0xd05c20465be09f460b77756d0bcecf5cc48e10462ba6b5388e4c7dd2cbaa2747"
+      },
+      {
+        "address": "0x86e54f544534a24949e8e9cfd00dd69526b0c265",
+        "consented": true,
+        "contributed": true,
+        "commitment": "0xa9a0b4797d50ad10202e36a77d9d3845eedf6eed225ef1bbe0e5be4c393b883f"
+      }
+    ]
+  },
+  "relayers": [
+    {
+      "address": "0xE0CFEB20c38b4FB2D5F558258b746c73fA04fBB1",
+      "label": "relayer-1",
+      "independence": "PROJECT_BASELINE",
+      "receiptDigest": "0x7417bb63ebeec7235da6a2b1703ef1998f26559122fa3272ea66af49ca72fac7",
+      "delivery": {
+        "fetched": true,
+        "hashMatches": true,
+        "signatureValid": true,
+        "coverage": "4/4 member×contribution shares"
+      }
+    },
+    {
+      "address": "0x66273F615E4548486eE3B4b2d9F435059CCA3AC9",
+      "label": "relayer-2",
+      "independence": "PROJECT_BASELINE",
+      "receiptDigest": "0xea132e4d5c8eed821044653b6a4a07793216c6a616b304886f96cfcb7847f862",
+      "delivery": {
+        "fetched": true,
+        "hashMatches": true,
+        "signatureValid": true,
+        "coverage": "4/4 member×contribution shares"
+      }
+    },
+    {
+      "address": "0xaC7CE4Ec20E839a4B7c3d52f4C6Df1dD283D0631",
+      "label": "relayer-3",
+      "independence": "PROJECT_BASELINE",
+      "receiptDigest": "0x2aed9041743330bec5fcc062cdd01f12431ebf79e3969f9ea9584477f2209544",
+      "delivery": {
+        "fetched": true,
+        "hashMatches": true,
+        "signatureValid": true,
+        "coverage": "4/4 member×contribution shares"
+      }
+    }
+  ],
+  "crossCheck": {
+    "performed": true,
+    "matches": true,
+    "differences": []
+  },
+  "claimedStateCheck": null,
+  "adminAuthority": "None. CapsuleRegistry has no owner, pause, upgrade or admin function; the bytecode hash above pins that build.",
+  "limitations": [
+    "Relay records consent and release; it does not prove plaintext was never copied. A contributor can keep their own plaintext, and a creator can keep anything they contributed.",
+    "A colluding threshold of release relayers could reconstruct content keys before the release date. The verifier shows who the relayers are and how independent they are; it cannot detect off-chain collusion.",
+    "Events do not carry the transaction sender for creator-only actions; the verifier relies on the audited contract bytecode (checked by hash) to enforce that only the creator performed them.",
+    "The verifier trusts the RPC endpoint it is pointed at. Run it against more than one endpoint, or your own node, for stronger assurance."
+  ],
+  "verdict": "VALID",
+  "violations": []
+}

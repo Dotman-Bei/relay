@@ -1,0 +1,24 @@
+{
+  "network": "testnet",
+  "label": "BOT Chain testnet",
+  "registry": "0x6f6e2c0fb44016d621e133612c61069de15cd710",
+  "chainId": 968,
+  "creator": "0xEFAc0ae9143fc09d98891cF9a280be1b97B6Fe7e",
+  "member": "0x86e54F544534A24949e8E9CfD00DD69526b0C265",
+  "policy": {
+    "sealAt": 1790154351,
+    "releaseAt": 1790154531,
+    "expiresAt": 0,
+    "capacity": 2,
+    "minContributions": 2,
+    "unanimousConsent": true,
+    "receiptThreshold": 2,
+    "relayers": [
+      "0xE0CFEB20c38b4FB2D5F558258b746c73fA04fBB1",
+      "0x66273F615E4548486eE3B4b2d9F435059CCA3AC9",
+      "0xaC7CE4Ec20E839a4B7c3d52f4C6Df1dD283D0631"
+    ]
+  },
+  "sourceCommit": "643f40d53c33c562e82daac94a3990eaf9caeeef+dirty",
+  "abi": 65
+}

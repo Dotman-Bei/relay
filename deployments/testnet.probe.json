@@ -1,25 +1,25 @@
 {
   "network": "testnet",
-  "probedAt": "2026-09-22T23:43:23.377Z",
+  "probedAt": "2026-09-23T08:23:17.700Z",
   "officialSources": [
     {
       "url": "https://dev-docs.botchain.ai/docs/Developers/quick-guide/",
-      "fetchedAt": "2026-09-22T23:43:19.832Z",
+      "fetchedAt": "2026-09-23T08:23:14.356Z",
       "sha256": "977275d376247d34c1af9ccd711ee72a9e7400f971bf6462de5ec6128e48c4a1"
     },
     {
       "url": "https://dev-docs.botchain.ai/docs/Developers/json-rpc-endpoint/",
-      "fetchedAt": "2026-09-22T23:43:19.844Z",
+      "fetchedAt": "2026-09-23T08:23:14.347Z",
       "sha256": "031f7a7d0a5dab651cd50dbf7af64fd38e8f73ae40a4a56ea039df529665644e"
     },
     {
       "url": "https://dev-docs.botchain.ai/docs/Account-Abstraction/network-and-endpoints",
-      "fetchedAt": "2026-09-22T23:43:20.124Z",
+      "fetchedAt": "2026-09-23T08:23:14.642Z",
       "sha256": "eaa75170418f3127492b9e474bfd2b22dd295f0a77fdd6a31cf7bb26d6fac3a6"
     },
     {
       "url": "https://dev-docs.botchain.ai/docs/Developers/claim-test-tbot-tokens/",
-      "fetchedAt": "2026-09-22T23:43:19.835Z",
+      "fetchedAt": "2026-09-23T08:23:14.343Z",
       "sha256": "e7bbdbcbd1d00d196bb2cc5fc45a421152ef50544abc27e0ac6d6cb0284c070e"
     }
   ],
@@ -33,8 +33,8 @@
   "observed": {
     "chainId": 968,
     "clientVersion": "Geth/v1.5.13-f6e21988-20260822/linux-amd64/go1.27.1",
-    "latestBlock": 24348529,
-    "latestBlockTimestamp": 1790120601,
+    "latestBlock": 24389749,
+    "latestBlockTimestamp": 1790151795,
     "getLogsMaxRangeTested": 100000,
     "explorerApi": "blockscout-v2"
   },

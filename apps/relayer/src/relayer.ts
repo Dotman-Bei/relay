@@ -35,6 +35,7 @@ import {
   putVerified,
   RelayReader,
   sha256Bytes32,
+  writeSettling,
   type BlobStore,
   type EntitledMember,
 } from "@relay/sdk";
@@ -117,7 +118,9 @@ export class Relayer {
       args: write.args as never,
     });
     const hash = await wallet.writeContract(request as never);
-    const receipt = await this.client.waitForTransactionReceipt({ hash });
+    const { confirmations, settleMs } = writeSettling(this.opts.deployment.network);
+    const receipt = await this.client.waitForTransactionReceipt({ hash, confirmations });
+    if (settleMs) await new Promise((r) => setTimeout(r, settleMs));
     if (receipt.status !== "success") throw new Error(`${write.label} reverted in ${hash}`);
     return hash;
   }

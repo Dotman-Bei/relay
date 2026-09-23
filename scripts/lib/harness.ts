@@ -18,7 +18,7 @@ import {
 import { privateKeyToAccount } from "viem/accounts";
 import { CAPSULE_REGISTRY_ABI_SHA256, capsuleRegistryAbi, DeploymentSchema, type Deployment } from "@relay/protocol-types";
 import { capsuleRegistryBytecode, CAPSULE_REGISTRY_RUNTIME_SHA256 } from "@relay/protocol-types/bytecode";
-import { chainFromDeployment, decodeRevert, describeError, HttpBlobStore, RelayReader, type PreparedWrite, type TxResult } from "@relay/sdk";
+import { chainFromDeployment, decodeRevert, describeError, HttpBlobStore, RelayReader, writeSettling, type PreparedWrite, type TxResult } from "@relay/sdk";
 import { createIdentity, Relayer, type RelayerIdentity } from "../../apps/relayer/src/relayer.ts";
 import { startStorageServer } from "../../apps/relayer/src/storage-server.ts";
 
@@ -115,7 +115,7 @@ export class Harness {
         args: w.args as never,
       });
       const hash = await actor.wallet.writeContract(request as never);
-      const receipt = await this.client.waitForTransactionReceipt({ hash });
+      const receipt = await this.settled(hash);
       if (receipt.status !== "success") throw new Error(`${w.label} reverted: ${hash}`);
       return { hash, logs: receipt.logs as TxResult["logs"] };
     };
@@ -142,8 +142,16 @@ export class Harness {
       chain: chainFromDeployment(this.deployment),
       account: actor.account,
     } as never);
-    const receipt = await this.client.waitForTransactionReceipt({ hash });
+    const receipt = await this.settled(hash);
     return { hash, status: receipt.status, blockNumber: receipt.blockNumber.toString(), decoded };
+  }
+
+  /** Wait for a receipt, then long enough that the RPC's next answer reflects it. */
+  async settled(hash: Hex) {
+    const { confirmations, settleMs } = writeSettling(this.deployment.network);
+    const receipt = await this.client.waitForTransactionReceipt({ hash, confirmations });
+    if (settleMs) await new Promise((r) => setTimeout(r, settleMs));
+    return receipt;
   }
 
   async now(): Promise<number> {

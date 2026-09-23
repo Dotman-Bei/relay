@@ -1,0 +1,62 @@
+{
+  "runId": "2026-09-23T09-10-29-644Z",
+  "label": "LOCAL FIXTURE",
+  "circleId": "1",
+  "passed": true,
+  "steps": [
+    {
+      "n": 1,
+      "title": "Circle created and rule published",
+      "ok": true,
+      "tx": "0xe821a52d1c01c16988bc489bc945ec42d42e42f1c3cf40d869e9807713397985",
+      "explorer": null,
+      "detail": "circle 1; rule 0x21fcbb1ad8a524da70cbcff98d8fa82afa2c0271ecaf628a6135786444b979f8: sealAt 1790155230, releaseAt 1790155830, 2 contributions, unanimous consent, 2-of-3 receipts. Open tx 0x9108614e9f882484e434407c650f05bd1ed4a3338e8c9206fea7d25863c6cd4a"
+    },
+    {
+      "n": 2,
+      "title": "Both members consented to the exact rule hash",
+      "ok": true,
+      "tx": "0x47d573480d9d882313ffe83f1d1500bcdaa80ed3ec3585adbe3beb6da6a29288",
+      "explorer": null,
+      "detail": "invite issued 0x5d4040384546cc8ddd8fc03f5441ebb661181d9ef2a2645503babb046d5deb6f; member joined 0x0148eaaab5a16a3aef1526b8b86d85f29be151d7859636ab213b10597e4c2153; creator consent 0xaf59fc8425bf8196b2c825aed1ee4898ccff0335110318847a4f70bfddeb7056; member consent 0x47d573480d9d882313ffe83f1d1500bcdaa80ed3ec3585adbe3beb6da6a29288"
+    },
+    {
+      "n": 3,
+      "title": "Encrypted contributions committed; plaintext absent from chain events and manifests",
+      "ok": true,
+      "tx": "0x5e67f4ace044d889697a7635e9e13b42ff304fafd4a25d1486483594619e358d",
+      "explorer": null,
+      "detail": "commitments 0x0da7de036290d73c68852c922943842937807f3401c2eca3910976a65c770c98 (0xde13dcd158ea67be1ae6917f6a6adf7f38d606534ba1c74b208072f592dc0760), 0x96abb15f7a609927a26394c29d6af2fe61bff23e5cb939198c77aad2bab24379 (0x5e67f4ace044d889697a7635e9e13b42ff304fafd4a25d1486483594619e358d); scanned 11 registry logs for 4 plaintext needles: 0 found; manifests leak: false"
+    },
+    {
+      "n": 4,
+      "title": "Early release attempt rejected by the contract",
+      "ok": true,
+      "tx": "0x76f2e5ce9247b54518940d64f74bab6ae5d5a9adecc86cec4373f064ca4b0057",
+      "explorer": null,
+      "detail": "status reverted in block 17; decoded RuleNotSatisfied: The release rule is not true yet: Release date has not arrived."
+    },
+    {
+      "n": 5,
+      "title": "Release eligibility recorded after the rule became true",
+      "ok": true,
+      "tx": "0xab4fa19924be9c5302db8baaf60794cb4d8815bcfe174fef5c3e74f04e2d2193",
+      "explorer": null,
+      "detail": "lifecycle RELEASE_ELIGIBLE; eligibleAt 1790155830 ≥ releaseAt 1790155830; receipts 0/2 → RELEASE_UNAVAILABLE until relayers deliver"
+    },
+    {
+      "n": 6,
+      "title": "Relayer receipts recorded; the member decrypted every contribution",
+      "ok": true,
+      "tx": "0xdd063fa6c55c4ecac7b916af1662aa6e80dda46d00e5e0ac1ffd978d17ff654e",
+      "explorer": null,
+      "detail": "receipts 3/3 (threshold 2) in 0xdd063fa6c55c4ecac7b916af1662aa6e80dda46d00e5e0ac1ffd978d17ff654e, 0xbc62d058cb9af5390a8810e1e1f804d08d334eab4c843c5b2e80f6d64ec2c40a, 0x25145f0c872795c4caa4f36e9873885dc21bf8bdc0b21738e1f724d7d9ac3aa2; lifecycle RELEASED; member opened: \"Proof-run secret: meet at the old lighthouse, 5pm, bring the\" | \"image/png 70B\""
+    },
+    {
+      "n": 7,
+      "title": "Independent verifier replayed the chain",
+      "ok": true,
+      "detail": "verdict VALID; 15 events replayed; lifecycle RELEASED; bytecode matches true; cross-check true; deliveries 4/4 member×contribution shares, 4/4 member×contribution shares, 4/4 member×contribution shares"
+    }
+  ]
+}

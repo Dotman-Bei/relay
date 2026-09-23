@@ -32,7 +32,8 @@ Sources: [Quick guide](https://dev-docs.botchain.ai/docs/Developers/quick-guide/
 2. **Explorer links.** The marketing site links `scan.botchain.ai` (mainnet); testnet transactions are on `scan.bohr.life`.
 3. **Logs on mainnet.** See above — anything that reconstructs state from events needs a non-public endpoint on mainnet.
 4. **Passkeys.** The documented ERC-4337 stack uses an ECDSA SimpleAccountFactory; there is no documented WebAuthn/P-256 account factory, so passkey wallets need their own audited account contract.
-5. **viem block-number cache.** Not BOT-specific, but sub-second blocks make it bite: `getBlockNumber()` is cached for the polling interval (4 s by default), so a log query bounded by it can miss the last few blocks. Pass `{ cacheTime: 0 }` when bounding `eth_getLogs`.
+5. **Read-after-write on the public RPC.** Right after a transaction confirmed, the next `eth_call` returned state from before it (our `openCircle` simulation saw `UnknownCircle` for a Circle created one call earlier). Wait for a couple of confirmations and a few seconds before reading back your own write, or retry reads that depend on it.
+6. **viem block-number cache.** Not BOT-specific, but sub-second blocks make it bite: `getBlockNumber()` is cached for the polling interval (4 s by default), so a log query bounded by it can miss the last few blocks. Pass `{ cacheTime: 0 }` when bounding `eth_getLogs`.
 
 ## Minimal verification loop
 

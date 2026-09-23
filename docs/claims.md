@@ -1,7 +1,7 @@
 <!-- Generated from packages/claim-ledger/data/claims.json by `pnpm claims:generate`. Do not edit by hand. -->
 # Claim and evidence ledger
 
-Network: BOT Chain testnet (chain 968) — not yet deployed · updated 2026-09-23
+Network: BOT Chain testnet (chain 968) — CapsuleRegistry 0x6f6e2c0fb44016d621e133612c61069de15cd710 · updated 2026-09-23
 
 Statuses: `PLANNED` → `TESTED_LOCAL` → `OBSERVED_TESTNET` → `OBSERVED_MAINNET`, or `FAILED` / `UNAVAILABLE`.
 A claim may only be worded publicly at the rung its evidence has reached. `pnpm claims:check` enforces this over the web app and docs.
@@ -9,19 +9,19 @@ A claim may only be worded publicly at the rung its evidence has reached. `pnpm 
 | ID | Claim | Earliest permitted wording | Status | What we can say today | Evidence |
 |---|---|---|---|---|---|
 | C-01 | Release policy is immutable after consent | Tested locally | **TESTED_LOCAL** | Tested locally: once another member consents, the contract rejects any change to the rule. | `evidence/contracts/forge-test.txt`<br>`contracts/test/CapsuleRegistry.t.sol`<br>`contracts/test/CapsuleRegistry.invariant.t.sol`<br>`evidence/parity/parity-report.json`<br>`evidence/adversarial/local/latest.json` |
-| C-02 | An ineligible release is rejected | Observed on BOT Chain testnet | **TESTED_LOCAL** | Tested locally (LOCAL FIXTURE): early release attempts revert on-chain. Not yet observed on BOT Chain testnet. | `evidence/adversarial/local/latest.json`<br>`evidence/contracts/forge-test.txt` |
-| C-03 | The capsule lifecycle is independently replayable | Verified on BOT Chain testnet | **TESTED_LOCAL** | Tested locally (LOCAL FIXTURE): the open-source verifier replays every event from an RPC and rejects mutated histories. | `evidence/unit/verifier.txt`<br>`docs/proofs/local`<br>`evidence/e2e/lifecycle.txt` |
-| C-04 | Member payload is absent from contract events | The protocol does not store plaintext payload on-chain | **TESTED_LOCAL** | Tested locally: contract events carry only ids, addresses, counts, timestamps and 32-byte hashes; a local proof run found no plaintext in any event. | `evidence/unit/protocol-types.txt`<br>`docs/proofs/local`<br>`evidence/e2e/lifecycle.txt` |
-| C-05 | Testnet deployment exists | Deployed on BOT Chain testnet | **PLANNED** | Not yet deployed. Gate T0 (network probe) passed; deployment is waiting on a funded deployment wallet (owner decision). | `deployments/testnet.probe.json` |
+| C-02 | An ineligible release is rejected | Observed on BOT Chain testnet | **OBSERVED_TESTNET** | Observed on BOT Chain testnet: an early release attempt reverted on-chain with RuleNotSatisfied, and the verifier trace shows release was recorded only after the rule was true. | `docs/proofs/testnet/2026-09-23T09-02-50-791Z/output.json`<br>`docs/proofs/testnet/2026-09-23T09-02-50-791Z/verifier-report.json`<br>`evidence/verifier/testnet.json`<br>`https://scan.bohr.life/tx/0x668fb38e49382bdebc9ca38fbf4a879519d1ef2dc547c83f067f5fd9ba9ea625`<br>`evidence/adversarial/local/latest.json`<br>`evidence/contracts/forge-test.txt` |
+| C-03 | The capsule lifecycle is independently replayable | Verified on BOT Chain testnet | **OBSERVED_TESTNET** | Verified on BOT Chain testnet: the open-source verifier replayed every capsule on the deployed registry from the public RPC — all VALID, bytecode matching the audited build — without Relay's servers. | `evidence/verifier/testnet.json`<br>`docs/proofs/testnet/2026-09-23T09-02-50-791Z/verifier-report.json`<br>`evidence/unit/verifier.txt`<br>`evidence/e2e/lifecycle.txt` |
+| C-04 | Member payload is absent from contract events | The protocol does not store plaintext payload on-chain | **OBSERVED_TESTNET** | The protocol does not store plaintext payload on-chain: contract events carry only ids, addresses, counts, timestamps and 32-byte hashes, and the BOT Chain testnet proof run found no plaintext in any registry event. | `evidence/unit/protocol-types.txt`<br>`docs/proofs/testnet/2026-09-23T09-02-50-791Z/output.json`<br>`evidence/e2e/lifecycle.txt` |
+| C-05 | Testnet deployment exists | Deployed on BOT Chain testnet | **OBSERVED_TESTNET** | Deployed on BOT Chain testnet at 0x6f6e2c0fb44016d621e133612c61069de15cd710 (block 24389826), source verified on BOTScan. | `deployments/testnet.json`<br>`deployments/testnet.probe.json`<br>`https://scan.bohr.life/address/0x6f6e2c0fb44016d621e133612c61069de15cd710`<br>`https://scan.bohr.life/tx/0x38d9f3545183c4a3728e3370e2df619683ea0e3825e389f1f6115b7b9eab655f` |
 | C-06 | Mainnet deployment exists | Deployed on BOT Chain mainnet | **PLANNED** | No mainnet deployment. Mainnet is gated by T0–T6 and owner authorisation (M0). | — |
 | C-07 | Threshold release prevents all early disclosure | Never claim | **UNAVAILABLE** | Relay does not claim this. A colluding threshold of relayers could disclose early, and contributors can keep their own copies. | `SECURITY.md` |
 
 ## Notes
 
 - **C-01** — Invariant suite found and fixed a capacity-shrink bug before any deployment (DECISIONS.md D-009).
-- **C-02** — Needs a mined failing testnet transaction (pnpm adversarial:testnet) to reach OBSERVED_TESTNET.
-- **C-03** — Needs `pnpm verify:testnet` output against the deployed registry.
-- **C-04** — ABI inspection passes; the testnet proof run is still required for the earliest permitted wording.
-- **C-05** — Blocked by: testnet faucet requires human verification; deployer and relayer wallets must be funded by the owner.
+- **C-02** — Testnet proof run 2026-09-23, step 4. The run used two wallets generated by the build agent, not non-developer participants (PRD §15.3 still requires that run). The full §14 campaign on testnet (adversarial:testnet) is still to run.
+- **C-03** — pnpm verify:testnet, 2026-09-23 (the optional delivery-signature check read the build-machine storage). The run used two wallets generated by the build agent, not non-developer participants (PRD §15.3 still requires that run).
+- **C-04** — ABI inspection test + testnet proof run step 3 (log scan for the plaintext, caption and file name). The run used two wallets generated by the build agent, not non-developer participants (PRD §15.3 still requires that run).
+- **C-05** — Gate T2 passed 2026-09-23: deployment tx, Blockscout source verification, runtime bytecode sha256 matches the build, relayer keys registered on-chain.
 - **C-06** — Out of scope until every testnet gate passes.
 - **C-07** — Permanently unavailable by design.

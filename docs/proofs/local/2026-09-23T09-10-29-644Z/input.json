@@ -1,0 +1,24 @@
+{
+  "network": "local",
+  "label": "LOCAL FIXTURE",
+  "registry": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+  "chainId": 31337,
+  "creator": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+  "member": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+  "policy": {
+    "sealAt": 1790155230,
+    "releaseAt": 1790155830,
+    "expiresAt": 0,
+    "capacity": 2,
+    "minContributions": 2,
+    "unanimousConsent": true,
+    "receiptThreshold": 2,
+    "relayers": [
+      "0xFc4C2FFd82402825aac0350d2e604106e69CC712",
+      "0x3bFF0B9beF8CAD8EdF0e6DcF35A3138F8Eeb434E",
+      "0xA91e3690C3B1D590a0fAb1ecF8f54307C6004170"
+    ]
+  },
+  "sourceCommit": "643f40d53c33c562e82daac94a3990eaf9caeeef+dirty",
+  "abi": 65
+}

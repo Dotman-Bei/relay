@@ -135,7 +135,7 @@ async function main() {
       independence: "PROJECT_BASELINE",
       note: "All relayers are operated by the Relay project. A colluding threshold could disclose early; this is not an independent quorum.",
     },
-    storage: { url: storageUrl!, operator: "Relay project", label: "PROJECT_BASELINE" },
+    storage: { url: storageUrl!, operator: process.env.STORAGE_OPERATOR ?? "Relay project", label: "PROJECT_BASELINE" },
     steward: { url: process.env.STEWARD_URL ?? null, address: null },
     verifier: { version: "0.1.0", sourceCommit: gitCommit(), url: process.env.VERIFIER_URL ?? null },
     deployedAt: new Date().toISOString(),

@@ -5,7 +5,7 @@
  */
 import { useCallback, useRef, useState } from "react";
 import type { Hex } from "viem";
-import { describeError, type PreparedWrite, type TxResult, type TxSender } from "@relay/sdk";
+import { describeError, writeSettling, type PreparedWrite, type TxResult, type TxSender } from "@relay/sdk";
 import { useRelay } from "./relay";
 import { useWallet } from "./wallet";
 
@@ -51,8 +51,14 @@ export function useTx() {
         setState({ kind: "preparing", label: w.label, stage: "Waiting for your signature" });
         hash = await walletClient!.writeContract(request as never);
         setState({ kind: "pending", label: w.label, hash });
-        const receipt = await client!.waitForTransactionReceipt({ hash });
+        const { confirmations, settleMs } = writeSettling(deployment?.network ?? "testnet");
+        const receipt = await client!.waitForTransactionReceipt({ hash, confirmations });
         if (receipt.status !== "success") throw new Error("The transaction was mined but reverted.");
+        if (settleMs) {
+          // Public RPC nodes can lag the one that mined this; let them catch up before the next read.
+          setState({ kind: "pending", label: w.label, hash });
+          await new Promise((r) => setTimeout(r, settleMs));
+        }
         setState({ kind: "success", label: w.label, hash, blockNumber: receipt.blockNumber });
         return { hash, logs: receipt.logs as TxResult["logs"] };
       } catch (e) {

@@ -1,0 +1,71 @@
+{
+  "schema": "relay.deployment/v1",
+  "network": "testnet",
+  "label": "BOT Chain testnet",
+  "chainId": 968,
+  "nativeSymbol": "BOT",
+  "rpcUrl": "https://rpc.bohr.life",
+  "explorerUrl": "https://scan.bohr.life",
+  "probe": {
+    "file": "deployments/testnet.probe.json",
+    "probedAt": "2026-09-23T08:23:17.700Z"
+  },
+  "contract": {
+    "name": "CapsuleRegistry",
+    "address": "0x6f6e2c0fb44016d621e133612c61069de15cd710",
+    "deployer": "0x5e3cC65cA2f1a6AC3Bf75f7110E50d296F127fe6",
+    "transactionHash": "0x38d9f3545183c4a3728e3370e2df619683ea0e3825e389f1f6115b7b9eab655f",
+    "deploymentBlock": 24389826,
+    "runtimeSha256": "77a4b893d3b1add5d9cfe5ffdf67d0e54b8653f763e0736fd3955362bb921838",
+    "verifiedSource": "VERIFIED",
+    "verificationUrl": "https://scan.bohr.life/address/0x6f6e2c0fb44016d621e133612c61069de15cd710?tab=contract"
+  },
+  "abiSha256": "3fcd5af1c61d914f393f8bb76a54eff8d96c752348f947ae51eba49f446fe3e6",
+  "sourceCommit": "643f40d53c33c562e82daac94a3990eaf9caeeef+dirty",
+  "quorum": {
+    "relayers": [
+      {
+        "address": "0xE0CFEB20c38b4FB2D5F558258b746c73fA04fBB1",
+        "label": "relayer-1",
+        "independence": "PROJECT_BASELINE",
+        "operator": "Relay project",
+        "encryptionKeyFingerprint": "0xca8ba17817af9b8879e3ac3dadb9dece090f20e77b40f134f69cda909ee4246c",
+        "endpoint": null
+      },
+      {
+        "address": "0x66273F615E4548486eE3B4b2d9F435059CCA3AC9",
+        "label": "relayer-2",
+        "independence": "PROJECT_BASELINE",
+        "operator": "Relay project",
+        "encryptionKeyFingerprint": "0x3be1244c36a5195d99e36ccba19d795e50c14fcd1473f7b09f5a4f0aed78c0d7",
+        "endpoint": null
+      },
+      {
+        "address": "0xaC7CE4Ec20E839a4B7c3d52f4C6Df1dD283D0631",
+        "label": "relayer-3",
+        "independence": "PROJECT_BASELINE",
+        "operator": "Relay project",
+        "encryptionKeyFingerprint": "0x18dd2f9f042129ce84b38ac63168d818ffea7d25d4f0cb0f9657d9702ac11c0d",
+        "endpoint": null
+      }
+    ],
+    "defaultThreshold": 2,
+    "independence": "PROJECT_BASELINE",
+    "note": "All relayers are operated by the Relay project. A colluding threshold could disclose early; this is not an independent quorum."
+  },
+  "storage": {
+    "url": "http://127.0.0.1:8697",
+    "operator": "Relay project — on the build machine; public URL pending (step 3)",
+    "label": "PROJECT_BASELINE"
+  },
+  "steward": {
+    "url": null,
+    "address": null
+  },
+  "verifier": {
+    "version": "0.1.0",
+    "sourceCommit": "643f40d53c33c562e82daac94a3990eaf9caeeef+dirty",
+    "url": null
+  },
+  "deployedAt": "2026-09-23T08:24:22.100Z"
+}

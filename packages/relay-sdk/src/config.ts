@@ -61,3 +61,12 @@ export function chainFromDeployment(d: Deployment): Chain {
     ...(d.explorerUrl ? { blockExplorers: { default: { name: "Explorer", url: d.explorerUrl } } } : {}),
   });
 }
+
+/**
+ * Read-after-write on public RPCs: a read sent right after a confirmed write can reach a node that
+ * hasn't applied it yet (seen on BOT Chain testnet: UnknownCircle one call after CircleCreated).
+ * Writers wait this many confirmations, then this long, before their next read.
+ */
+export function writeSettling(network: string): { confirmations: number; settleMs: number } {
+  return network === "local" ? { confirmations: 1, settleMs: 0 } : { confirmations: 2, settleMs: 4000 };
+}
