@@ -1,35 +1,26 @@
 "use client";
-import Link from "next/link";
 import { PageHeader } from "@/components/app-shell";
-import { Postmark } from "@/components/chain-time";
+import { CircleCard } from "@/components/circle-row";
 import { RequireAccount } from "@/components/require-account";
-import { DeliveryTag, LifecycleTag } from "@/components/state";
-import { Empty, LinkButton, Notice, Section, Tag } from "@/components/ui";
+import { Empty, LinkButton, Notice, Section, StatusLine } from "@/components/ui";
 import { shortHash } from "@/lib/format";
-import { circleTitle, useMetadata, useMyCircles, type MyCircle } from "@/lib/hooks";
+import { useMyCircles, type MyCircle } from "@/lib/hooks";
 
 function CapsuleRow({ circle, member }: MyCircle) {
-  const meta = useMetadata(circle);
   const collecting = circle.lifecycle === "AWAITING_CONSENT" || circle.lifecycle === "COLLECTING";
-  const entitled = member.consented;
   return (
-    <Link href={`/capsules/${circle.circleId}`} className="neo-btn flex flex-wrap items-center gap-4 rounded-xl bg-panel p-3">
-      <Postmark unix={circle.policy.releaseAt} size="sm" />
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-2">
-          <p className="truncate text-base font-black">{circleTitle(meta.data, circle.circleId)}</p>
-          <LifecycleTag state={circle.lifecycle} />
-          <DeliveryTag circle={circle} />
+    <CircleCard
+      circle={circle}
+      href={`/capsules/${circle.circleId}`}
+      details={
+        <div className="mt-2 flex flex-col gap-1">
+          <StatusLine fill={member.consented ? "green" : "panel"}>{member.consented ? "Entitled to the reveal" : "Not entitled: you haven't consented"}</StatusLine>
+          <StatusLine fill={member.contributed ? "blue" : "panel"}>
+            {member.contributed ? `Yours is sealed ✉ ${shortHash(member.commitment)}` : collecting && member.consented ? "Yours isn't sealed yet" : "No contribution from you"}
+          </StatusLine>
         </div>
-        <div className="mt-1.5 flex flex-wrap gap-1.5">
-          <Tag fill={entitled ? "green" : "panel"}>{entitled ? "Entitled to the reveal" : "Not entitled: no consent"}</Tag>
-          <Tag fill={member.contributed ? "blue" : "panel"}>
-            {member.contributed ? `Yours sealed ✉ ${shortHash(member.commitment)}` : collecting && member.consented ? "Yours not sealed yet" : "No contribution from you"}
-          </Tag>
-        </div>
-      </div>
-      <span aria-hidden className="text-lg font-black">→</span>
-    </Link>
+      }
+    />
   );
 }
 

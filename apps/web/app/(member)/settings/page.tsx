@@ -84,8 +84,8 @@ function Settings() {
       <PageHeader title="Settings" lead="Everything here lives in this browser, except Memory Steward choices, which you sign and send to the steward." />
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
         <Section title="🔑 Signing">
-          <div className="grid gap-2 text-sm">
-            <p className="font-bold">
+          <div className="grid grid-cols-1 gap-2 text-sm">
+            <p className="font-bold wrap-anywhere">
               <AddrLink address={w.address!} label={w.address!} />
             </p>
             <p className="font-medium text-ink/80">{w.kind === "injected" ? "Browser wallet" : w.kind === "fixture" ? "LOCAL FIXTURE development account" : "Browser session key (testnet trials only)"}</p>
@@ -93,10 +93,10 @@ function Settings() {
             {w.kind === "session" && (
               <div className="grid grid-cols-1 gap-2">
                 <Button onClick={() => setShowKey((s) => !s)}>{showKey ? "Hide session key" : "Reveal session key to back it up"}</Button>
-                {showKey && <p className="neo-flat rounded-lg bg-yellow p-2 font-mono text-[11px] font-bold break-all">{w.exportSessionKey()}</p>}
+                {showKey && <p className="neo-flat rounded-lg bg-yellow p-2 font-mono text-xs font-bold break-all">{w.exportSessionKey()}</p>}
               </div>
             )}
-            <Button onClick={w.disconnect}>Disconnect</Button>
+            <Button onClick={w.disconnect} className="w-full sm:w-fit">Disconnect</Button>
           </div>
         </Section>
 
@@ -104,7 +104,7 @@ function Settings() {
           <div className="grid gap-3 text-sm">
             {fp ? <p className="neo-flat w-fit rounded-lg bg-green px-2 py-1 font-mono text-xs font-bold">fingerprint {fp.slice(0, 18)}…</p> : <Notice tone="warn" title="No encryption key in this browser">Import your recovery kit, or create a key during your next consent.</Notice>}
             {fp && w.address && <RecoveryKitButton account={w.address} />}
-            <label className="neo-btn w-fit cursor-pointer rounded-lg bg-panel px-4 py-2 text-sm">
+            <label className="neo-btn inline-flex min-h-10 w-fit cursor-pointer items-center rounded-lg bg-panel px-4 py-2 text-sm pointer-coarse:min-h-11">
               Import recovery kit…
               <input
                 type="file"
@@ -133,11 +133,11 @@ function Settings() {
         <Section title="🔔 Notifications">
           <div className="grid gap-2 text-sm">
             <p className="font-medium text-ink/80">Relay stores no email or phone number. Reminders appear on your dashboard in this browser.</p>
-            <label className="flex items-center gap-2 font-bold">
+            <label className="flex min-h-6 items-center gap-2 font-bold pointer-coarse:min-h-11">
               <input type="checkbox" className="accent-black" checked={notify.beforeClose} onChange={(e) => saveNotify({ ...notify, beforeClose: e.target.checked })} />
               Remind me before contributions close
             </label>
-            <label className="flex items-center gap-2 font-bold">
+            <label className="flex min-h-6 items-center gap-2 font-bold pointer-coarse:min-h-11">
               <input type="checkbox" className="accent-black" checked={notify.eligible} onChange={(e) => saveNotify({ ...notify, eligible: e.target.checked })} />
               Show when a capsule becomes release-eligible
             </label>
@@ -170,7 +170,7 @@ function Settings() {
               ["Storage", deployment ? `${deployment.storage.url} · ${deployment.storage.label}` : "—"],
             ].map(([k, v]) => (
               <div key={String(k)} className="neo-flat rounded-lg bg-panel p-2">
-                <dt className="neo-label text-[10px] text-ink/70">{k}</dt>
+                <dt className="neo-label text-xs text-ink/70">{k}</dt>
                 <dd className="font-mono font-bold break-all">{String(v)}</dd>
               </div>
             ))}

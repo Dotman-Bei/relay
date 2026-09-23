@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
-import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: { default: "Relay — later, together", template: "%s · Relay" },
@@ -18,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <a href="#main" className="neo-btn sr-only rounded-lg bg-yellow px-3 py-2 focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50">
           Skip to content
         </a>
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   );

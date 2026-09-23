@@ -4,6 +4,8 @@ import { useParams, useSearchParams } from "next/navigation";
 import { Suspense, useMemo } from "react";
 import { createPublicClient, http, type PublicClient } from "viem";
 import { verifyFromChain, type VerifierReport } from "@relay/verifier";
+import { NetworkBanner } from "@/components/network-banner";
+import { RelayOnlyProviders } from "../../../providers";
 import { ChainTime } from "@/components/chain-time";
 import { TxLink } from "@/components/hash";
 import { LifecycleTag } from "@/components/state";
@@ -38,7 +40,7 @@ function VerifyView() {
   const registry = (sp.get("registry") ?? deployment?.contract.address ?? null) as `0x${string}` | null;
   const from = BigInt(sp.get("from") ?? deployment?.contract.deploymentBlock ?? 0);
   const independent = Boolean(sp.get("rpc") || sp.get("registry"));
-  const client = useMemo(() => (rpc ? (createPublicClient({ transport: http(rpc) }) as PublicClient) : null), [rpc]);
+  const client = useMemo(() => (rpc ? (createPublicClient({ transport: http(rpc, { batch: { batchSize: 32, wait: 16 } }) }) as PublicClient) : null), [rpc]);
 
   const report = useQuery({
     queryKey: ["verify", rpc, registry, id?.toString()],
@@ -80,13 +82,13 @@ function VerifyView() {
     <div className="grid grid-cols-1 gap-5">
       <Section title="Source">
         <dl className="grid gap-2 text-xs sm:grid-cols-2">
-          <div className="neo-flat rounded-lg bg-panel p-2"><dt className="neo-label text-[10px] text-ink/70">RPC</dt><dd className="font-mono font-bold break-all">{rpc}</dd></div>
-          <div className="neo-flat rounded-lg bg-panel p-2"><dt className="neo-label text-[10px] text-ink/70">Registry</dt><dd className="font-mono font-bold break-all">{registry}</dd></div>
+          <div className="neo-flat rounded-lg bg-panel p-2"><dt className="neo-label text-xs text-ink/70">RPC</dt><dd className="font-mono font-bold break-all">{rpc}</dd></div>
+          <div className="neo-flat rounded-lg bg-panel p-2"><dt className="neo-label text-xs text-ink/70">Registry</dt><dd className="font-mono font-bold break-all">{registry}</dd></div>
           {r && (
             <>
-              <div className="neo-flat rounded-lg bg-panel p-2"><dt className="neo-label text-[10px] text-ink/70">Chain · block observed</dt><dd className="font-mono font-bold">{r.source.chainId} · {r.source.observedAtBlock}</dd></div>
+              <div className="neo-flat rounded-lg bg-panel p-2"><dt className="neo-label text-xs text-ink/70">Chain · block observed</dt><dd className="font-mono font-bold">{r.source.chainId} · {r.source.observedAtBlock}</dd></div>
               <div className={cx("neo-flat rounded-lg p-2", r.source.bytecodeMatches ? "bg-green" : "bg-red")}>
-                <dt className="neo-label text-[10px] text-ink/70">Bytecode vs audited build</dt>
+                <dt className="neo-label text-xs text-ink/70">Bytecode vs audited build</dt>
                 <dd className="font-mono font-bold">{r.source.bytecodeMatches ? "matches" : "DOES NOT MATCH"} · {r.source.runtimeSha256?.slice(0, 16)}…</dd>
               </div>
             </>
@@ -111,7 +113,7 @@ function VerifyView() {
                 <Row>{r.rule.minContributions} contributions · {r.rule.unanimousConsent ? "unanimous consent" : "contributors consent"} · capacity {r.rule.capacity}</Row>
                 <Row>{r.rule.receiptThreshold}-of-{r.rule.relayers.length} receipts · expiry {r.rule.expiresAt ? formatDate(r.rule.expiresAt) : "none"}</Row>
               </div>
-              <p className="mt-2 font-mono text-[11px] font-bold break-all text-ink/60">
+              <p className="mt-2 font-mono text-xs font-bold break-all text-ink/60">
                 rule hash {r.rule.policyHash} · recomputed {r.rule.policyHashValid ? "✓ matches" : "✗ MISMATCH"} · {r.rule.lockedByNonCreatorConsent ? "locked by member consent" : "never locked"}
               </p>
             </Section>
@@ -195,7 +197,11 @@ function VerifyView() {
 export default function VerifyPage() {
   const id = useParams().capsuleId as string;
   return (
-    <div className="mt-12 grid grid-cols-1 gap-6">
+    <RelayOnlyProviders>
+      <div className="mt-3">
+        <NetworkBanner />
+      </div>
+      <div className="mt-12 grid grid-cols-1 gap-6">
       <div>
         <h1 className="text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl">
           Verify capsule <Highlight fill="green">#{id}</Highlight>
@@ -208,6 +214,7 @@ export default function VerifyPage() {
       <Suspense>
         <VerifyView />
       </Suspense>
-    </div>
+      </div>
+    </RelayOnlyProviders>
   );
 }

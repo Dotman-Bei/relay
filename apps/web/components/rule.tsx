@@ -16,25 +16,25 @@ export function RuleCard({ policy, policyHash, locked, relayers }: { policy: Pol
       </div>
       <dl className="mt-3 grid gap-3 text-sm sm:grid-cols-2">
         <div className="neo-flat rounded-xl p-3">
-          <dt className="neo-label text-[11px] text-ink/70">Contributions close</dt>
+          <dt className="neo-label text-xs text-ink/70">Contributions close</dt>
           <dd><ChainTime unix={policy.sealAt} /></dd>
         </div>
         <div className="neo-flat rounded-xl bg-yellow p-3">
-          <dt className="neo-label text-[11px] text-ink/70">Earliest release</dt>
+          <dt className="neo-label text-xs text-ink/70">Earliest release</dt>
           <dd><ChainTime unix={policy.releaseAt} /></dd>
         </div>
         <div className="neo-flat rounded-xl p-3">
-          <dt className="neo-label text-[11px] text-ink/70">Needs</dt>
+          <dt className="neo-label text-xs text-ink/70">Needs</dt>
           <dd className="font-bold">
             {policy.minContributions} contribution{policy.minContributions === 1 ? "" : "s"} · {policy.unanimousConsent ? "every joined member's consent" : "consent from each contributor"}
           </dd>
         </div>
         <div className="neo-flat rounded-xl p-3">
-          <dt className="neo-label text-[11px] text-ink/70">Expiry</dt>
+          <dt className="neo-label text-xs text-ink/70">Expiry</dt>
           <dd className="font-bold">{policy.expiresAt ? <ChainTime unix={policy.expiresAt} /> : "None — stays sealed until the rule is met"}</dd>
         </div>
         <div className="neo-flat rounded-xl p-3 sm:col-span-2">
-          <dt className="neo-label text-[11px] text-ink/70">Release quorum · {policy.receiptThreshold} of {policy.relayers.length} receipts · capacity {policy.capacity}</dt>
+          <dt className="neo-label text-xs text-ink/70">Release quorum · {policy.receiptThreshold} of {policy.relayers.length} receipts · capacity {policy.capacity}</dt>
           <dd className="mt-1 flex flex-wrap gap-2">
             {policy.relayers.map((r) => {
               const rec = label.get(r.toLowerCase());
@@ -48,7 +48,7 @@ export function RuleCard({ policy, policyHash, locked, relayers }: { policy: Pol
           </dd>
         </div>
       </dl>
-      <p className="mt-3 break-all font-mono text-[11px] font-bold text-ink/60">rule hash {policyHash}</p>
+      <p className="mt-3 break-all font-mono text-xs font-bold text-ink/60">rule hash {policyHash}</p>
     </div>
   );
 }

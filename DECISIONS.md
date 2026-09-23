@@ -157,3 +157,9 @@ Date: 2026-09-23
 Status: active
 Evidence: with three relayer processes, Circle #7's eligibility was recorded by relayer-3 while relayer-2's simultaneous request reverted on-chain (0xd035bbe054eed00b7e8fb13dd7e131850bb71002d2b6915da…); fix in apps/relayer/src/relayer.ts; pnpm smoke:services passed with separate processes; hosted relayers restarted.
 Cost: If the designated relayer is down, release is recorded up to a minute later; that one reverted request stays on-chain and appears in the rejected-attempts metric.
+
+D-027: The web client is laid out and budgeted for every screen from 320 px to 1920 px: public pages ship no chain or wallet code up front, chain reads are JSON-RPC batched, the sidebar appears from 1024 px, and every control meets 24 px (44 px on touch screens).
+Date: 2026-09-23
+Status: active
+Evidence: e2e/responsive-audit.mjs over 18 routes × 12 viewports: pages that scroll sideways 4 → 0, tap targets under 24 px 13 kinds → 0, touch targets under 44 px 1,403 → 76 (skip link and checkbox inputs whose labels are the target), sub-12 px text max 54% → 33%; e2e/js-initial.mjs render-critical JS on public pages 392 KB → 182 KB gzip (app pages unchanged at ~400 KB); axe WCAG 2.1 AA: no violations; lifecycle and state E2E pass; live site rebuilt and checked.
+Cost: Public pages load the network banner lazily, so a config warning appears a moment after first paint; app pages still carry viem, zod and signing code (~400 KB gzip) — trimming further means tree-shakable viem actions and zod/mini.

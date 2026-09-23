@@ -107,7 +107,7 @@ export default function Home() {
         <h2 className="text-2xl font-black tracking-tight">
           The line between <Highlight fill="green">chain</Highlight> and you
         </h2>
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
+        <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-2">
           <div className="neo rounded-2xl bg-purple p-5">
             <p className="neo-label text-xs">On BOT Chain, readable by anyone</p>
             <ul className="mt-3 grid gap-2 text-sm font-bold">
@@ -133,12 +133,12 @@ export default function Home() {
           <h2 className="text-2xl font-black tracking-tight">
             Proof, at the rung it has <Highlight fill="green">reached</Highlight>
           </h2>
-          <Link href="/how-it-works#status" className="text-sm font-extrabold underline decoration-[3px] underline-offset-2">Full claim ledger →</Link>
+          <Link href="/how-it-works#status" className="text-sm inline-flex min-h-6 items-center font-extrabold underline decoration-2 underline-offset-2 pointer-coarse:min-h-11">Full claim ledger →</Link>
         </div>
         <p className="mt-2 max-w-2xl text-sm font-medium text-ink/80">
           Every public claim has a status and the evidence behind it. Nothing below says more than its evidence does.
         </p>
-        <Reveal className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {LEDGER.claims.slice(0, 6).map((c) => (
             <ClaimCard key={c.id} claim={c} />
           ))}
@@ -150,7 +150,7 @@ export default function Home() {
         <h2 className="text-2xl font-black tracking-tight">
           Built for the <Highlight fill="yellow">moment</Highlight>, measured by the chain
         </h2>
-        <Reveal className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f) => (
             <div key={f.title} className={`neo rounded-xl p-4 ${f.fill}`}>
               <EmojiTile>{f.emoji}</EmojiTile>

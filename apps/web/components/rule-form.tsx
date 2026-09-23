@@ -75,7 +75,7 @@ export function RuleForm({ value, onChange, deployment }: { value: RuleDraft; on
           <input id="releaseAt" type="datetime-local" className={inputClass} value={toLocal(value.releaseAt)} onChange={(e) => set({ releaseAt: fromLocal(e.target.value) })} />
         </Field>
       </div>
-      <button type="button" onClick={demoTiming} className="w-fit text-xs font-extrabold underline decoration-2 underline-offset-2">
+      <button type="button" onClick={demoTiming} className="w-fit text-xs inline-flex min-h-6 items-center font-extrabold underline decoration-2 underline-offset-2 pointer-coarse:min-h-11">
         Use demo timing: close in 5 min, open in 10 min
       </button>
 
@@ -105,7 +105,7 @@ export function RuleForm({ value, onChange, deployment }: { value: RuleDraft; on
       </fieldset>
 
       <div className="grid grid-cols-1 gap-2">
-        <label className="flex items-center gap-2 text-sm font-bold">
+        <label className="flex min-h-6 items-center gap-2 text-sm font-bold pointer-coarse:min-h-11">
           <input type="checkbox" className="accent-black" checked={expiry} onChange={(e) => { setExpiry(e.target.checked); set({ expiresAt: e.target.checked ? value.releaseAt + 365 * 86400 : 0 }); }} />
           Give up if it can&apos;t open by a date (expiry)
         </label>
@@ -122,7 +122,7 @@ export function RuleForm({ value, onChange, deployment }: { value: RuleDraft; on
         {quorum.map((r) => {
           const on = value.relayers.some((a) => a.toLowerCase() === r.address.toLowerCase());
           return (
-            <label key={r.address} className="neo-flat flex cursor-pointer items-center gap-3 rounded-xl bg-panel p-2.5 text-sm">
+            <label key={r.address} className="neo-flat flex cursor-pointer flex-wrap items-center gap-x-3 gap-y-1.5 rounded-xl bg-panel p-2.5 text-sm pointer-coarse:min-h-11">
               <input
                 type="checkbox"
                 className="accent-black"
@@ -130,7 +130,7 @@ export function RuleForm({ value, onChange, deployment }: { value: RuleDraft; on
                 onChange={() => set({ relayers: on ? value.relayers.filter((a) => a.toLowerCase() !== r.address.toLowerCase()) : [...value.relayers, r.address] })}
               />
               <span className="font-mono text-xs font-bold">{r.address.slice(0, 10)}…</span>
-              <span className="font-bold">{r.label}</span>
+              <span className="font-bold whitespace-nowrap">{r.label}</span>
               <Tag fill={r.independence === "INDEPENDENT" ? "green" : r.independence === "LOCAL FIXTURE" ? "lime" : "orange"}>{r.independence}</Tag>
             </label>
           );

@@ -41,7 +41,7 @@ export function RelayProvider({ children }: { children: ReactNode }) {
   const deployment = dep.data ?? null;
 
   const client = useMemo(
-    () => (deployment ? (createPublicClient({ chain: chainFromDeployment(deployment), transport: http(deployment.rpcUrl) }) as PublicClient) : null),
+    () => (deployment ? (createPublicClient({ chain: chainFromDeployment(deployment), transport: http(deployment.rpcUrl, { batch: { batchSize: 32, wait: 16 } }) }) as PublicClient) : null),
     [deployment],
   );
   const reader = useMemo(

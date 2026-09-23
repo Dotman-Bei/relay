@@ -32,7 +32,7 @@ function Activity() {
                     <Tag>{e.name}</Tag>
                     <span className="font-bold">{describeEvent(e)}</span>
                     {e.args.circleId !== undefined && (
-                      <Link href={`/circles/${String(e.args.circleId)}`} className="text-xs font-extrabold underline decoration-2">Circle #{String(e.args.circleId)} →</Link>
+                      <Link href={`/circles/${String(e.args.circleId)}`} className="text-xs inline-flex min-h-6 items-center font-extrabold underline decoration-2 underline-offset-2 pointer-coarse:min-h-11">Circle #{String(e.args.circleId)} →</Link>
                     )}
                   </span>
                   <span className="flex items-center gap-2 text-xs">

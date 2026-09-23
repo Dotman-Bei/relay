@@ -4,6 +4,12 @@ import type { ComponentProps, ReactNode } from "react";
 const cx = (...c: (string | false | null | undefined)[]) => c.filter(Boolean).join(" ");
 export { cx };
 
+const SIZE = {
+  sm: "min-h-8 px-3 py-1.5 text-xs pointer-coarse:min-h-11",
+  md: "min-h-10 px-4 py-2 text-sm pointer-coarse:min-h-11",
+  lg: "min-h-12 px-5 py-3 text-base",
+} as const;
+
 type Fill = "yellow" | "pink" | "blue" | "green" | "purple" | "orange" | "red" | "lime" | "panel";
 export const FILL: Record<Fill, string> = {
   yellow: "bg-yellow",
@@ -25,7 +31,7 @@ export function Button({ fill = "panel", className, size = "md", ...props }: Com
       {...props}
       className={cx(
         "neo-btn inline-flex items-center justify-center gap-2 rounded-lg text-ink",
-        size === "sm" ? "px-3 py-1.5 text-xs" : size === "lg" ? "px-5 py-3 text-base" : "px-4 py-2 text-sm",
+        SIZE[size],
         FILL[fill],
         className,
       )}
@@ -39,12 +45,20 @@ export function LinkButton({ fill = "panel", className, size = "md", ...props }:
       {...props}
       className={cx(
         "neo-btn inline-flex items-center justify-center gap-2 rounded-lg text-ink",
-        size === "sm" ? "px-3 py-1.5 text-xs" : size === "lg" ? "px-5 py-3 text-base" : "px-4 py-2 text-sm",
+        SIZE[size],
         FILL[fill],
         className,
       )}
     />
   );
+}
+
+/** Text-styled actions still get a finger-sized target on touch screens (WCAG 2.5.8; 44px on coarse pointers). */
+export const textAction =
+  "inline-flex min-h-6 items-center gap-1 font-extrabold underline decoration-2 underline-offset-2 pointer-coarse:min-h-11";
+
+export function TextAction({ className, ...props }: ComponentProps<typeof Link>) {
+  return <Link {...props} className={cx(textAction, className)} />;
 }
 
 /**
@@ -69,7 +83,17 @@ export function PrimaryAction({ ready, label, className, ...props }: ComponentPr
 }
 
 export function Tag({ children, fill = "panel", className }: { children: ReactNode; fill?: Fill; className?: string }) {
-  return <span className={cx("neo-tag inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] leading-4 text-ink", FILL[fill], className)}>{children}</span>;
+  return <span className={cx("neo-tag inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] leading-4 text-ink", FILL[fill], className)}>{children}</span>;
+}
+
+/** A status sentence: a small colour dot plus ink text at a readable size (chips are for short state words). */
+export function StatusLine({ children, fill = "panel" }: { children: ReactNode; fill?: Fill }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-ink">
+      <span aria-hidden className={cx("h-3 w-3 shrink-0 rounded-full border-2 border-line", FILL[fill])} />
+      {children}
+    </span>
+  );
 }
 
 export function Label({ children, className }: { children: ReactNode; className?: string }) {
@@ -83,7 +107,7 @@ export function Highlight({ children, fill = "pink" }: { children: ReactNode; fi
 /** App section: bordered, usually no fill so the cream shows through (frontend.md §6). */
 export function Section({ title, action, children, className, fill }: { title?: ReactNode; action?: ReactNode; children: ReactNode; className?: string; fill?: Fill }) {
   return (
-    <section className={cx("neo-sm rounded-2xl p-4", fill ? FILL[fill] : "", className)}>
+    <section className={cx("neo-sm min-w-0 rounded-2xl p-3 sm:p-4", fill ? FILL[fill] : "", className)}>
       {(title || action) && (
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
           {title && <h2 className="text-lg font-black tracking-tight">{title}</h2>}

@@ -74,8 +74,8 @@ function Dashboard() {
       )}
       {circles.isError && <Notice tone="error" title="Couldn't read your Circles">{String(circles.error)}</Notice>}
 
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-        <Section title="Needs you" fill="yellow" className="md:col-span-2">
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
+        <Section title="Needs you" fill="yellow" className="xl:col-span-2">
           {circles.isLoading ? (
             <p className="text-sm font-bold">Reading the chain…</p>
           ) : actions.length === 0 && pending.length === 0 ? (
@@ -135,7 +135,7 @@ function Dashboard() {
           )}
         </Section>
 
-        <Section title="Recent activity" className="md:col-span-2" action={<Link href="/activity" className="text-sm font-extrabold underline decoration-[3px] underline-offset-2">All activity →</Link>}>
+        <Section title="Recent activity" className="xl:col-span-2" action={<Link href="/activity" className="text-sm inline-flex min-h-6 items-center font-extrabold underline decoration-2 underline-offset-2 pointer-coarse:min-h-11">All activity →</Link>}>
           {events.isLoading ? (
             <p className="text-sm font-bold">Reading events…</p>
           ) : (events.data ?? []).length === 0 ? (

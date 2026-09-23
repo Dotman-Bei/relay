@@ -30,7 +30,13 @@ writeFileSync(
   resolve(root, "packages/protocol-types/src/bytecode.ts"),
   `${header}export const capsuleRegistryBytecode = "${bytecode}" as const;\n` +
     `export const capsuleRegistryDeployedBytecode = "${deployedBytecode}" as const;\n` +
-    `/** sha256 of the runtime bytecode; the web client and verifier compare it with eth_getCode. */\n` +
-    `export const CAPSULE_REGISTRY_RUNTIME_SHA256 = "${deployedBytecodeSha256}";\n`,
+    `export { CAPSULE_REGISTRY_RUNTIME_SHA256 } from "./provenance.ts";\n`,
+);
+// Fingerprints only, so verifiers can check provenance without shipping the bytecode itself.
+writeFileSync(
+  resolve(root, "packages/protocol-types/src/provenance.ts"),
+  `${header}/** sha256 of the runtime bytecode; the web client and verifier compare it with eth_getCode. */\n` +
+    `export const CAPSULE_REGISTRY_RUNTIME_SHA256 = "${deployedBytecodeSha256}";\n` +
+    `/** sha256 of the ABI JSON (compact). */\nexport const CAPSULE_REGISTRY_ABI_SHA256_PROVENANCE = "${abiSha256}";\n`,
 );
 console.log(`abi sha256 ${abiSha256}\nruntime sha256 ${deployedBytecodeSha256}`);

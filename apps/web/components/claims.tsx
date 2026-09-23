@@ -15,7 +15,7 @@ const STATUS_FILL: Record<string, string> = {
 };
 
 export function ClaimStatusTag({ status }: { status: string }) {
-  return <span className={cx("neo-tag inline-flex rounded px-1.5 py-0.5 text-[10px] leading-4", STATUS_FILL[status] ?? "bg-panel")}>{status.replace(/_/g, " ")}</span>;
+  return <span className={cx("neo-tag inline-flex rounded px-1.5 py-0.5 text-[11px] leading-4", STATUS_FILL[status] ?? "bg-panel")}>{status.replace(/_/g, " ")}</span>;
 }
 
 /** Proof cards: the whole card presses (frontend.md §6). Status comes from the ledger, never from copy. */
@@ -27,7 +27,7 @@ export function ClaimCard({ claim }: { claim: LedgerClaim }) {
         <ClaimStatusTag status={claim.status} />
       </div>
       <p className="text-base leading-snug font-black">{claim.claim}</p>
-      <p className="text-sm font-medium text-ink/80">{claim.publicWording}</p>
+      <p className="text-sm font-medium text-ink/80 wrap-anywhere">{claim.publicWording}</p>
       <span className="mt-auto text-xs font-extrabold">Evidence →</span>
     </Link>
   );

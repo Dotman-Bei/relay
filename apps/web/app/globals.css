@@ -58,6 +58,10 @@ body {
   color: var(--ink);
   font-weight: 500;
   min-height: 100dvh;
+  /* Long words wrap instead of widening the page; `clip` (unlike `hidden`) keeps sticky headers working.
+     Decorative tilts can't create a sideways scroll either. */
+  overflow-wrap: break-word;
+  overflow-x: clip;
 }
 
 @layer components {

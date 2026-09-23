@@ -1,6 +1,11 @@
 import type { ReactNode } from "react";
 import { AppShell } from "@/components/app-shell";
+import { Providers } from "../providers";
 
 export default function MemberLayout({ children }: { children: ReactNode }) {
-  return <AppShell>{children}</AppShell>;
+  return (
+    <Providers>
+      <AppShell>{children}</AppShell>
+    </Providers>
+  );
 }

@@ -85,7 +85,7 @@ export default function HowItWorks() {
       <section className="mt-12" id="lifecycle">
         <h2 className="text-2xl font-black tracking-tight">Every state a Circle can be in</h2>
         <p className="mt-2 max-w-2xl text-sm font-medium text-ink/80">Colours in Relay always mean these states, and always come with the words.</p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
           {LIFECYCLE.map((l) => (
             <div key={l} className={`neo-sm flex items-start gap-3 rounded-xl p-3 ${LIFECYCLE_STYLE[l].fill}`}>
               <span aria-hidden className="text-xl">{LIFECYCLE_STYLE[l].emoji}</span>
@@ -113,7 +113,7 @@ export default function HowItWorks() {
         <h2 className="text-2xl font-black tracking-tight">
           What&apos;s <Highlight fill="green">real</Highlight> today
         </h2>
-        <p className="mt-2 max-w-2xl text-sm font-medium text-ink/80">
+        <p className="mt-2 max-w-2xl text-sm font-medium text-ink/80 wrap-anywhere">
           {c05?.publicWording} Each claim below is worded at the rung its evidence has reached; the ledger check fails if copy anywhere says more.
         </p>
         <div className="mt-4 grid grid-cols-1 gap-3">
@@ -124,11 +124,11 @@ export default function HowItWorks() {
                 <ClaimStatusTag status={c.status} />
                 <p className="font-black">{c.claim}</p>
               </div>
-              <p className="mt-1 text-sm font-medium text-ink/80">{c.publicWording}</p>
+              <p className="mt-1 text-sm font-medium text-ink/80 wrap-anywhere">{c.publicWording}</p>
               <p className="mt-2 text-xs font-bold text-ink/70">
                 Needed for &ldquo;{c.earliestWording}&rdquo;: {c.requiredEvidence}.
               </p>
-              {c.evidence.length > 0 && <p className="mt-1 font-mono text-[11px] font-bold break-all text-ink/60">evidence: {c.evidence.join(" · ")}</p>}
+              {c.evidence.length > 0 && <p className="mt-1 font-mono text-xs font-bold break-all text-ink/60">evidence: {c.evidence.join(" · ")}</p>}
             </div>
           ))}
         </div>

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useWallet } from "@/lib/wallet";
+import { useEffect, useState } from "react";
 import { Logo } from "./brand";
 import { cx, LinkButton } from "./ui";
 
@@ -14,11 +14,18 @@ const LINKS = [
 
 export function PublicNav() {
   const path = usePathname();
-  const { address } = useWallet();
+  const [signedIn, setSignedIn] = useState(false);
+  useEffect(() => {
+    try {
+      setSignedIn(Boolean(localStorage.getItem("relay:wallet:v1")));
+    } catch {
+      setSignedIn(false);
+    }
+  }, []);
   return (
-    <header className="neo-sm flex flex-wrap items-center justify-between gap-3 rounded-xl bg-panel px-3 py-2.5">
+    <header className="neo-sm flex flex-wrap items-center justify-between gap-x-3 gap-y-2.5 rounded-xl bg-panel px-3 py-2.5">
       <Logo />
-      <nav aria-label="Primary" className="-mx-1 flex max-w-full gap-2 overflow-x-auto px-1 pb-1 sm:pb-0">
+      <nav aria-label="Primary" className="order-last flex w-full flex-wrap gap-2 md:order-none md:w-auto">
         {LINKS.map((l) => {
           const active = l.href === "/" ? path === "/" : path.startsWith(l.href);
           return (
@@ -26,15 +33,15 @@ export function PublicNav() {
               key={l.href}
               href={l.href}
               aria-current={active ? "page" : undefined}
-              className={cx("neo-btn shrink-0 rounded-lg px-3 py-1.5 text-sm", active ? l.fill : "bg-panel")}
+              className={cx("neo-btn inline-flex min-h-9 items-center rounded-lg px-3 py-1.5 text-sm pointer-coarse:min-h-11", active ? l.fill : "bg-panel")}
             >
               {l.label}
             </Link>
           );
         })}
       </nav>
-      {!address && (
-        <LinkButton href="/onboarding" fill="yellow" size="sm" className="hidden md:inline-flex">
+      {!signedIn && (
+        <LinkButton href="/onboarding" fill="yellow" size="sm">
           Start a Circle →
         </LinkButton>
       )}

@@ -1,6 +1,8 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
+import { Providers } from "../../providers";
+import { NetworkBanner } from "@/components/network-banner";
 import { formatEther } from "viem";
 import { RecoveryKitButton } from "@/components/recovery";
 import { Button, cx, Highlight, LinkButton, Notice, Tag } from "@/components/ui";
@@ -86,7 +88,7 @@ function Onboarding() {
                 Consenting and contributing are transactions. {faucet ? <>Claim test tokens at <a className="underline decoration-2" href={faucet} target="_blank" rel="noreferrer">the official BOT Chain faucet ↗</a>.</> : "Use the official BOT Chain testnet faucet."}
               </Notice>
             )}
-            <button type="button" onClick={w.disconnect} className="w-fit text-xs font-extrabold underline decoration-2 underline-offset-2">Use a different account</button>
+            <button type="button" onClick={w.disconnect} className="w-fit text-xs inline-flex min-h-6 items-center font-extrabold underline decoration-2 underline-offset-2 pointer-coarse:min-h-11">Use a different account</button>
           </div>
         ) : (
           <div className="grid gap-3 sm:grid-cols-2">
@@ -182,8 +184,13 @@ function Onboarding() {
 
 export default function OnboardingPage() {
   return (
-    <Suspense>
-      <Onboarding />
-    </Suspense>
+    <Providers>
+      <div className="mt-3">
+        <NetworkBanner />
+      </div>
+      <Suspense>
+        <Onboarding />
+      </Suspense>
+    </Providers>
   );
 }

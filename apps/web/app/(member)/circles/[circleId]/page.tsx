@@ -84,7 +84,7 @@ function CircleDetail() {
 
       <TxStatus state={tx.state} onRetry={tx.retry} />
 
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
         <div className="grid content-start grid-cols-1 gap-5">
           {editing ? (
             <Section title="Edit the rule" fill="yellow">
@@ -196,7 +196,7 @@ function CircleDetail() {
 
           {me.data?.joined && collecting && <StewardPanel circleId={c.circleId.toString()} groupSize={c.memberCount} releaseAt={c.policy.releaseAt} />}
 
-          <Section title="Activity record" action={<Link href={`/verify/${c.circleId}`} className="text-xs font-extrabold underline decoration-2">Replay it →</Link>}>
+          <Section title="Activity record" action={<Link href={`/verify/${c.circleId}`} className="text-xs inline-flex min-h-6 items-center font-extrabold underline decoration-2 underline-offset-2 pointer-coarse:min-h-11">Replay it →</Link>}>
             {events.isLoading ? <p className="text-sm font-bold">Reading events…</p> : <ActivityList events={[...(events.data ?? [])].reverse()} />}
           </Section>
         </div>

@@ -14,8 +14,9 @@ for (const vp of [{ width: 1280, height: 900 }, { width: 390, height: 844 }]) {
   await ctx.addInitScript(() => localStorage.setItem("relay:wallet:v1", JSON.stringify({ kind: "fixture", fixture: 1 })));
   const page = await ctx.newPage();
   for (const p of pages) {
-    await page.goto(base + p, { waitUntil: "networkidle" });
-    await page.waitForTimeout(1200);
+    // Pages poll the chain, so "network idle" never comes: wait for load, then for data to render.
+    await page.goto(base + p, { waitUntil: "load" });
+    await page.waitForTimeout(2000);
     await page.addScriptTag({ content: axe });
     const res = await page.evaluate(async () => await window.axe.run(document, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21aa"] } }));
     const v = res.violations;

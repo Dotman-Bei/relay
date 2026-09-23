@@ -131,7 +131,7 @@ function Reveal() {
         </Section>
       ) : (
         <>
-          <div className="grid gap-4 md:grid-cols-2">{items.map((it) => <Opened key={it.commitment} item={it} />)}</div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">{items.map((it) => <Opened key={it.commitment} item={it} />)}</div>
           <Section title="Reflections">
             {metaKey ? (
               <div className="grid grid-cols-1 gap-3">

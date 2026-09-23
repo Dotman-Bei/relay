@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Empty, EmojiTile, Highlight, LinkButton, Section } from "@/components/ui";
+import { cx, Empty, EmojiTile, Highlight, LinkButton, Section } from "@/components/ui";
 import { TEMPLATES } from "@/lib/templates";
 
 const CATS = ["All", "Friends", "Family", "Teams", "Milestones"] as const;
@@ -24,7 +24,7 @@ export default function Explore() {
             type="button"
             aria-pressed={cat === c}
             onClick={() => setCat(c)}
-            className={cat === c ? "neo-btn rounded-full bg-blue px-4 py-1.5 text-sm" : "neo-flat rounded-full bg-panel px-4 py-1.5 text-sm font-bold"}
+            className={cx("min-h-9 rounded-full px-4 py-1.5 text-sm pointer-coarse:min-h-11", cat === c ? "neo-btn bg-blue" : "neo-flat bg-panel font-bold")}
           >
             {c}
           </button>

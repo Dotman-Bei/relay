@@ -8,7 +8,7 @@ export function ChainTime({ unix, className }: { unix: number; className?: strin
   return (
     <span className={cx("inline-flex flex-col leading-tight", className)}>
       <span className="font-bold">{formatDate(unix)}</span>
-      <span className="font-mono text-[11px] font-bold text-ink/70">chain time {unix}</span>
+      <span className="font-mono text-xs font-bold text-ink/70">chain time {unix}</span>
     </span>
   );
 }
@@ -32,7 +32,7 @@ export function Postmark({ unix, word = "Opens", size = "md" }: { unix: number; 
   return (
     <span
       aria-label={`${word} ${formatDay(unix)}`}
-      className={cx("postmark shrink-0 bg-panel text-ink", size === "sm" ? "h-16 w-16 text-[9px]" : "h-24 w-24 text-[11px]")}
+      className={cx("postmark shrink-0 bg-panel text-ink", size === "sm" ? "h-16 w-16 text-[10px]" : "h-24 w-24 text-[11px]")}
     >
       <span>
         <span className="block text-ink/70">{word}</span>

@@ -6,7 +6,7 @@
  */
 import { createPublicClient, http, recoverMessageAddress, type Hex, type PublicClient } from "viem";
 import type { Deployment, DeliveryStatus, Lifecycle } from "@relay/protocol-types";
-import { CAPSULE_REGISTRY_RUNTIME_SHA256 } from "@relay/protocol-types/bytecode";
+import { CAPSULE_REGISTRY_RUNTIME_SHA256 } from "@relay/protocol-types/provenance";
 import { deliveryStatus, lifecycle, type CircleState } from "@relay/reference";
 import {
   deliverySigningBytes,

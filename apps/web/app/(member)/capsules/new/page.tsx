@@ -132,7 +132,7 @@ function NewContribution() {
           </div>
         </Section>
       ) : (
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+        <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
           <form onSubmit={submit} className="grid content-start grid-cols-1 gap-5">
             <Section title="What are you sealing?">
               <div role="group" aria-label="Contribution type" className="grid grid-cols-2 gap-2 sm:grid-cols-4">
