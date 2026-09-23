@@ -30,7 +30,7 @@ _Last updated 2026-09-23, after the BOT Chain testnet deployment. This file stat
 ## What each component is, honestly
 
 - **Relayers** are `PROJECT_BASELINE` (on testnet) or `LOCAL FIXTURE` (locally): operated by the project, not independent. A threshold of them acting together could open a capsule early. The three testnet relayers are funded and their keys are registered, but no relayer process runs permanently yet.
-- **Testnet storage** currently runs on the build machine (`http://127.0.0.1:8697`); other people's browsers can't reach it until it is hosted at a public URL (step 3). The URL is off-chain and can change without redeploying.
+- **Testnet storage** currently runs on the build machine (`http://127.0.0.1:8697`); other people's browsers can't reach it until it is hosted at a public URL. Container images and a compose file for hosting are ready in `deploy/` (validated without Docker, not yet run on a server). The URL is off-chain and can change without redeploying.
 - **Storage** is a project-operated, content-addressed blob server. Every read is hash-checked by the client, so it can withhold data but can't substitute it undetected.
 - **The Memory Steward** runs in `TEMPLATE` mode unless model credentials are configured; with them it calls `claude-opus-5` using only the theme/occasion/size a member types.
 - **Passkeys** are not offered: BOT Chain testnet documents ERC-4337 with an ECDSA SimpleAccountFactory, but no WebAuthn-capable account.

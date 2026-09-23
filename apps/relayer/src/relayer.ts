@@ -11,8 +11,12 @@
  * It never decides eligibility. It can optionally call requestRelease, which the contract only
  * accepts when the stored rule is true (anyone may call it).
  *
- *   tsx src/relayer.ts init --dir .relay-local/relayers --count 3
- *   tsx src/relayer.ts run  --deployment deployments/local.json --dir .relay-local/relayers
+ *   tsx src/relayer.ts init  --dir .relay-local/relayers --count 3
+ *   tsx src/relayer.ts split --dir .relay-testnet/relayers --out deploy/secrets   (one file per relayer)
+ *   tsx src/relayer.ts run   --deployment deployments/local.json --dir .relay-local/relayers
+ *   tsx src/relayer.ts run   --identities /run/secrets/relayer --state /data/relayer   (container)
+ * Env: RELAY_DEPLOYMENT, RELAYER_IDENTITIES, RELAYER_STATE, STORAGE_URL (internal override), POLL_MS,
+ *      AUTO_REQUEST_RELEASE (default on), RELAYER_WITHHOLD (adversarial fixture only).
  */
 import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from "node:fs";
 import { join } from "node:path";
@@ -235,6 +239,12 @@ export class Relayer {
   }
 }
 
+/** Read one identity or a list of identities from a JSON file (a mounted secret, in containers). */
+export function readIdentityFile(file: string): RelayerIdentity[] {
+  const parsed = JSON.parse(readFileSync(file, "utf8")) as RelayerIdentity | RelayerIdentity[];
+  return Array.isArray(parsed) ? parsed : [parsed];
+}
+
 async function main() {
   const cmd = process.argv[2];
   const dir = arg("dir", ".relay-local/relayers")!;
@@ -253,19 +263,40 @@ async function main() {
     for (const id of ids) console.log(`  ${id.label} ${id.address}`);
     return;
   }
+  if (cmd === "split") {
+    // One secret file per relayer, so each container holds only its own keys.
+    const out = arg("out", "deploy/secrets")!;
+    mkdirSync(out, { recursive: true, mode: 0o700 });
+    for (const id of loadIdentities(dir)) {
+      const file = join(out, `${id.label}.json`);
+      writeFileSync(file, JSON.stringify(id, null, 2), { mode: 0o600 });
+      console.log(`${id.label} ${id.address} → ${file}`);
+    }
+    return;
+  }
   if (cmd === "run") {
-    const deployment = DeploymentSchema.parse(JSON.parse(readFileSync(arg("deployment", "deployments/local.json")!, "utf8")));
+    const deployment = DeploymentSchema.parse(JSON.parse(readFileSync(arg("deployment", process.env.RELAY_DEPLOYMENT ?? "deployments/local.json")!, "utf8")));
+    const identityFile = arg("identities", process.env.RELAYER_IDENTITIES);
+    const identities = identityFile ? readIdentityFile(identityFile) : loadIdentities(dir);
+    const stateDir = arg("state", process.env.RELAYER_STATE ?? dir)!;
+    mkdirSync(stateDir, { recursive: true });
+    // Inside a private network the relayer can reach storage directly; the record keeps the public URL.
+    const storageUrl = process.env.STORAGE_URL ?? deployment.storage.url;
     const relayer = new Relayer({
       deployment,
-      identities: loadIdentities(dir),
-      store: new HttpBlobStore(deployment.storage.url),
+      identities,
+      store: new HttpBlobStore(storageUrl),
       withhold: new Set((process.env.RELAYER_WITHHOLD ?? "").split(",").filter(Boolean).map((a) => a.toLowerCase())),
       autoRequestRelease: process.env.AUTO_REQUEST_RELEASE !== "0",
-      metricsFile: join(dir, "metrics.jsonl"),
+      metricsFile: join(stateDir, "metrics.jsonl"),
     });
     const interval = Number(process.env.POLL_MS ?? 3000);
-    console.log(`[relayer] PROJECT_BASELINE relayer for ${deployment.label} registry ${deployment.contract.address}, polling every ${interval}ms`);
-    for (;;) {
+    console.log(
+      `[relayer] PROJECT_BASELINE relayer ${identities.map((i) => `${i.label} ${i.address}`).join(", ")} for ${deployment.label} registry ${deployment.contract.address}, storage ${storageUrl}, polling every ${interval}ms`,
+    );
+    let stopping = false;
+    for (const s of ["SIGTERM", "SIGINT"] as const) process.on(s, () => (stopping = true));
+    while (!stopping) {
       try {
         await relayer.tick();
       } catch (e) {
@@ -273,8 +304,10 @@ async function main() {
       }
       await new Promise((r) => setTimeout(r, interval));
     }
+    console.log("[relayer] stopped");
+    return;
   }
-  console.log("usage: relayer.ts init|run [--dir DIR] [--deployment FILE] [--count N]");
+  console.log("usage: relayer.ts init|split|run [--dir DIR] [--identities FILE] [--state DIR] [--deployment FILE] [--count N] [--out DIR]");
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

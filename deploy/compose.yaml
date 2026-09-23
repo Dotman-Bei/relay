@@ -1,0 +1,150 @@
+# Relay on one host: storage, three PROJECT_BASELINE relayers, the Memory Steward, the web client,
+# and Caddy terminating HTTPS. See docs/runbooks/hosting.md.
+#
+#   cd deploy && ./setup.sh && docker compose up -d --build
+#
+# Each relayer container mounts only its own key file. They still share one operator and one host,
+# which is why the deployment record labels them PROJECT_BASELINE, not independent.
+name: relay
+
+x-services: &services
+  image: relay-services:${RELAY_TAG:-local}
+  build:
+    context: ..
+    dockerfile: deploy/Dockerfile
+    target: services
+  restart: unless-stopped
+  init: true
+
+x-relayer: &relayer
+  <<: *services
+  command: ["./node_modules/.bin/tsx", "apps/relayer/src/relayer.ts", "run", "--identities", "/run/secrets/relayer", "--state", "/data/relayer"]
+  depends_on:
+    storage:
+      condition: service_healthy
+
+x-relayer-env: &relayer-env
+  RELAY_DEPLOYMENT: /app/deployments/${RELAY_NETWORK:-testnet}.json
+  STORAGE_URL: http://storage:8697
+  POLL_MS: "5000"
+  AUTO_REQUEST_RELEASE: "1"
+
+services:
+  storage:
+    <<: *services
+    command: ["./node_modules/.bin/tsx", "apps/relayer/src/storage-server.ts"]
+    environment:
+      STORAGE_HOST: 0.0.0.0
+      STORAGE_PORT: "8697"
+      STORAGE_DIR: /data/storage
+    volumes:
+      - ./data/storage:/data/storage
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8697/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  relayer-1:
+    <<: *relayer
+    environment: *relayer-env
+    secrets:
+      - source: relayer-1
+        target: relayer
+    volumes:
+      - ../deployments:/app/deployments:ro
+      - ./data/relayer-1:/data/relayer
+
+  relayer-2:
+    <<: *relayer
+    environment: *relayer-env
+    secrets:
+      - source: relayer-2
+        target: relayer
+    volumes:
+      - ../deployments:/app/deployments:ro
+      - ./data/relayer-2:/data/relayer
+
+  relayer-3:
+    <<: *relayer
+    environment: *relayer-env
+    secrets:
+      - source: relayer-3
+        target: relayer
+    volumes:
+      - ../deployments:/app/deployments:ro
+      - ./data/relayer-3:/data/relayer
+
+  steward:
+    <<: *services
+    command: ["./node_modules/.bin/tsx", "apps/agent/src/server.ts"]
+    environment:
+      RELAY_DEPLOYMENT: /app/deployments/${RELAY_NETWORK:-testnet}.json
+      STEWARD_HOST: 0.0.0.0
+      STEWARD_PORT: "8688"
+      STEWARD_DIR: /data/steward
+      # Optional. Without it the steward serves labelled TEMPLATE prompts.
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    volumes:
+      - ../deployments:/app/deployments:ro
+      - ./data/steward:/data/steward
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8688/health').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  web:
+    image: relay-web:${RELAY_TAG:-local}
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      target: web
+      args:
+        RELAY_NETWORK: ${RELAY_NETWORK:-testnet}
+    restart: unless-stopped
+    init: true
+    volumes:
+      # The client fetches its deployment record at runtime, so endpoint changes need no rebuild.
+      - ../deployments/${RELAY_NETWORK:-testnet}.json:/app/apps/web/public/relay/deployment.${RELAY_NETWORK:-testnet}.json:ro
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1),()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      RELAY_DOMAIN: ${RELAY_DOMAIN:?set RELAY_DOMAIN in deploy/.env}
+      STORAGE_DOMAIN: ${STORAGE_DOMAIN:?set STORAGE_DOMAIN in deploy/.env}
+      STEWARD_DOMAIN: ${STEWARD_DOMAIN:?set STEWARD_DOMAIN in deploy/.env}
+      ACME_EMAIL: ${ACME_EMAIL:?set ACME_EMAIL in deploy/.env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      web:
+        condition: service_started
+      storage:
+        condition: service_healthy
+      steward:
+        condition: service_started
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+secrets:
+  relayer-1:
+    file: ./secrets/relayer-1.json
+  relayer-2:
+    file: ./secrets/relayer-2.json
+  relayer-3:
+    file: ./secrets/relayer-3.json

@@ -139,3 +139,9 @@ Date: 2026-09-23
 Status: active
 Evidence: evidence/adversarial/testnet/2026-09-23T09-34-01-018Z.json (7/7, ADV-3 rejected while COLLECTING with WrongLifecycle and while SEALED with RuleNotSatisfied); evidence/adversarial/testnet/2026-09-23T09-25-27-033Z.json (6/7, ADV-3 both attempts reverted but the first ran in SEALED); scripts/adversarial.ts now records the lifecycle before that attempt and uses a 540 s testnet window; evidence/verifier/testnet.json (Circles 1–6 VALID).
 Cost: Circles 3–6 remain on testnet as campaign artifacts; Circles 4 and 6 stay RELEASE_UNAVAILABLE until relayer-2 records its withheld receipt, which a normally running relayer will do.
+
+D-024: Relay is hosted from one compose file: a services image for storage, relayers and the steward (one container per relayer, each mounting only its own key), a web image, and Caddy for HTTPS; the endpoints are written into the deployment record with `pnpm endpoints:set` after the server is up.
+Date: 2026-09-23
+Status: active
+Evidence: deploy/Dockerfile (hadolint clean), deploy/compose.yaml (`docker compose config` valid; refuses to start without domains), deploy/Caddyfile (`caddy validate`), clean-context `pnpm install --frozen-lockfile` and testnet web build served and checked in a browser (runtime probe OK, /verify/2 VALID), `pnpm smoke:services` passed (split keys, storage, steward, three relayer processes releasing a capsule, SIGTERM shutdown). Docker itself is not installed on the build machine, so the images have not been built yet.
+Cost: One host and one operator for all relayers (still PROJECT_BASELINE); storage durability depends on the server's backups.

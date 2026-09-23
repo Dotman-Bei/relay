@@ -1,0 +1,25 @@
+# HTTPS for the three public endpoints. Certificates come from Let's Encrypt automatically once
+# DNS for each domain points at this host and ports 80/443 are open.
+{
+	email {$ACME_EMAIL}
+}
+
+{$RELAY_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy web:3000
+}
+
+{$STORAGE_DOMAIN} {
+	# Content-addressed ciphertext uploads; the server itself caps blobs at 64 MB.
+	request_body {
+		max_size 65MB
+	}
+	reverse_proxy storage:8697
+}
+
+{$STEWARD_DOMAIN} {
+	request_body {
+		max_size 64KB
+	}
+	reverse_proxy steward:8688
+}

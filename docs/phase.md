@@ -15,7 +15,7 @@
 
 1. ~~Fund a deployment wallet~~ — done 2026-09-23.
 2. ~~Create and fund three relayers~~ — done; keys registered on-chain.
-3. Host the storage server at a public HTTPS URL (it runs on the build machine today) and update `storage.url` in `deployments/testnet.json`.
+3. Host storage, relayers, steward and web: `deploy/` + docs/runbooks/hosting.md (validated with `pnpm smoke:services`; needs a server and DNS), then `pnpm endpoints:set`.
 4. ~~Deploy and verify~~ — done: T2 passed.
 5. Two non-developer participant wallets: `pnpm proof:testnet`, `pnpm adversarial:testnet`, `pnpm verify:testnet`.
 6. Update `packages/claim-ledger/data/claims.json` statuses from the evidence, `pnpm claims:generate && pnpm claims:check`, and `WHAT_IS_REAL.md`.

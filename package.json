@@ -31,7 +31,9 @@
     "web:dev": "pnpm --filter @relay/web dev",
     "web:build": "pnpm --filter @relay/web build",
     "evidence": "tsx scripts/collect-evidence.ts",
-    "metrics": "tsx scripts/metrics.ts"
+    "metrics": "tsx scripts/metrics.ts",
+    "endpoints:set": "tsx scripts/set-endpoints.ts",
+    "smoke:services": "tsx scripts/smoke-services.ts"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

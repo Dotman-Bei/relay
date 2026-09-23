@@ -57,6 +57,10 @@ pnpm verify:testnet                         # replays every capsule from the pub
 
 See [docs/runbooks/testnet-deploy.md](docs/runbooks/testnet-deploy.md).
 
+## Host it
+
+`deploy/` has a Dockerfile, a compose file (storage, three relayers, Memory Steward, web client, Caddy for HTTPS) and a setup script. See [docs/runbooks/hosting.md](docs/runbooks/hosting.md). `pnpm smoke:services` runs every service with its container command and environment against a local chain.
+
 ## Verify a capsule yourself
 
 ```bash

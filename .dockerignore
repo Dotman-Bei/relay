@@ -1,0 +1,24 @@
+# Build context is the repository root. Secrets and local state never enter an image.
+**/node_modules
+**/.next
+**/dist
+.git
+.relay-local
+.relay-testnet
+deploy/secrets
+deploy/data
+deploy/.env
+**/.env
+**/.env.*
+contracts/out
+contracts/cache
+contracts/lib
+evidence
+docs
+test-results
+playwright-report
+apps/web/public/relay/deployment.*.json
+apps/web/public/relay/*.probe.json
+apps/web/AGENTS.md
+apps/web/CLAUDE.md
+deployments/local.json

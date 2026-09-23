@@ -85,6 +85,11 @@ export function startStewardServer(opts: { port: number; deploymentFile: string;
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const port = Number(process.env.STEWARD_PORT ?? 8688);
-  const s = startStewardServer({ port, deploymentFile: process.env.RELAY_DEPLOYMENT ?? "deployments/local.json", dir: process.env.STEWARD_DIR ?? ".relay-local/steward" });
+  const s = startStewardServer({
+    port,
+    deploymentFile: process.env.RELAY_DEPLOYMENT ?? "deployments/local.json",
+    dir: process.env.STEWARD_DIR ?? ".relay-local/steward",
+    host: process.env.STEWARD_HOST ?? "127.0.0.1",
+  });
   console.log(`[steward] Memory Steward on :${port} (${s.mode} mode, agent ${s.steward.account.address})`);
 }
