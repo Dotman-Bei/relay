@@ -1,0 +1,160 @@
+{
+  "schema": "relay.adversarial-report/v1",
+  "label": "BOT Chain testnet",
+  "network": "testnet",
+  "runId": "2026-09-23T09-34-01-018Z",
+  "registry": "0x6f6e2c0fb44016d621e133612c61069de15cd710",
+  "chainId": 968,
+  "sourceCommit": "643f40d53c33c562e82daac94a3990eaf9caeeef+dirty",
+  "control": {
+    "lifecycle": "RELEASED",
+    "receipts": 2,
+    "opened": 2
+  },
+  "passed": true,
+  "attempts": [
+    {
+      "id": "ADV-1",
+      "attempt": "Change the date after member consent",
+      "expected": "Revert",
+      "observed": "status reverted, RuleLocked: The rule is locked: another member has already consented to it.; stored rule is still the consented one",
+      "passed": true,
+      "evidence": {
+        "tx": "0xc812ce95ad289f5dc08d7543ba496035c28533dd92dad6b23828344f74e4565b",
+        "explorer": "https://scan.bohr.life/tx/0xc812ce95ad289f5dc08d7543ba496035c28533dd92dad6b23828344f74e4565b",
+        "block": "24395577",
+        "decoded": {
+          "name": "RuleLocked",
+          "reason": "The rule is locked: another member has already consented to it."
+        },
+        "policyHashBefore": "0xc2ed09e2d656db4dfda34d8109f78f9d8b6cc0c1ef5ce149834e2c8737f70f6c",
+        "policyHashAfter": "0xc2ed09e2d656db4dfda34d8109f78f9d8b6cc0c1ef5ce149834e2c8737f70f6c"
+      }
+    },
+    {
+      "id": "ADV-2",
+      "attempt": "Commit twice as one participant",
+      "expected": "Revert",
+      "observed": "status reverted, AlreadyContributed: You have already committed your contribution. One per member.",
+      "passed": true,
+      "evidence": {
+        "tx": "0xe719c2a327034b5601a5a0b7bf5545306c5de2f032c7e48ec96ea27a22850611",
+        "explorer": "https://scan.bohr.life/tx/0xe719c2a327034b5601a5a0b7bf5545306c5de2f032c7e48ec96ea27a22850611",
+        "block": "24395647",
+        "decoded": {
+          "name": "AlreadyContributed",
+          "reason": "You have already committed your contribution. One per member."
+        },
+        "contractTest": "test_contribution_atMostOncePerMember"
+      }
+    },
+    {
+      "id": "ADV-3",
+      "attempt": "Request release before the rule is true",
+      "expected": "Revert",
+      "observed": "while COLLECTING: reverted WrongLifecycle; sealed before date: reverted RuleNotSatisfied (The release rule is not true yet: Release date has not arrived.)",
+      "passed": true,
+      "evidence": {
+        "whileCollecting": {
+          "lifecycleBeforeAttempt": "COLLECTING",
+          "tx": "0xd34f4aa65ec0a08ef2a55df5c28ea6e59b4bc4ecbfd76a46ec5bae73ca46a159",
+          "explorer": "https://scan.bohr.life/tx/0xd34f4aa65ec0a08ef2a55df5c28ea6e59b4bc4ecbfd76a46ec5bae73ca46a159",
+          "decoded": {
+            "name": "WrongLifecycle",
+            "reason": "Not allowed while the Circle is collecting contributions."
+          }
+        },
+        "sealedBeforeDate": {
+          "tx": "0xc02bc19f9d2af2668f1c9dc2bf1e75597e22b345251853a10aa1bba6528767d1",
+          "explorer": "https://scan.bohr.life/tx/0xc02bc19f9d2af2668f1c9dc2bf1e75597e22b345251853a10aa1bba6528767d1",
+          "decoded": {
+            "name": "RuleNotSatisfied",
+            "reason": "The release rule is not true yet: Release date has not arrived."
+          }
+        },
+        "contractTest": "test_requestRelease_revertsUntilRuleIsTrue"
+      }
+    },
+    {
+      "id": "ADV-4",
+      "attempt": "Submit a receipt before eligibility",
+      "expected": "Revert",
+      "observed": "status reverted, EligibilityNotRecorded: Release eligibility has not been recorded on-chain yet.",
+      "passed": true,
+      "evidence": {
+        "tx": "0xab5d59c93c5eb578b7010e37ac6b6bd9912182836512d51fd12d9a831d067f8f",
+        "explorer": "https://scan.bohr.life/tx/0xab5d59c93c5eb578b7010e37ac6b6bd9912182836512d51fd12d9a831d067f8f",
+        "block": "24396149",
+        "decoded": {
+          "name": "EligibilityNotRecorded",
+          "reason": "Release eligibility has not been recorded on-chain yet."
+        },
+        "contractTest": "test_receipt_revertsBeforeEligibility"
+      }
+    },
+    {
+      "id": "ADV-5",
+      "attempt": "Serve modified ciphertext",
+      "expected": "Client detects commitment mismatch",
+      "observed": "reveal with modified ciphertext refused: Commitment mismatch for ciphertext: expected 7135c9bf30e1b06 | Commitment mismatch for ciphertext: expected 662370f25bacc27. Upload through tampering storage blocked before any transaction: Commitment mismatch for ciphertext (read-back): expected 6c01d0306ef5afdea1474bbe3fb85f005",
+      "passed": true,
+      "evidence": {
+        "readDetected": true,
+        "uploadBlocked": true,
+        "integrationTest": "packages/relay-sdk/test/crypto.test.ts › detects modified ciphertext served by storage"
+      }
+    },
+    {
+      "id": "ADV-6",
+      "attempt": "Point verifier at a false server response",
+      "expected": "Verifier derives state from chain and reports the actual state",
+      "observed": "claimed RELEASED; chain-derived RELEASE_ELIGIBLE; claim rejected: claimed lifecycle RELEASED, chain says RELEASE_ELIGIBLE; claimed 2 receipts, chain has 1; claimed released=true, chain says RELEASE_ELIGIBLE",
+      "passed": true,
+      "evidence": {
+        "claimed": {
+          "lifecycle": "RELEASED",
+          "released": true,
+          "receiptCount": 2
+        },
+        "derivedLifecycle": "RELEASE_ELIGIBLE",
+        "differences": [
+          "claimed lifecycle RELEASED, chain says RELEASE_ELIGIBLE",
+          "claimed 2 receipts, chain has 1",
+          "claimed released=true, chain says RELEASE_ELIGIBLE"
+        ],
+        "verdictOnChainHistory": "VALID"
+      }
+    },
+    {
+      "id": "ADV-7",
+      "attempt": "Withhold one relayer receipt",
+      "expected": "State remains RELEASE_UNAVAILABLE, not RELEASED",
+      "observed": "lifecycle RELEASE_ELIGIBLE; receipts 1/2; delivery {\"kind\":\"RELEASE_UNAVAILABLE\",\"receipts\":1,\"threshold\":2,\"missing\":1}; member reveal: Release unavailable: 1 of 2 key shares delivered | Release unavailable: 1 of 2 key shares delivered",
+      "passed": true,
+      "evidence": {
+        "eventTrace": [
+          "RelayerKeyRegistered@24389840",
+          "RelayerKeyRegistered@24389842",
+          "CircleCreated@24395441",
+          "CircleOpened@24395455",
+          "InvitationIssued@24395522",
+          "InvitationAccepted@24395535",
+          "ConsentRecorded@24395550",
+          "ConsentRecorded@24395564",
+          "ContributionCommitted@24395620",
+          "ContributionCommitted@24395634",
+          "ReleaseEligibilityReached@24396869",
+          "ReleaseReceiptRecorded@24396928"
+        ],
+        "delivery": {
+          "kind": "RELEASE_UNAVAILABLE",
+          "receipts": 1,
+          "threshold": 2,
+          "missing": 1
+        },
+        "verifierVerdict": "VALID",
+        "withheldBy": "0x66273F615E4548486eE3B4b2d9F435059CCA3AC9"
+      }
+    }
+  ]
+}

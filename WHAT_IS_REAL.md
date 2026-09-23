@@ -23,7 +23,7 @@ _Last updated 2026-09-23, after the BOT Chain testnet deployment. This file stat
 | T2 Testnet deployment | **Passed** 2026-09-23 | `0x6f6e2c0fb44016d621e133612c61069de15cd710`, block 24389826, source verified on BOTScan, runtime sha256 matches the build |
 | T3 Testnet proof | **Passed with developer wallets** 2026-09-23 | `docs/proofs/testnet/2026-09-23T09-02-50-791Z/`; a run by two non-developer participants is still required |
 | T4 Independent verification | **Passed** 2026-09-23 | `evidence/verifier/testnet.json`: every testnet capsule VALID from the public RPC, bytecode matches |
-| T5 Adversarial campaign | Passed locally; on testnet only the early-release rejection so far | Run `pnpm adversarial:testnet` for the rest |
+| T5 Adversarial campaign | **Passed on testnet** 2026-09-23 | All seven §14 attempts evidenced as mined transactions or client detections: `evidence/adversarial/testnet/2026-09-23T09-34-01-018Z.json` |
 | T6 Beta evidence | Not started | No external group yet |
 | M0 / M1 Mainnet | Not started | Out of scope until T0–T6 pass |
 

@@ -2,10 +2,10 @@
   "schema": "relay.adversarial-report/v1",
   "label": "LOCAL FIXTURE",
   "network": "local",
-  "runId": "2026-09-23T04-14-18-912Z",
+  "runId": "2026-09-23T09-33-50-427Z",
   "registry": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
   "chainId": 31337,
-  "sourceCommit": "UNCOMMITTED",
+  "sourceCommit": "1f11fb5044f278230e179ce2eb2ba87edd73f219+dirty",
   "control": {
     "lifecycle": "RELEASED",
     "receipts": 2,
@@ -20,15 +20,15 @@
       "observed": "status reverted, RuleLocked: The rule is locked: another member has already consented to it.; stored rule is still the consented one",
       "passed": true,
       "evidence": {
-        "tx": "0x085e66b4305cd5690d87bef6b95f62deda077840b277c65e360eb8f61127cdcb",
+        "tx": "0xd29266e92801fcea510d1cf481d864403c60bd561f8d69259d4af46fb306f86d",
         "explorer": null,
         "block": "20",
         "decoded": {
           "name": "RuleLocked",
           "reason": "The rule is locked: another member has already consented to it."
         },
-        "policyHashBefore": "0xfaaf47dccbec90484d960260e421ad14ff2467934c1c71dc11ea30dec57ad15e",
-        "policyHashAfter": "0xfaaf47dccbec90484d960260e421ad14ff2467934c1c71dc11ea30dec57ad15e"
+        "policyHashBefore": "0xae497940f4dda826b44f0ba0f1903c32f47fb56db3906e205e0f9408f2cb4f4a",
+        "policyHashAfter": "0xae497940f4dda826b44f0ba0f1903c32f47fb56db3906e205e0f9408f2cb4f4a"
       }
     },
     {
@@ -38,7 +38,7 @@
       "observed": "status reverted, AlreadyContributed: You have already committed your contribution. One per member.",
       "passed": true,
       "evidence": {
-        "tx": "0xf3c3a87f2d82e5c67b02a43a073274d6409197ceec7d38dfe1e1ef4902210c52",
+        "tx": "0x10d9c4445969a5a01e662f532b3eaf84328b1dd91614eb4660f840e4e074e879",
         "explorer": null,
         "block": "25",
         "decoded": {
@@ -52,11 +52,12 @@
       "id": "ADV-3",
       "attempt": "Request release before the rule is true",
       "expected": "Revert",
-      "observed": "collecting: reverted WrongLifecycle; sealed before date: reverted RuleNotSatisfied (The release rule is not true yet: Release date has not arrived.)",
+      "observed": "while COLLECTING: reverted WrongLifecycle; sealed before date: reverted RuleNotSatisfied (The release rule is not true yet: Release date has not arrived.)",
       "passed": true,
       "evidence": {
         "whileCollecting": {
-          "tx": "0x6e26cc8802144b95f75380f734c938bb923cdb861f09c43a25df49ec3f098b9f",
+          "lifecycleBeforeAttempt": "COLLECTING",
+          "tx": "0x35345f8099dfbc1fa634883409d686906c8ea5ce1614f082176cff5af6eb593c",
           "explorer": null,
           "decoded": {
             "name": "WrongLifecycle",
@@ -64,7 +65,7 @@
           }
         },
         "sealedBeforeDate": {
-          "tx": "0xe6605b322bb7d4c556b291d8a491d09e987508b6ffb7d649ba6294845e167ceb",
+          "tx": "0xae0727512200ea454f6a0a7e75d5ed4372007ac12e6ee26f5aaace18c19ea600",
           "explorer": null,
           "decoded": {
             "name": "RuleNotSatisfied",
@@ -81,7 +82,7 @@
       "observed": "status reverted, EligibilityNotRecorded: Release eligibility has not been recorded on-chain yet.",
       "passed": true,
       "evidence": {
-        "tx": "0xf49877735f28d8feee69d2274b4e6db0f4f2538231c6a7909cfe95230d8c4f9d",
+        "tx": "0x9905661073c4a8ab098ff83ec6cbe7e1fe69d2e3d6a34241acfd739529f1737e",
         "explorer": null,
         "block": "29",
         "decoded": {
@@ -95,7 +96,7 @@
       "id": "ADV-5",
       "attempt": "Serve modified ciphertext",
       "expected": "Client detects commitment mismatch",
-      "observed": "reveal with modified ciphertext refused: Commitment mismatch for ciphertext: expected 8241a1ce637a6d1 | Commitment mismatch for ciphertext: expected 2af9216f6f9710b. Upload through tampering storage blocked before any transaction: Commitment mismatch for ciphertext (read-back): expected d7d208c2cf7cf06d4ea4bb8db7c851730",
+      "observed": "reveal with modified ciphertext refused: Commitment mismatch for ciphertext: expected a07adfba4b5d373 | Commitment mismatch for ciphertext: expected ba46d18249a47a7. Upload through tampering storage blocked before any transaction: Commitment mismatch for ciphertext (read-back): expected feb836ea5c274250300c0a2be631411e5",
       "passed": true,
       "evidence": {
         "readDetected": true,
@@ -152,7 +153,7 @@
           "missing": 1
         },
         "verifierVerdict": "VALID",
-        "withheldBy": "0x7F9f9E1aC1D516C581d01693E9eC0777cf5d0B98"
+        "withheldBy": "0x9A1759f2E3407669610ec4c77c8854b9020E411f"
       }
     }
   ]

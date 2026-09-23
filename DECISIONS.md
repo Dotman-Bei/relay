@@ -133,3 +133,9 @@ Date: 2026-09-23
 Status: active
 Evidence: docs/proofs/testnet/2026-09-23T09-02-50-791Z/ (Circle #2, all seven steps passed); evidence/verifier/testnet.json (Circles #1 and #2 VALID); participants 0xEFAc0ae9143fc09d98891cF9a280be1b97B6Fe7e and 0x86e54F544534A24949e8E9CfD00DD69526b0C265, funded from the owner's deployer (the creator received 0.2 BOT twice because a funding script was retried). Circle #1 remains an unopened DRAFT left by the failed first attempt; the registry has no delete.
 Cost: T3 must be repeated with two non-developer participants before any "working release" claim that depends on real users.
+
+D-023: Gate T5 is passed on BOT Chain testnet by the second adversarial campaign run; the first run's ADV-3 result is kept as recorded, because its collecting-phase attempt fired after the contribution deadline (the test's timing, not the contract) and so did not exercise that case.
+Date: 2026-09-23
+Status: active
+Evidence: evidence/adversarial/testnet/2026-09-23T09-34-01-018Z.json (7/7, ADV-3 rejected while COLLECTING with WrongLifecycle and while SEALED with RuleNotSatisfied); evidence/adversarial/testnet/2026-09-23T09-25-27-033Z.json (6/7, ADV-3 both attempts reverted but the first ran in SEALED); scripts/adversarial.ts now records the lifecycle before that attempt and uses a 540 s testnet window; evidence/verifier/testnet.json (Circles 1–6 VALID).
+Cost: Circles 3–6 remain on testnet as campaign artifacts; Circles 4 and 6 stay RELEASE_UNAVAILABLE until relayer-2 records its withheld receipt, which a normally running relayer will do.

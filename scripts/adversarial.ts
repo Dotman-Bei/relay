@@ -85,7 +85,8 @@ async function main() {
 
   // Two circles on one timeline: A (2-of-3 quorum, full release) and B (2-of-2, one relayer withholds).
   const now = await h.now();
-  const gap = network === "local" ? 600 : 180;
+  // On public networks every write waits for settling (D-021), so setup takes minutes; leave room.
+  const gap = network === "local" ? 600 : 540;
   const base = { sealAt: now + gap, releaseAt: now + 2 * gap, expiresAt: 0, capacity: 3, minContributions: 2, unanimousConsent: false };
   const policyA: Policy = { ...base, receiptThreshold: 2, relayers: identities.slice(0, 3).map((i) => i.address) };
   const policyB: Policy = { ...base, receiptThreshold: 2, relayers: identities.slice(0, 2).map((i) => i.address) };
@@ -137,6 +138,8 @@ async function main() {
 
   // ADV-3. Request release before the rule is true: while collecting, and sealed before the date.
   {
+    const stateAtFirstAttempt = (await reader.getCircle(A.circleId)).lifecycle;
+    if (stateAtFirstAttempt !== "COLLECTING") console.log(`ADV-3: circle A was already ${stateAtFirstAttempt} before the collecting-phase attempt; that sub-case is not exercised`);
     const r1 = await h.attemptExpectingRevert(member, p.requestRelease(A.circleId));
     if (network === "local") await h.warpTo(policyA.sealAt);
     else await h.waitUntil(policyA.sealAt, console.log);
@@ -145,10 +148,15 @@ async function main() {
       id: "ADV-3",
       attempt: "Request release before the rule is true",
       expected: "Revert",
-      observed: `collecting: ${r1.status} ${r1.decoded?.name}; sealed before date: ${r2.status} ${r2.decoded?.name} (${r2.decoded?.reason})`,
-      passed: r1.status === "reverted" && r1.decoded?.name === "WrongLifecycle" && r2.status === "reverted" && r2.decoded?.name === "RuleNotSatisfied",
+      observed: `while ${stateAtFirstAttempt}: ${r1.status} ${r1.decoded?.name}; sealed before date: ${r2.status} ${r2.decoded?.name} (${r2.decoded?.reason})`,
+      passed:
+        stateAtFirstAttempt === "COLLECTING" &&
+        r1.status === "reverted" &&
+        r1.decoded?.name === "WrongLifecycle" &&
+        r2.status === "reverted" &&
+        r2.decoded?.name === "RuleNotSatisfied",
       evidence: {
-        whileCollecting: { tx: r1.hash, explorer: explorer(r1.hash), decoded: r1.decoded },
+        whileCollecting: { lifecycleBeforeAttempt: stateAtFirstAttempt, tx: r1.hash, explorer: explorer(r1.hash), decoded: r1.decoded },
         sealedBeforeDate: { tx: r2.hash, explorer: explorer(r2.hash), decoded: r2.decoded },
         contractTest: "test_requestRelease_revertsUntilRuleIsTrue",
       },
