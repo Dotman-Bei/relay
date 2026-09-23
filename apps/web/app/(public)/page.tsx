@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ClaimCard, LEDGER, testnetState } from "@/components/claims";
+import { ClaimCard, LEDGER } from "@/components/claims";
 import { Reveal } from "@/components/reveal";
 import { EmojiTile, Highlight, LinkButton, Tag } from "@/components/ui";
 
@@ -21,15 +21,12 @@ const FEATURES = [
 ];
 
 export default function Home() {
-  const testnet = testnetState();
   return (
     <>
       {/* Hero */}
       <section className="mt-12 grid items-center gap-10 md:grid-cols-[1.3fr_1fr]">
         <div className="neo-rise">
-          <span className="neo-tag inline-flex rounded-md bg-lime px-2 py-1 text-xs">
-            BOT Chain testnet · {testnet === "live" ? "deployed" : "deployment pending"}
-          </span>
+          <span className="neo-tag inline-flex rounded-md bg-lime px-2 py-1 text-xs normal-case">BOT Chain testnet</span>
           <h1 className="mt-4 text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl">
             Later,
             <br />
