@@ -84,6 +84,8 @@ export interface RelayerOptions {
   /** Addresses that deliberately withhold receipts (adversarial campaign only). */
   withhold?: Set<string>;
   autoRequestRelease?: boolean;
+  /** Non-designated relayers request release only after the rule has been true this long (ms). */
+  requestFallbackMs?: number;
   log?: (msg: string) => void;
   metricsFile?: string;
 }
@@ -92,6 +94,7 @@ export class Relayer {
   readonly client: PublicClient;
   readonly reader: RelayReader;
   private readonly done = new Set<string>();
+  private readonly ruleTrueSince = new Map<string, number>();
   private registered = false;
 
   constructor(readonly opts: RelayerOptions) {
@@ -163,8 +166,16 @@ export class Relayer {
       if (inQuorum.length === 0) continue;
 
       if (this.opts.autoRequestRelease && circle.lifecycle === "SEALED" && circle.ruleStatus === 0) {
+        // One designated relayer per capsule records eligibility, so separate relayer processes don't
+        // race and burn gas on reverts. The rest step in only if it stays unrecorded (liveness).
+        const designated = circle.policy.relayers[Number(id % BigInt(circle.policy.relayers.length))]!.toLowerCase();
+        const since = this.ruleTrueSince.get(id.toString()) ?? Date.now();
+        this.ruleTrueSince.set(id.toString(), since);
+        const fallbackDue = Date.now() - since >= (this.opts.requestFallbackMs ?? 60_000);
+        const requester = inQuorum.find((m) => m.address.toLowerCase() === designated) ?? (fallbackDue ? inQuorum[0] : undefined);
+        if (!requester) continue;
         try {
-          const tx = await this.send(inQuorum[0]!, p.requestRelease(id));
+          const tx = await this.send(requester, p.requestRelease(id));
           actions.push(`requestRelease ${id} ${tx}`);
           this.log(`circle ${id}: rule is true on-chain; recorded eligibility in ${tx}`);
         } catch (e) {

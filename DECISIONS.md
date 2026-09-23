@@ -145,3 +145,15 @@ Date: 2026-09-23
 Status: active
 Evidence: deploy/Dockerfile (hadolint clean), deploy/compose.yaml (`docker compose config` valid; refuses to start without domains), deploy/Caddyfile (`caddy validate`), clean-context `pnpm install --frozen-lockfile` and testnet web build served and checked in a browser (runtime probe OK, /verify/2 VALID), `pnpm smoke:services` passed (split keys, storage, steward, three relayer processes releasing a capsule, SIGTERM shutdown). Docker itself is not installed on the build machine, so the images have not been built yet.
 Cost: One host and one operator for all relayers (still PROJECT_BASELINE); storage durability depends on the server's backups.
+
+D-025: Relay's testnet services are hosted on the build VPS as systemd units behind the existing nginx, not with the compose file, because nginx already owns ports 80/443 there and Docker-published ports would bypass ufw; public names come from sslip.io until the project has a domain.
+Date: 2026-09-23
+Status: active
+Evidence: https://relay.169-58-153-9.sslip.io (web, 127.0.0.1:3710), https://storage.relay.169-58-153-9.sslip.io (127.0.0.1:8697), https://steward.relay.169-58-153-9.sslip.io (127.0.0.1:8698), relay-relayer@1..3; certificate relay-testnet (Let's Encrypt, auto-renew); nginx -t passed and the other sites kept serving; hosted end-to-end run on testnet passed in 10.9 min (Circle #7, evidence/e2e/testnet-hosted.txt); deployments/testnet.json storage/steward updated with pnpm endpoints:set; all seven testnet capsules VALID.
+Cost: Services run as root with systemd sandboxing because the repo lives in /root; sslip.io is a third-party DNS service; one host holds all relayer keys and all ciphertext, so its backups decide durability.
+
+D-026: For each capsule, only the relayer at index circleId mod n in the quorum records eligibility; the others do so only if it stays unrecorded for 60 s.
+Date: 2026-09-23
+Status: active
+Evidence: with three relayer processes, Circle #7's eligibility was recorded by relayer-3 while relayer-2's simultaneous request reverted on-chain (0xd035bbe054eed00b7e8fb13dd7e131850bb71002d2b6915da…); fix in apps/relayer/src/relayer.ts; pnpm smoke:services passed with separate processes; hosted relayers restarted.
+Cost: If the designated relayer is down, release is recorded up to a minute later; that one reverted request stays on-chain and appears in the rejected-attempts metric.

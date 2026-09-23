@@ -2,6 +2,8 @@
 
 **Later, together.** Relay is a social time-capsule protocol for BOT Chain: a group encrypts contributions now and receives them only after an immutable on-chain date-and-consent rule is satisfied. Anyone can check which members consented, which rule governed release, whether it was satisfied, and when release was recorded — without trusting Relay's servers.
 
+> **Try it on BOT Chain testnet: https://relay.169-58-153-9.sslip.io** (needs a little test BOT for gas).
+>
 > **Status — read [WHAT_IS_REAL.md](WHAT_IS_REAL.md).** `CapsuleRegistry` is deployed on BOT Chain testnet at [`0x6f6e2c0fb44016d621e133612c61069de15cd710`](https://scan.bohr.life/address/0x6f6e2c0fb44016d621e133612c61069de15cd710) with verified source. The full lifecycle has run on BOT Chain testnet (proof run with developer-generated wallets; a run with non-developer participants is still owed) and every testnet capsule verifies as VALID. Nothing is on mainnet.
 
 ## What's in the box

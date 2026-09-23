@@ -1,0 +1,27 @@
+# Relay on this VPS (paths assume the repo at /root/relay). Install: see docs/runbooks/hosting.md
+# "Hosting beside an existing nginx". The filesystem is read-only to the service except its data dir.
+# Build first: NEXT_PUBLIC_RELAY_NETWORK=testnet pnpm web:build
+[Unit]
+Description=Relay web client (BOT Chain testnet)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/relay/apps/web
+Environment=NODE_ENV=production NEXT_TELEMETRY_DISABLED=1
+ExecStart=/root/relay/apps/web/node_modules/.bin/next start --port 3710 --hostname 127.0.0.1
+Restart=on-failure
+RestartSec=5
+MemoryMax=1G
+ReadWritePaths=/root/relay/apps/web/.next
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

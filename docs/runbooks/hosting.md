@@ -74,3 +74,38 @@ The web container mounts `deployments/testnet.json` over its runtime copy, so no
 ## Web client elsewhere (optional)
 
 To host the web app on Vercel instead, set the root directory to `apps/web`, install with pnpm, and set `NEXT_PUBLIC_RELAY_NETWORK=testnet`. Drop the `web` service and its Caddy block from the server. The prebuild step copies `deployments/testnet.json` into the build, so redeploy the web app after `endpoints:set`.
+
+## Hosting beside an existing nginx (how the build VPS runs it)
+
+On a server where nginx already owns ports 80/443 and ufw is active, run the services directly under systemd, bound to 127.0.0.1, and add one nginx site. Docker-published ports would bypass ufw, and a second reverse proxy can't share 80/443. This is how Relay runs on the build VPS today:
+
+| Piece | Where |
+|---|---|
+| Web client | `relay-web.service` → 127.0.0.1:3710 → https://relay.169-58-153-9.sslip.io |
+| Storage | `relay-storage.service` → 127.0.0.1:8697 → https://storage.relay.169-58-153-9.sslip.io (data: `.relay-testnet/storage`) |
+| Memory Steward | `relay-steward.service` → 127.0.0.1:8698 → https://steward.relay.169-58-153-9.sslip.io |
+| Relayers | `relay-relayer@1..3.service`, each reading only `.relay-testnet/secrets/relayer-N.json` |
+| TLS | `certbot --nginx --cert-name relay-testnet` (auto-renews) |
+
+The names come from sslip.io, which resolves `*.169-58-153-9.sslip.io` to this server's IP without any DNS account. To move to a real domain: point it at the server, change `server_name` in `/etc/nginx/sites-available/relay`, run `certbot --nginx -d …`, then run `pnpm endpoints:set` with the new URLs and `pnpm exec tsx scripts/sync-web.ts`.
+
+```bash
+# install (from the repo root)
+NEXT_PUBLIC_RELAY_NETWORK=testnet pnpm web:build
+pnpm exec tsx apps/relayer/src/relayer.ts split --dir .relay-testnet/relayers --out .relay-testnet/secrets
+mkdir -p .relay-testnet/{relayer-1,relayer-2,relayer-3,steward}
+cp deploy/systemd/*.service /etc/systemd/system/ && systemctl daemon-reload
+systemctl enable --now relay-storage relay-steward relay-web relay-relayer@1 relay-relayer@2 relay-relayer@3
+cp deploy/nginx/relay.conf /etc/nginx/sites-available/relay && ln -s ../sites-available/relay /etc/nginx/sites-enabled/relay
+nginx -t && systemctl reload nginx
+certbot --nginx --cert-name relay-testnet -d relay.<ip>.sslip.io -d storage.relay.<ip>.sslip.io -d steward.relay.<ip>.sslip.io
+
+# operate
+systemctl status 'relay-*'
+journalctl -u relay-relayer@1 -f
+systemctl restart relay-web          # after a new web build
+```
+
+Each unit sees a read-only filesystem except its own data directory (`ProtectSystem=strict`, `ReadWritePaths=`), with `NoNewPrivileges` and memory caps. They run as root because the repository lives in `/root`; moving the repo to a dedicated user's home is the next hardening step.
+
+Back up `.relay-testnet/storage/` and `.relay-testnet/secrets/` off the machine: they're the only copies of capsule ciphertext and relayer keys.

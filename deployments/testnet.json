@@ -54,13 +54,13 @@
     "note": "All relayers are operated by the Relay project. A colluding threshold could disclose early; this is not an independent quorum."
   },
   "storage": {
-    "url": "http://127.0.0.1:8697",
-    "operator": "Relay project — on the build machine; public URL pending (step 3)",
+    "url": "https://storage.relay.169-58-153-9.sslip.io",
+    "operator": "Relay project — hosted on the build VPS (PROJECT_BASELINE)",
     "label": "PROJECT_BASELINE"
   },
   "steward": {
-    "url": null,
-    "address": null
+    "url": "https://steward.relay.169-58-153-9.sslip.io",
+    "address": "0xd073807561E63aF515303ddd510Db6958f76bDff"
   },
   "verifier": {
     "version": "0.1.0",

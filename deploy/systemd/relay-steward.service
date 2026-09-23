@@ -1,0 +1,28 @@
+# Relay on this VPS (paths assume the repo at /root/relay). Install: see docs/runbooks/hosting.md
+# "Hosting beside an existing nginx". The filesystem is read-only to the service except its data dir.
+[Unit]
+Description=Relay Memory Steward (opt-in prompts and reminders)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/relay
+Environment=NODE_ENV=production RELAY_DEPLOYMENT=/root/relay/deployments/testnet.json STEWARD_HOST=127.0.0.1 STEWARD_PORT=8698 STEWARD_DIR=/root/relay/.relay-testnet/steward
+# Optional ANTHROPIC_API_KEY=… here enables model prompts; without it the steward serves TEMPLATE prompts.
+EnvironmentFile=-/root/relay/.relay-testnet/steward.env
+ExecStart=/root/relay/node_modules/.bin/tsx apps/agent/src/server.ts
+Restart=on-failure
+RestartSec=5
+MemoryMax=512M
+ReadWritePaths=/root/relay/.relay-testnet/steward
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,19 @@
+# Hosted end-to-end on BOT Chain testnet — 2026-09-23T10:31:21Z
+# site https://relay.169-58-153-9.sslip.io · registry 0x6f6e2c0fb44016d621e133612c61069de15cd710
+# participants: agent-generated developer wallets 0xEFAc0ae9…Fe7e (creator), 0x86e5…C265 (member)
+
+Running 1 test using 1 worker
+circle 7 created on testnet
+circle 7: both contributions sealed
+circle 7: released by the hosted relayers
+  ✓  1 e2e/testnet-hosted.spec.ts:41:1 › two members use the hosted site on BOT Chain testnet; hosted relayers release it (10.9m)
+  Slow test file: e2e/testnet-hosted.spec.ts (10.9m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  1 passed (11.0m)
+
+## Hosted relayer log for circle 7 (systemd journal)
+2026-09-23T12:30:33+02:00 vmi3498402 tsx[2006357]: [relayer] circle 7: relayer-1 delivered shares (0xf0663bf35b…) and recorded receipt in 0x8a4c170e10582d49c95a8edc821b662b78422756da91706c632e982b36426e51
+2026-09-23T12:30:27+02:00 vmi3498402 tsx[2006379]: [relayer] circle 7: requestRelease not accepted: Record release eligibility reverted in 0xd035bbe054eed00b7e8fb13dd7e131850bb71002d2b6915dae4ca3de6db45478
+2026-09-23T12:30:50+02:00 vmi3498402 tsx[2006379]: [relayer] circle 7: relayer-2 delivered shares (0x3c06f22078…) and recorded receipt in 0x94f1c8120f6365686bf4ad87129027bf8c4a6b5f4fb8ae6df3455a956949d2f9
+2026-09-23T12:30:26+02:00 vmi3498402 tsx[2006369]: [relayer] circle 7: rule is true on-chain; recorded eligibility in 0x474a76c1f286ce738c9f892f75281973efcad684e294cfe6816bfdaf6f74fedb
+2026-09-23T12:30:48+02:00 vmi3498402 tsx[2006369]: [relayer] circle 7: relayer-3 delivered shares (0xa95079a8dd…) and recorded receipt in 0xcc593e992ea5f0f62638a5c50ac47fcdb52c8a6b9b13c6da154e8d02959a808e
