@@ -1,0 +1,27 @@
+# Relay on this VPS (paths assume the repo at /root/relay). Install: see docs/runbooks/hosting.md
+# "Hosting beside an existing nginx". The filesystem is read-only to the service except its data dir.
+# One instance per relayer key: relay-relayer-mainnet@1, @2, @3. Each reads only its own key file.
+[Unit]
+Description=Relay release relayer %i (PROJECT_BASELINE, BOT Chain mainnet)
+After=network-online.target relay-storage-mainnet.service
+Wants=network-online.target relay-storage-mainnet.service
+
+[Service]
+Type=simple
+WorkingDirectory=/root/relay
+Environment=NODE_ENV=production RELAY_DEPLOYMENT=/root/relay/deployments/mainnet.json STORAGE_URL=http://127.0.0.1:8707 POLL_MS=5000 AUTO_REQUEST_RELEASE=1
+ExecStart=/root/relay/node_modules/.bin/tsx apps/relayer/src/relayer.ts run --identities /root/relay/.relay-mainnet/secrets/relayer-%i.json --state /root/relay/.relay-mainnet/relayer-%i
+Restart=on-failure
+RestartSec=10
+MemoryMax=512M
+ReadWritePaths=/root/relay/.relay-mainnet/relayer-%i
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

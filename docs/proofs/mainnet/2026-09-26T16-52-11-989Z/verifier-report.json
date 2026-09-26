@@ -1,0 +1,299 @@
+{
+  "schema": "relay.verifier-report/v1",
+  "verifierVersion": "0.1.0",
+  "generatedAt": "2026-09-26T17:00:52.057Z",
+  "label": "BOT Chain mainnet",
+  "source": {
+    "kind": "rpc",
+    "rpcUrl": "https://rpc.botchain.ai",
+    "chainId": 677,
+    "registry": "0xb565bd5875ae429f2ebca9e69e202407021c6d62",
+    "observedAtBlock": "24610182",
+    "observedAt": 1790442045,
+    "runtimeSha256": "77a4b893d3b1add5d9cfe5ffdf67d0e54b8653f763e0736fd3955362bb921838",
+    "expectedRuntimeSha256": "77a4b893d3b1add5d9cfe5ffdf67d0e54b8653f763e0736fd3955362bb921838",
+    "bytecodeMatches": true
+  },
+  "circleId": "2",
+  "rule": {
+    "policyHash": "0x2c1ee7af80921533464d5fdde3be67295ef6731e2765eea721f2721d35f62e28",
+    "policyHashValid": true,
+    "releaseAt": 1790442013,
+    "sealAt": 1790441773,
+    "expiresAt": 0,
+    "capacity": 2,
+    "minContributions": 2,
+    "unanimousConsent": true,
+    "receiptThreshold": 2,
+    "relayers": [
+      "0xccfeaF221F429c7BC58782352778Dee2527E4129",
+      "0x2Df6ccD9786242C3CeC8abfee915f4C8B79efC87",
+      "0x8c59eFfBf6050Dd1Ec28ac06700887B818AbAFb3"
+    ],
+    "lockedByNonCreatorConsent": true
+  },
+  "events": [
+    {
+      "index": 0,
+      "name": "RelayerKeyRegistered",
+      "blockNumber": "24607298",
+      "logIndex": 0,
+      "transactionHash": "0x46e09a2096ec1f0f3b03fb1bb44d770ca8e02d4958c991865e493a6eb5146836",
+      "timestamp": 1790439882,
+      "actor": "0xccfeaf221f429c7bc58782352778dee2527e4129",
+      "summary": "Relayer 0xccfe…4129 published key 0x077f…6714",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x46e09a2096ec1f0f3b03fb1bb44d770ca8e02d4958c991865e493a6eb5146836"
+    },
+    {
+      "index": 1,
+      "name": "RelayerKeyRegistered",
+      "blockNumber": "24607311",
+      "logIndex": 0,
+      "transactionHash": "0xa4c2f2ade25ff57fc6c659aa7d92f445cde51ad2e9dca6d8b10ad8f61c1c1469",
+      "timestamp": 1790439891,
+      "actor": "0x2df6ccd9786242c3cec8abfee915f4c8b79efc87",
+      "summary": "Relayer 0x2Df6…fC87 published key 0x46e8…454b",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0xa4c2f2ade25ff57fc6c659aa7d92f445cde51ad2e9dca6d8b10ad8f61c1c1469"
+    },
+    {
+      "index": 2,
+      "name": "RelayerKeyRegistered",
+      "blockNumber": "24607326",
+      "logIndex": 1,
+      "transactionHash": "0xdb47e79c8f0ae4f03e10f7eb2919ceff7d545c61242001f87fec031cc705e358",
+      "timestamp": 1790439903,
+      "actor": "0x8c59effbf6050dd1ec28ac06700887b818abafb3",
+      "summary": "Relayer 0x8c59…AFb3 published key 0x9165…1ced",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0xdb47e79c8f0ae4f03e10f7eb2919ceff7d545c61242001f87fec031cc705e358"
+    },
+    {
+      "index": 3,
+      "name": "CircleCreated",
+      "blockNumber": "24609502",
+      "logIndex": 0,
+      "transactionHash": "0x55b98cc257a37005b7de7166a71d08c52eadfd24b98355491e7b651537feb8f8",
+      "timestamp": 1790441535,
+      "actor": "0xa7d755a07b520723b57e83da2a1ad2cdd141ad9f",
+      "summary": "Circle created by 0xa7d7…Ad9f with rule 0x2c1e…2e28",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x55b98cc257a37005b7de7166a71d08c52eadfd24b98355491e7b651537feb8f8"
+    },
+    {
+      "index": 4,
+      "name": "CircleOpened",
+      "blockNumber": "24609515",
+      "logIndex": 0,
+      "transactionHash": "0x0bf775411c79b43e8044286405bbc4d366f5d8d5ad0f328784ddc7e57eb08532",
+      "timestamp": 1790441544,
+      "actor": "0xa7d755a07b520723b57e83da2a1ad2cdd141ad9f",
+      "summary": "Rule published; consent open",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x0bf775411c79b43e8044286405bbc4d366f5d8d5ad0f328784ddc7e57eb08532"
+    },
+    {
+      "index": 5,
+      "name": "InvitationIssued",
+      "blockNumber": "24609529",
+      "logIndex": 0,
+      "transactionHash": "0x6c17ee15d559a3c154d7b2cc1209c87d6da576eccc37e4bd613ef41f15e55287",
+      "timestamp": 1790441555,
+      "actor": "0xa7d755a07b520723b57e83da2a1ad2cdd141ad9f",
+      "summary": "Invitation key 0xF3fA…eF03 issued",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x6c17ee15d559a3c154d7b2cc1209c87d6da576eccc37e4bd613ef41f15e55287"
+    },
+    {
+      "index": 6,
+      "name": "InvitationAccepted",
+      "blockNumber": "24609544",
+      "logIndex": 0,
+      "transactionHash": "0x4391061f0259e9f4a8704d2e0f37c1be9b2e0f0d74a0bc593c2c9b838c6458fb",
+      "timestamp": 1790441566,
+      "actor": "0xcd8c2706ac50d2cc6970b9f35c20591766d9a08a",
+      "summary": "0xCD8C…a08A joined (member 2)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x4391061f0259e9f4a8704d2e0f37c1be9b2e0f0d74a0bc593c2c9b838c6458fb"
+    },
+    {
+      "index": 7,
+      "name": "ConsentRecorded",
+      "blockNumber": "24609557",
+      "logIndex": 0,
+      "transactionHash": "0x58f9df51ed5d618259b5e93a8b7671daf4c2c365def30b790720afc99d967704",
+      "timestamp": 1790441576,
+      "actor": "0xa7d755a07b520723b57e83da2a1ad2cdd141ad9f",
+      "summary": "0xa7d7…Ad9f consented to rule 0x2c1e…2e28",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x58f9df51ed5d618259b5e93a8b7671daf4c2c365def30b790720afc99d967704"
+    },
+    {
+      "index": 8,
+      "name": "ConsentRecorded",
+      "blockNumber": "24609571",
+      "logIndex": 0,
+      "transactionHash": "0x9d0fa6fbef2363ef6276bed685651c675eb6d5ea661bbb1ddcad67ca3ba93ec9",
+      "timestamp": 1790441586,
+      "actor": "0xcd8c2706ac50d2cc6970b9f35c20591766d9a08a",
+      "summary": "0xCD8C…a08A consented to rule 0x2c1e…2e28",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x9d0fa6fbef2363ef6276bed685651c675eb6d5ea661bbb1ddcad67ca3ba93ec9"
+    },
+    {
+      "index": 9,
+      "name": "ContributionCommitted",
+      "blockNumber": "24609585",
+      "logIndex": 1,
+      "transactionHash": "0x6bc80d98569784e4c3830b66c9dc229e6276d991235b7ac07614e7015fc9ae86",
+      "timestamp": 1790441597,
+      "actor": "0xa7d755a07b520723b57e83da2a1ad2cdd141ad9f",
+      "summary": "0xa7d7…Ad9f committed 0x3443…7665",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x6bc80d98569784e4c3830b66c9dc229e6276d991235b7ac07614e7015fc9ae86"
+    },
+    {
+      "index": 10,
+      "name": "ContributionCommitted",
+      "blockNumber": "24609600",
+      "logIndex": 0,
+      "transactionHash": "0x34f6f31367dd5f9d280583ac46aee191957a34bd3a2b6bfbf404ede97302c328",
+      "timestamp": 1790441608,
+      "actor": "0xcd8c2706ac50d2cc6970b9f35c20591766d9a08a",
+      "summary": "0xCD8C…a08A committed 0xb609…4744",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x34f6f31367dd5f9d280583ac46aee191957a34bd3a2b6bfbf404ede97302c328"
+    },
+    {
+      "index": 11,
+      "name": "ReleaseEligibilityReached",
+      "blockNumber": "24610146",
+      "logIndex": 0,
+      "transactionHash": "0xe59e9b40f763e43f01855a679b579381a313bac16545a766a9ba98bcc8ca88d6",
+      "timestamp": 1790442018,
+      "actor": null,
+      "summary": "Release eligibility recorded (2 contributions, 2/2 consents)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0xe59e9b40f763e43f01855a679b579381a313bac16545a766a9ba98bcc8ca88d6"
+    },
+    {
+      "index": 12,
+      "name": "ReleaseReceiptRecorded",
+      "blockNumber": "24610158",
+      "logIndex": 0,
+      "transactionHash": "0x5e0fb0df95f8c79bf7b47c742bfb3e7589b71971c31da0c959184a8f85b53811",
+      "timestamp": 1790442027,
+      "actor": "0x2df6ccd9786242c3cec8abfee915f4c8b79efc87",
+      "summary": "Relayer 0x2Df6…fC87 recorded receipt 1 (0x716c…885d)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x5e0fb0df95f8c79bf7b47c742bfb3e7589b71971c31da0c959184a8f85b53811"
+    },
+    {
+      "index": 13,
+      "name": "ReleaseReceiptRecorded",
+      "blockNumber": "24610159",
+      "logIndex": 0,
+      "transactionHash": "0x0d59588f03e628572c4e72100b41de2ad66ce8ee69242d50028bda3153f8b98b",
+      "timestamp": 1790442027,
+      "actor": "0xccfeaf221f429c7bc58782352778dee2527e4129",
+      "summary": "Relayer 0xccfe…4129 recorded receipt 2 (0xc7d1…efff)",
+      "accepted": true,
+      "violation": null,
+      "explorerUrl": "https://scan.botchain.ai/tx/0x0d59588f03e628572c4e72100b41de2ad66ce8ee69242d50028bda3153f8b98b"
+    }
+  ],
+  "evaluation": {
+    "lifecycle": "RELEASED",
+    "delivery": {
+      "kind": "RELEASED",
+      "receipts": 2,
+      "threshold": 2
+    },
+    "eligibility": {
+      "at": 1790442018,
+      "releaseAt": 1790442013,
+      "contributions": 2,
+      "minContributions": 2,
+      "consents": 2,
+      "members": 2,
+      "unanimousConsent": true,
+      "ruleSatisfied": true
+    },
+    "members": [
+      {
+        "address": "0xa7d755a07b520723b57e83da2a1ad2cdd141ad9f",
+        "consented": true,
+        "contributed": true,
+        "commitment": "0x34431ddf07cd7ba812741fa5a80359babf664ef64a7fc60ddeb0dc1081b57665"
+      },
+      {
+        "address": "0xcd8c2706ac50d2cc6970b9f35c20591766d9a08a",
+        "consented": true,
+        "contributed": true,
+        "commitment": "0xb60971eab47da5869cb237163feb46ea4d20f7aec990a5074399f3e0bd574744"
+      }
+    ]
+  },
+  "relayers": [
+    {
+      "address": "0xccfeaF221F429c7BC58782352778Dee2527E4129",
+      "label": "relayer-1",
+      "independence": "PROJECT_BASELINE",
+      "receiptDigest": "0xc7d1994643fe9ceb3be2e4d468d2907025f11473dbd340afb99fbe1c912defff",
+      "delivery": {
+        "fetched": true,
+        "hashMatches": true,
+        "signatureValid": true,
+        "coverage": "4/4 member×contribution shares"
+      }
+    },
+    {
+      "address": "0x2Df6ccD9786242C3CeC8abfee915f4C8B79efC87",
+      "label": "relayer-2",
+      "independence": "PROJECT_BASELINE",
+      "receiptDigest": "0x716c591c9e9d08b823b7b10de68819f5203aea8dcc16fce48fcbf852316c885d",
+      "delivery": {
+        "fetched": true,
+        "hashMatches": true,
+        "signatureValid": true,
+        "coverage": "4/4 member×contribution shares"
+      }
+    },
+    {
+      "address": "0x8c59eFfBf6050Dd1Ec28ac06700887B818AbAFb3",
+      "label": "relayer-3",
+      "independence": "PROJECT_BASELINE",
+      "receiptDigest": null,
+      "delivery": null
+    }
+  ],
+  "crossCheck": {
+    "performed": true,
+    "matches": true,
+    "differences": []
+  },
+  "claimedStateCheck": null,
+  "adminAuthority": "None. CapsuleRegistry has no owner, pause, upgrade or admin function; the bytecode hash above pins that build.",
+  "limitations": [
+    "Relay records consent and release; it does not prove plaintext was never copied. A contributor can keep their own plaintext, and a creator can keep anything they contributed.",
+    "A colluding threshold of release relayers could reconstruct content keys before the release date. The verifier shows who the relayers are and how independent they are; it cannot detect off-chain collusion.",
+    "Events do not carry the transaction sender for creator-only actions; the verifier relies on the audited contract bytecode (checked by hash) to enforce that only the creator performed them.",
+    "The verifier trusts the RPC endpoint it is pointed at. Run it against more than one endpoint, or your own node, for stronger assurance."
+  ],
+  "verdict": "VALID",
+  "violations": []
+}

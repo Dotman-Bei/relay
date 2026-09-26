@@ -4,7 +4,7 @@
 
 > **Try it on BOT Chain testnet: https://relay.169-58-153-9.sslip.io** (needs a little test BOT for gas).
 >
-> **Status — read [WHAT_IS_REAL.md](WHAT_IS_REAL.md).** `CapsuleRegistry` is deployed on BOT Chain testnet at [`0x6f6e2c0fb44016d621e133612c61069de15cd710`](https://scan.bohr.life/address/0x6f6e2c0fb44016d621e133612c61069de15cd710) with verified source. The full lifecycle has run on BOT Chain testnet (proof run with developer-generated wallets; a run with non-developer participants is still owed) and every testnet capsule verifies as VALID. Nothing is on mainnet.
+> **Status — read [WHAT_IS_REAL.md](WHAT_IS_REAL.md).** `CapsuleRegistry` is deployed on BOT Chain testnet at [`0x6f6e2c0fb44016d621e133612c61069de15cd710`](https://scan.bohr.life/address/0x6f6e2c0fb44016d621e133612c61069de15cd710) with verified source. The full lifecycle has run on BOT Chain testnet (proof run with developer-generated wallets; a run with non-developer participants is still owed) and every testnet capsule verifies as VALID. It is also deployed on BOT Chain mainnet at [`0xb565bd5875ae429f2ebca9e69e202407021c6d62`](https://scan.botchain.ai/address/0xb565bd5875ae429f2ebca9e69e202407021c6d62) with verified source, under an owner override: testnet gates T3/T6 and the security review were not complete, and the first mainnet capsule (Circle #2, developer wallets) has been released and verified.
 
 ## What's in the box
 

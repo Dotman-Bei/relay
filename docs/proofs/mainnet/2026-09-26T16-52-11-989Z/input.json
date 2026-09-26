@@ -1,0 +1,24 @@
+{
+  "network": "mainnet",
+  "label": "BOT Chain mainnet",
+  "registry": "0xb565bd5875ae429f2ebca9e69e202407021c6d62",
+  "chainId": 677,
+  "creator": "0xa7d755a07b520723b57E83Da2A1aD2cdD141Ad9f",
+  "member": "0xCD8C2706Ac50D2Cc6970b9F35c20591766d9a08A",
+  "policy": {
+    "sealAt": 1790441773,
+    "releaseAt": 1790442013,
+    "expiresAt": 0,
+    "capacity": 2,
+    "minContributions": 2,
+    "unanimousConsent": true,
+    "receiptThreshold": 2,
+    "relayers": [
+      "0xccfeaF221F429c7BC58782352778Dee2527E4129",
+      "0x2Df6ccD9786242C3CeC8abfee915f4C8B79efC87",
+      "0x8c59eFfBf6050Dd1Ec28ac06700887B818AbAFb3"
+    ]
+  },
+  "sourceCommit": "b45a00702d4974a79535452c42b48e2afd2eab3d+dirty",
+  "abi": 65
+}

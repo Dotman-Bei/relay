@@ -1,0 +1,10 @@
+{
+  "schema": "relay.developer-wallets/v1",
+  "network": "testnet",
+  "note": "Wallets generated or controlled by the Relay project on BOT Chain testnet. They can never count as non-developer participants for gates T3/T6 or in beta metrics (PRD §15.3, §17). Addresses only; no keys.",
+  "wallets": [
+    { "address": "0x5e3cC65cA2f1a6AC3Bf75f7110E50d296F127fe6", "role": "deployer" },
+    { "address": "0xEFAc0ae9143fc09d98891cF9a280be1b97B6Fe7e", "role": "proof-run creator (build agent)" },
+    { "address": "0x86e54F544534A24949e8E9CfD00DD69526b0C265", "role": "proof-run member (build agent)" }
+  ]
+}

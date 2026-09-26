@@ -1,0 +1,45 @@
+{
+  "network": "mainnet",
+  "probedAt": "2026-09-26T14:18:23.849Z",
+  "officialSources": [
+    {
+      "url": "https://dev-docs.botchain.ai/docs/Developers/quick-guide/",
+      "fetchedAt": "2026-09-26T14:18:20.566Z",
+      "sha256": "977275d376247d34c1af9ccd711ee72a9e7400f971bf6462de5ec6128e48c4a1"
+    },
+    {
+      "url": "https://dev-docs.botchain.ai/docs/Developers/json-rpc-endpoint/",
+      "fetchedAt": "2026-09-26T14:18:20.567Z",
+      "sha256": "031f7a7d0a5dab651cd50dbf7af64fd38e8f73ae40a4a56ea039df529665644e"
+    },
+    {
+      "url": "https://dev-docs.botchain.ai/docs/Account-Abstraction/network-and-endpoints",
+      "fetchedAt": "2026-09-26T14:18:20.866Z",
+      "sha256": "eaa75170418f3127492b9e474bfd2b22dd295f0a77fdd6a31cf7bb26d6fac3a6"
+    },
+    {
+      "url": "https://dev-docs.botchain.ai/docs/Developers/claim-test-tbot-tokens/",
+      "fetchedAt": "2026-09-26T14:18:20.562Z",
+      "sha256": "e7bbdbcbd1d00d196bb2cc5fc45a421152ef50544abc27e0ac6d6cb0284c070e"
+    }
+  ],
+  "documented": {
+    "chainId": 677,
+    "rpcUrl": "https://rpc.botchain.ai",
+    "explorerUrl": "https://scan.botchain.ai",
+    "faucetUrl": null,
+    "nativeSymbol": "BOT"
+  },
+  "observed": {
+    "chainId": 677,
+    "clientVersion": "Geth/v1.5.13-7ebdbab3-20260822/linux-amd64/go1.26.5",
+    "latestBlock": 24597191,
+    "latestBlockTimestamp": 1790432301,
+    "getLogsMaxRangeTested": 100000,
+    "explorerApi": "blockscout-v2"
+  },
+  "agreement": true,
+  "discrepancies": [
+    "Official docs say eth_getLogs is disabled on the public mainnet endpoints, but https://rpc.botchain.ai served it over 100000 blocks at probe time. Undocumented support can be withdrawn: keep a log-capable fallback endpoint for the app, relayers and verifier."
+  ]
+}

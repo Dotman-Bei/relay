@@ -163,3 +163,27 @@ Date: 2026-09-23
 Status: active
 Evidence: e2e/responsive-audit.mjs over 18 routes × 12 viewports: pages that scroll sideways 4 → 0, tap targets under 24 px 13 kinds → 0, touch targets under 44 px 1,403 → 76 (skip link and checkbox inputs whose labels are the target), sub-12 px text max 54% → 33%; e2e/js-initial.mjs render-critical JS on public pages 392 KB → 182 KB gzip (app pages unchanged at ~400 KB); axe WCAG 2.1 AA: no violations; lifecycle and state E2E pass; live site rebuilt and checked.
 Cost: Public pages load the network banner lazily, so a config warning appears a moment after first paint; app pages still carry viem, zod and signing code (~400 KB gzip) — trimming further means tree-shakable viem actions and zod/mini.
+
+D-028: Acceptance gates T3, T6, the security review and M0 are recorded only by `pnpm gate:record`, which checks the chain (verifier VALID and RELEASED, every member consented and contributed, no project-controlled wallet, a reverted early release for T3) or binds the record to the current runtime sha256; `pnpm deploy:mainnet` refuses unless `pnpm gate:status` shows every gate passed and the spending run carries --confirm-mainnet.
+Date: 2026-09-26
+Status: active
+Evidence: scripts/gates.ts, scripts/deploy.ts, deployments/testnet.developer-wallets.json, docs/runbooks/mainnet-deploy.md; `pnpm gate:record T3 --circle 2 --circle 7` refused both (project wallets) and found Circle #2's reverted early release 0x668fb38e…a625 through Blockscout's numbered pages; `pnpm deploy:mainnet --preflight` BLOCKED on T3, T6, REVIEW, M0 and missing mainnet wallets; `pnpm probe:mainnet` passed T0 (chain 677, getLogs served over 100,000 blocks despite the docs).
+Cost: The pass path of the T3/T6 recorder has not run yet, because no non-developer Circle exists; its first real use is also its first test.
+
+D-029: CapsuleRegistry is deployed on BOT Chain mainnet at 0xb565bd5875ae429f2ebca9e69e202407021c6d62 on the owner's instruction, before gates T3, T6 and the independent security review passed; M0 is recorded as an owner override that lists those gates as unmet, and the mainnet quorum, storage and keys are separate from testnet.
+Date: 2026-09-26
+Status: active
+Evidence: evidence/gates/M0.json (override; unmet T3, T6, REVIEW; all 8 testnet Circles re-verified VALID at authorisation); deployments/mainnet.json (block 24607284, deploy tx 0x5a356b54…4c2c, source verified on scan.botchain.ai, runtime sha256 77a4b893… = testnet build); relayer keys registered (0x46e09a20…, 0xa4c2f2ad…, 0xdb47e79c…); relay-storage-mainnet on :8707 behind https://storage-mainnet.relay.169-58-153-9.sslip.io; relay-relayer-mainnet@1..3 running; funded at the measured minimum (0.083 BOT total, 20 gwei floor). The owner ran the spending commands; the build agent's auto-mode check declined to.
+Cost: The mainnet contract has no admin and cannot be patched, and it went out without the independent review; mainnet relayer keys sit on a VPS whose root account currently accepts password logins under active brute force; the proof run on mainnet omits the paid early-release rejection (evidenced on testnet as C-02).
+
+D-030: Mainnet wallets are funded for each transaction's gas limit, not its gas used, and `pnpm proof:mainnet` refuses to start unless the creator holds 590,000 gas and the member 262,000 gas at the current price.
+Date: 2026-09-26
+Status: active
+Evidence: the first mainnet run created Circle #1 (0x5fcb0c17…7d18), recorded both consents and the creator's contribution, then the member's commitContribution was refused before sending: balance 0.00141644 BOT, node gas limit × 20 gwei = 0.00153113 (short 0.000115); the contribution window closed, so Circle #1 holds one of two required contributions and can never become eligible. A dry start with unfunded keys now stops before any transaction.
+Cost: Circle #1 stays on mainnet as a VALID but permanently unreleasable Circle; about 0.0112 BOT (creator) and 0.0036 BOT (member) were spent on it, and a second run needs a top-up.
+
+D-031: M1 is recorded: the first mainnet capsule (Circle #2) was created, consented, sealed, made eligible by a hosted relayer, received two relayer receipts and was decrypted by the member; `verify:mainnet` replays every mainnet Circle as VALID.
+Date: 2026-09-26
+Status: active
+Evidence: docs/proofs/mainnet/2026-09-26T16-52-11-989Z (create 0x55b98cc2…f8f8, eligibility 0xe59e9b40…88d6 by relayer-3, receipts 0x5e0fb0df…3811 and 0x0d59588f…b98b, 0 plaintext needles in 18 registry logs), evidence/verifier/mainnet.json (Circle 1 SEALED VALID, Circle 2 RELEASED VALID, bytecode matches).
+Cost: Developer wallets, not users; the paid early-release rejection was skipped on mainnet (testnet evidence only). Relayer-3's own receipt for Circle #2 is refused for gas (0.00139 held, 0.00155 needed up front) and relayers 1–2 hold ≈0.0009 BOT, so every mainnet relayer is below one more receipt: new mainnet capsules will stop at RELEASE_UNAVAILABLE until they are topped up.

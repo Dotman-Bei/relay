@@ -20,13 +20,16 @@ const FEATURES = [
   { emoji: "🧾", fill: "bg-lime", title: "Honest about delivery", body: "Eligible but short a receipt? It says exactly how many are missing, and doesn't call it released." },
 ];
 
+// Build-time network (NEXT_PUBLIC_RELAY_NETWORK), so the hero never names the wrong chain.
+const CHAIN_LABEL = process.env.NEXT_PUBLIC_RELAY_NETWORK === "mainnet" ? "BOT Chain mainnet" : "BOT Chain testnet";
+
 export default function Home() {
   return (
     <>
       {/* Hero */}
       <section className="mt-12 grid items-center gap-10 md:grid-cols-[1.3fr_1fr]">
         <div className="neo-rise">
-          <span className="neo-tag inline-flex rounded-md bg-lime px-2 py-1 text-xs normal-case">BOT Chain testnet</span>
+          <span className="neo-tag inline-flex rounded-md bg-lime px-2 py-1 text-xs normal-case">{CHAIN_LABEL}</span>
           <h1 className="mt-4 text-5xl leading-[0.95] font-black tracking-tight sm:text-6xl">
             Later,
             <br />

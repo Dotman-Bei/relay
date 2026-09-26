@@ -8,8 +8,8 @@
 | B — local proof | Contract tests, property tests, local encrypted upload, verifier parity | Done | `evidence/contracts/forge-test.txt`, `evidence/parity/parity-report.json`, `docs/proofs/local/`, `evidence/adversarial/local/latest.json`, `evidence/e2e/` |
 | C — BOT Chain testnet | Deploy, verify source, public proof run, testnet evidence | **In progress** — T2, T4, T5 passed; T3 with developer wallets | `deployments/testnet.json`; next: `pnpm proof:testnet`, `pnpm adversarial:testnet`, `pnpm verify:testnet` |
 | D — beta | Real testnet users, completion/failure metrics | Not started | — |
-| E — mainnet readiness | Security review, runbooks, config probe, owner decision | Not started | Runbooks drafted in `docs/runbooks/` |
-| F — mainnet | Deploy after §18 | Not started | — |
+| E — mainnet readiness | Security review, runbooks, config probe, owner decision | Tooling ready — mainnet probe passed 2026-09-26; `pnpm gate:status`, `pnpm deploy:mainnet` (gated) | `docs/runbooks/mainnet-deploy.md`, `deployments/mainnet.probe.json` |
+| F — mainnet | Deploy after §18 | **Deployed under owner override** 2026-09-26; M1 recorded (Circle #2 released) | `deployments/mainnet.json`, `evidence/gates/M0.json`, `docs/proofs/mainnet/2026-09-26T16-52-11-989Z/`, `evidence/verifier/mainnet.json`; owed: T3, T6, security review, relayer top-up |
 
 ## To leave phase C
 

@@ -71,9 +71,6 @@ async function main() {
   if (network === "testnet" && /tBOT/.test(faucet.text) && nativeSymbol === "BOT") {
     discrepancies.push("Quick guide names the testnet token BOT; the faucet page calls it tBOT. Recorded symbol: BOT (quick guide).");
   }
-  if (network === "mainnet" && /eth_getLogs is disabled/i.test(rpcPage.text)) {
-    discrepancies.push("Official docs: eth_getLogs is disabled on the public mainnet endpoints. The verifier needs a log-capable endpoint on mainnet (Phase F).");
-  }
 
   // Live observation.
   const observedChainId = Number(BigInt((await rpc(rpcUrl, "eth_chainId")) as string));
@@ -89,6 +86,13 @@ async function main() {
       discrepancies.push(`eth_getLogs over ${range} blocks failed: ${(e as Error).message}`);
       break;
     }
+  }
+  if (network === "mainnet" && /eth_getLogs is disabled/i.test(rpcPage.text)) {
+    discrepancies.push(
+      getLogsMaxRangeTested
+        ? `Official docs say eth_getLogs is disabled on the public mainnet endpoints, but ${rpcUrl} served it over ${getLogsMaxRangeTested} blocks at probe time. Undocumented support can be withdrawn: keep a log-capable fallback endpoint for the app, relayers and verifier.`
+        : "Official docs: eth_getLogs is disabled on the public mainnet endpoints, and the probe confirmed it. The app, relayers and verifier need a log-capable endpoint on mainnet.",
+    );
   }
   let explorerApi: string | null = null;
   try {

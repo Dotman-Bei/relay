@@ -87,10 +87,18 @@
       "claim": "Mainnet deployment exists",
       "earliestWording": "Deployed on BOT Chain mainnet",
       "requiredEvidence": "Mainnet address, verified source, and deployment transaction",
-      "status": "PLANNED",
-      "publicWording": "No mainnet deployment. Mainnet is gated by T0–T6 and owner authorisation (M0).",
-      "evidence": [],
-      "notes": "Out of scope until every testnet gate passes."
+      "status": "OBSERVED_MAINNET",
+      "publicWording": "Deployed on BOT Chain mainnet at 0xb565bd5875ae429f2ebca9e69e202407021c6d62 (block 24607284), source verified on scan.botchain.ai. Deployed under an owner override: testnet gates T3 and T6 and the independent security review were not complete.",
+      "evidence": [
+        "deployments/mainnet.json",
+        "deployments/mainnet.probe.json",
+        "evidence/gates/M0.json",
+        "https://scan.botchain.ai/address/0xb565bd5875ae429f2ebca9e69e202407021c6d62",
+        "https://scan.botchain.ai/tx/0x5a356b5443ab56410c2667c523ec8e1f4c0d934e29effd49bce0748f980d4c2c",
+        "docs/proofs/mainnet/2026-09-26T16-52-11-989Z/transcript.md",
+        "evidence/verifier/mainnet.json"
+      ],
+      "notes": "Deployed 2026-09-26 on the owner's instruction (evidence/gates/M0.json records the override and the unmet gates T3, T6, REVIEW). Runtime sha256 77a4b893… equals the testnet build. M1 recorded 2026-09-26: Circle #2 released and verified VALID on mainnet with developer wallets; Circle #1 is permanently unreleasable after a gas shortfall (D-030)."
     },
     {
       "id": "C-07",

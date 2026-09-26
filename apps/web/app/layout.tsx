@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: { default: "Relay — later, together", template: "%s · Relay" },
   description:
-    "A group time capsule on BOT Chain testnet. Everyone encrypts their piece now; the chain records who agreed, to which date and rule, and when it opened.",
+    "A group time capsule on BOT Chain. Everyone encrypts their piece now; the chain records who agreed, to which date and rule, and when it opened.",
 };
 
 export const viewport: Viewport = { themeColor: "#fdf6e3", width: "device-width", initialScale: 1 };

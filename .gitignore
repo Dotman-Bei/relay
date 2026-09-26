@@ -17,6 +17,8 @@ tsconfig.tsbuildinfo
 next-env.d.ts
 deployments/local.json
 .relay-testnet/
+.relay-mainnet/
 deploy/secrets/
 deploy/data/
 deploy/.env
+.next-mainnet/

@@ -5,12 +5,16 @@
  *   pnpm proof:local      fresh anvil chain, LOCAL FIXTURE, time is advanced with evm_setNextBlockTimestamp
  *   pnpm proof:testnet    BOT Chain testnet; needs deployments/testnet.json, CREATOR_KEY, MEMBER_KEY,
  *                         RELAYER_DIR (funded relayer identities) — waits for real chain time
+ *   pnpm proof:mainnet    BOT Chain mainnet (M1); needs deployments/mainnet.json, CREATOR_KEY, MEMBER_KEY.
+ *                         The hosted relayers record eligibility and receipts, as they would for any
+ *                         member; the deliberately failing early release (step 4) is not spent on
+ *                         mainnet — the contract's rejection is evidenced on testnet (claim C-02).
  *
  * Writes docs/proofs/<network>/<run-id>/{input.json, output.json, verifier-report.json, transcript.md}.
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { toHex, type Hex } from "viem";
+import { formatEther, toHex, type Hex } from "viem";
 import { capsuleRegistryAbi, DeploymentSchema, type Deployment, type Policy } from "@relay/protocol-types";
 import {
   acceptInviteFlow,
@@ -45,6 +49,8 @@ interface Step {
   tx?: string;
   explorer?: string | null;
   detail: string;
+  /** Recorded as not run, with the reason in detail. */
+  skipped?: boolean;
 }
 
 async function main() {
@@ -57,7 +63,7 @@ async function main() {
   };
 
   let deployment: Deployment;
-  let relayer: Relayer;
+  let relayer: Relayer | null = null;
   let stop = () => {};
   let creatorKey: Hex;
   let memberKey: Hex;
@@ -69,17 +75,19 @@ async function main() {
     stop = boot.stop;
     creatorKey = ANVIL_KEYS[1]!;
     memberKey = ANVIL_KEYS[2]!;
-  } else if (network === "testnet") {
-    deployment = DeploymentSchema.parse(JSON.parse(readFileSync(resolve(ROOT, "deployments/testnet.json"), "utf8")));
+  } else if (network === "testnet" || network === "mainnet") {
+    deployment = DeploymentSchema.parse(JSON.parse(readFileSync(resolve(ROOT, `deployments/${network}.json`), "utf8")));
     creatorKey = process.env.CREATOR_KEY as Hex;
     memberKey = process.env.MEMBER_KEY as Hex;
     if (!creatorKey || !memberKey) throw new Error("Set CREATOR_KEY and MEMBER_KEY (two funded, non-developer participant wallets).");
-    relayer = new Relayer({
-      deployment,
-      identities: loadIdentities(process.env.RELAYER_DIR ?? ".relay-testnet/relayers"),
-      store: new HttpBlobStore(deployment.storage.url),
-      autoRequestRelease: false,
-    });
+    if (network === "testnet") {
+      relayer = new Relayer({
+        deployment,
+        identities: loadIdentities(process.env.RELAYER_DIR ?? ".relay-testnet/relayers"),
+        store: new HttpBlobStore(deployment.storage.url),
+        autoRequestRelease: false,
+      });
+    }
   } else {
     throw new Error(`unknown network ${network}`);
   }
@@ -103,12 +111,29 @@ async function main() {
     log(`${s.ok ? "✓" : "✗"} ${s.n}. ${s.title}${s.tx ? ` — ${s.tx}` : ""}\n    ${s.detail}`);
   };
 
+  if (network === "mainnet") {
+    // Wallets must hold each transaction's gas *limit* up front, and the node's estimate runs ~20% above
+    // gas used (sealing: ~76,500 limit vs ~63,000 used). Measured totals plus the last step's headroom:
+    // creator 560,687 used + 14,000 → 0.0116 BOT; member 242,122 used + 14,000 → 0.0052 BOT, at 20 gwei.
+    const price = await h.client.getGasPrice();
+    const need = { creator: 590_000n * price, member: 262_000n * price };
+    const [cb, mb] = await Promise.all([h.client.getBalance({ address: creator.account.address }), h.client.getBalance({ address: member.account.address })]);
+    const short = [
+      cb < need.creator ? `creator ${creator.account.address} holds ${formatEther(cb)} BOT, needs ${formatEther(need.creator)}` : null,
+      mb < need.member ? `member ${member.account.address} holds ${formatEther(mb)} BOT, needs ${formatEther(need.member)}` : null,
+    ].filter(Boolean);
+    if (short.length) {
+      console.error(`Not starting: a Circle that runs out of gas halfway can never open.\n  ${short.join("\n  ")}`);
+      process.exit(2);
+    }
+  }
+
   log(`# Relay proof run · ${deployment.label} · ${runId}`);
   log(`registry ${deployment.contract.address} on chain ${deployment.chainId}; creator ${creator.account.address}; member ${member.account.address}`);
 
   // 1. Circle with a future date and a required-contributor threshold.
   const now = await h.now();
-  const gap = network === "local" ? 600 : 180;
+  const gap = network === "local" ? 600 : network === "mainnet" ? 240 : 180;
   const policy: Policy = {
     sealAt: now + gap,
     releaseAt: now + gap * 2,
@@ -180,7 +205,16 @@ async function main() {
     detail: `commitments ${k1.commitment} (${k1.tx.hash}), ${k2.commitment} (${k2.tx.hash}); scanned ${allLogs.length} registry logs for ${needles.length} plaintext needles: ${leaked.length} found; manifests leak: ${manifestLeak}`,
   });
 
-  // 4. Failed early-release attempt, mined on-chain.
+  // 4. Failed early-release attempt, mined on-chain (not on mainnet: see the header).
+  if (network === "mainnet") {
+    record({
+      n: 4,
+      title: "Early release attempt — not run on mainnet",
+      ok: true,
+      skipped: true,
+      detail: "A reverted transaction still spends gas; the mainnet run is funded at the measured minimum. The contract's rejection of an early release is evidenced on BOT Chain testnet (claim C-02, docs/proofs/testnet/2026-09-23T09-02-50-791Z) with the same runtime bytecode.",
+    });
+  } else {
   if (network === "local") await h.warpTo(policy.sealAt);
   else await h.waitUntil(policy.sealAt, log);
   const early = await h.attemptExpectingRevert(member, prepare(deployment.contract.address).requestRelease(circleId));
@@ -192,23 +226,48 @@ async function main() {
     explorer: explorer(early.hash),
     detail: `status ${early.status} in block ${early.blockNumber}; decoded ${early.decoded?.name}: ${early.decoded?.reason}`,
   });
+  }
 
   // 5. Rule satisfaction and recorded release request.
   if (network === "local") await h.warpTo(policy.releaseAt);
   else await h.waitUntil(policy.releaseAt, log);
-  const rel = await h.sender(member)(prepare(deployment.contract.address).requestRelease(circleId));
-  const afterRel = await reader.getCircle(circleId);
-  record({
-    n: 5,
-    title: "Release eligibility recorded after the rule became true",
-    ok: afterRel.lifecycle === "RELEASE_ELIGIBLE",
-    tx: rel.hash,
-    explorer: explorer(rel.hash),
-    detail: `lifecycle ${afterRel.lifecycle}; eligibleAt ${afterRel.eligibleAt} ≥ releaseAt ${policy.releaseAt}; receipts 0/${policy.receiptThreshold} → RELEASE_UNAVAILABLE until relayers deliver`,
-  });
+  let receiptTxs: string[];
+  if (relayer) {
+    const rel = await h.sender(member)(prepare(deployment.contract.address).requestRelease(circleId));
+    const afterRel = await reader.getCircle(circleId);
+    record({
+      n: 5,
+      title: "Release eligibility recorded after the rule became true",
+      ok: afterRel.lifecycle === "RELEASE_ELIGIBLE",
+      tx: rel.hash,
+      explorer: explorer(rel.hash),
+      detail: `lifecycle ${afterRel.lifecycle}; eligibleAt ${afterRel.eligibleAt} ≥ releaseAt ${policy.releaseAt}; receipts 0/${policy.receiptThreshold} → RELEASE_UNAVAILABLE until relayers deliver`,
+    });
+    const actions = await relayer.tick();
+    receiptTxs = actions.filter((a) => a.startsWith("receipt")).map((a) => a.split(" ")[3]!);
+  } else {
+    // Mainnet: the hosted relayers watch the chain; the designated one records eligibility, then all deliver.
+    const deadline = Date.now() + 15 * 60_000;
+    let seen = await reader.getCircle(circleId);
+    while (seen.lifecycle !== "RELEASED" && Date.now() < deadline) {
+      await new Promise((r) => setTimeout(r, 10_000));
+      seen = await reader.getCircle(circleId);
+      log(`waiting for hosted relayers: lifecycle ${seen.lifecycle}, receipts ${seen.receiptCount}/${policy.receiptThreshold}`);
+    }
+    const events = await reader.circleEvents(circleId, await h.client.getBlockNumber({ cacheTime: 0 }));
+    const eligible = events.find((e) => e.name === "ReleaseEligibilityReached");
+    record({
+      n: 5,
+      title: "Release eligibility recorded by a hosted relayer after the rule became true",
+      ok: Boolean(eligible),
+      tx: eligible?.transactionHash,
+      explorer: eligible ? explorer(eligible.transactionHash) : null,
+      detail: eligible ? `eligibility in block ${eligible.blockNumber}; releaseAt ${policy.releaseAt}` : `no eligibility within 15 minutes; lifecycle ${seen.lifecycle}`,
+    });
+    receiptTxs = events.filter((e) => e.name === "ReleaseReceiptRecorded").map((e) => e.transactionHash);
+  }
 
   // 6. Receipt delivery and member reveal.
-  const actions = await relayer.tick();
   const afterReceipts = await reader.getCircle(circleId);
   const opened = await openCapsuleFlow(ctxFor(member), { circleId, privateJwk: memberKeys.privateJwk });
   const texts = opened.items.map((i) => (i.opened?.header.kind === "text" ? utf8.decode(i.opened.body) : i.opened ? `${i.opened.header.mime} ${i.opened.body.length}B` : `ERROR ${i.error}`));
@@ -217,7 +276,6 @@ async function main() {
     opened.items.every((i) => i.opened) &&
     texts.includes(SECRET_TEXT) &&
     opened.items.some((i) => i.opened?.header.mime === "image/png" && i.opened.body.length === PNG.length);
-  const receiptTxs = actions.filter((a) => a.startsWith("receipt")).map((a) => a.split(" ")[3]!);
   record({
     n: 6,
     title: "Relayer receipts recorded; the member decrypted every contribution",

@@ -1,0 +1,26 @@
+# Relay on this VPS (paths assume the repo at /root/relay). Install: see docs/runbooks/hosting.md
+# "Hosting beside an existing nginx". The filesystem is read-only to the service except its data dir.
+[Unit]
+Description=Relay content-addressed storage (PROJECT_BASELINE, BOT Chain mainnet)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/relay
+Environment=NODE_ENV=production STORAGE_HOST=127.0.0.1 STORAGE_PORT=8707 STORAGE_DIR=/root/relay/.relay-mainnet/storage
+ExecStart=/root/relay/node_modules/.bin/tsx apps/relayer/src/storage-server.ts
+Restart=on-failure
+RestartSec=5
+MemoryMax=512M
+ReadWritePaths=/root/relay/.relay-mainnet/storage
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

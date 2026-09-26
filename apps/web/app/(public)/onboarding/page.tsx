@@ -49,7 +49,7 @@ function Onboarding() {
   }, [w.address, client]);
 
   useEffect(() => {
-    fetch("/relay/testnet.probe.json")
+    fetch(`/relay/${network}.probe.json`)
       .then((r) => (r.ok ? r.json() : null))
       .then((p) => setFaucet((p as { documented?: { faucetUrl?: string } } | null)?.documented?.faucetUrl ?? null))
       .catch(() => setFaucet(null));
@@ -83,9 +83,14 @@ function Onboarding() {
                 Relay reads and writes {deployment?.label} (chain {deployment?.chainId}).
               </Notice>
             )}
-            {balance === 0n && network !== "local" && (
+            {balance === 0n && network === "testnet" && (
               <Notice tone="info" title="You need a little test BOT for gas">
                 Consenting and contributing are transactions. {faucet ? <>Claim test tokens at <a className="underline decoration-2" href={faucet} target="_blank" rel="noreferrer">the official BOT Chain faucet ↗</a>.</> : "Use the official BOT Chain testnet faucet."}
+              </Notice>
+            )}
+            {balance === 0n && network === "mainnet" && (
+              <Notice tone="info" title="You need a little BOT for gas">
+                Consenting and contributing are transactions on BOT Chain mainnet, paid in BOT. A few thousandths of a BOT covers joining, consenting and sealing.
               </Notice>
             )}
             <button type="button" onClick={w.disconnect} className="w-fit text-xs inline-flex min-h-6 items-center font-extrabold underline decoration-2 underline-offset-2 pointer-coarse:min-h-11">Use a different account</button>
@@ -96,14 +101,16 @@ function Onboarding() {
               <span className="text-lg font-black">🦊 Browser wallet</span>
               <span className="text-sm font-medium text-ink/80">{w.hasInjected ? "MetaMask, Rabby, BO Wallet or any injected wallet." : "No wallet detected in this browser."}</span>
             </button>
-            <button type="button" onClick={w.chooseSessionKey} className="neo-btn flex flex-col items-start gap-1 rounded-xl bg-panel p-4 text-left">
-              <span className="text-lg font-black">🧪 Browser session key</span>
-              <span className="text-sm font-medium text-ink/80">A key kept in this browser. For testnet trials only — anyone using this browser profile can use it.</span>
-            </button>
+            {network !== "mainnet" && (
+              <button type="button" onClick={w.chooseSessionKey} className="neo-btn flex flex-col items-start gap-1 rounded-xl bg-panel p-4 text-left">
+                <span className="text-lg font-black">🧪 Browser session key</span>
+                <span className="text-sm font-medium text-ink/80">A key kept in this browser. For testnet trials only — anyone using this browser profile can use it.</span>
+              </button>
+            )}
             <div aria-disabled="true" className="neo-flat flex flex-col items-start gap-1 rounded-xl bg-bg p-4">
               <span className="flex items-center gap-2 text-lg font-black">🔐 Passkey <Tag fill="pink">Unavailable</Tag></span>
               <span className="text-sm font-medium text-ink/80">
-                BOT Chain testnet documents ERC-4337 with an ECDSA account factory, but no passkey-capable account. We won&apos;t fake one.
+                BOT Chain documents ERC-4337 with an ECDSA account factory, but no passkey-capable account. We won&apos;t fake one.
               </span>
             </div>
             {network === "local" && (

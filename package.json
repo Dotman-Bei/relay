@@ -2,7 +2,7 @@
   "name": "relay",
   "private": true,
   "version": "0.1.0",
-  "description": "Relay \u2014 a social time-capsule protocol on BOT Chain testnet. Groups encrypt contributions now and receive them only after an immutable on-chain date-and-consent rule is satisfied.",
+  "description": "Relay — a social time-capsule protocol on BOT Chain testnet. Groups encrypt contributions now and receive them only after an immutable on-chain date-and-consent rule is satisfied.",
   "packageManager": "pnpm@9.15.9",
   "engines": {
     "node": ">=22.12"
@@ -20,9 +20,11 @@
     "local:chain": "tsx scripts/local-stack.ts",
     "proof:local": "tsx scripts/proof-run.ts --network local",
     "proof:testnet": "tsx scripts/proof-run.ts --network testnet",
+    "proof:mainnet": "tsx scripts/proof-run.ts --network mainnet",
     "adversarial:local": "tsx scripts/adversarial.ts --network local",
     "adversarial:testnet": "tsx scripts/adversarial.ts --network testnet",
     "deploy:testnet": "tsx scripts/deploy.ts --network testnet",
+    "deploy:mainnet": "tsx scripts/deploy.ts --network mainnet",
     "verify:local": "tsx packages/verifier/src/cli.ts --deployment deployments/local.json",
     "verify:testnet": "tsx packages/verifier/src/cli.ts --deployment deployments/testnet.json",
     "verify:mainnet": "tsx packages/verifier/src/cli.ts --deployment deployments/mainnet.json",
@@ -33,7 +35,9 @@
     "evidence": "tsx scripts/collect-evidence.ts",
     "metrics": "tsx scripts/metrics.ts",
     "endpoints:set": "tsx scripts/set-endpoints.ts",
-    "smoke:services": "tsx scripts/smoke-services.ts"
+    "smoke:services": "tsx scripts/smoke-services.ts",
+    "gate:status": "tsx scripts/gates.ts status",
+    "gate:record": "tsx scripts/gates.ts record"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",

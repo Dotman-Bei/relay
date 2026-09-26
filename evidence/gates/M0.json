@@ -1,0 +1,34 @@
+{
+  "schema": "relay.gate/v1",
+  "gate": "M0",
+  "recordedAt": "2026-09-26T16:24:11.485Z",
+  "sourceCommit": "b45a00702d4974a79535452c42b48e2afd2eab3d+dirty",
+  "passed": true,
+  "owner": "Dotman-Bei",
+  "override": "Owner instructed mainnet deployment before T3, T6 and the security review; owner funded the deployer.",
+  "unmetGates": [
+    {
+      "gate": "T3",
+      "missing": [
+        "two non-developer wallets complete a capsule, then `pnpm gate:record T3 --circle <id>`"
+      ]
+    },
+    {
+      "gate": "T6",
+      "missing": [
+        "a non-developer group completes a capsule, then `pnpm gate:record T6 --circle <id>`"
+      ]
+    },
+    {
+      "gate": "REVIEW",
+      "missing": [
+        "independent review of the contract and encryption/release model, then `pnpm gate:record review --reviewer … --report …`"
+      ]
+    }
+  ],
+  "testnetReverified": {
+    "circles": 8,
+    "allValid": true
+  },
+  "runtimeSha256": "77a4b893d3b1add5d9cfe5ffdf67d0e54b8653f763e0736fd3955362bb921838"
+}

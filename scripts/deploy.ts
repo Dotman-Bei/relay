@@ -1,11 +1,14 @@
 /**
- * Deploy CapsuleRegistry to BOT Chain testnet and write deployments/testnet.json (PRD §15.2).
+ * Deploy CapsuleRegistry to BOT Chain and write deployments/<network>.json (PRD §15.2, §16).
  *
  *   pnpm deploy:testnet --preflight     check every precondition, spend nothing
  *   DEPLOYER_PRIVATE_KEY=0x… STORAGE_URL=https://… RELAYER_DIR=.relay-testnet/relayers pnpm deploy:testnet
+ *   pnpm deploy:mainnet --preflight
+ *   DEPLOYER_PRIVATE_KEY=0x… STORAGE_URL=https://… pnpm deploy:mainnet --confirm-mainnet
  *
- * Gates: T0 probe must exist, agree, and be < 24h old. Mainnet is refused here: it requires the
- * owner's M0 authorisation (PRD §18) and is deliberately not scripted in the testnet phase.
+ * Gates: the network's T0 probe must exist, agree, and be < 24h old. Mainnet additionally needs
+ * gate M0 recorded (evidence/gates/M0.json, `pnpm gate:status`) for the exact bytecode being
+ * deployed, and the explicit --confirm-mainnet flag on the spending run (PRD §18).
  */
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -17,22 +20,34 @@ import { capsuleRegistryBytecode, CAPSULE_REGISTRY_RUNTIME_SHA256 } from "@relay
 import { chainFromDeployment, fromHex, HttpBlobStore, sha256Hex } from "@relay/sdk";
 import { loadIdentities, Relayer } from "../apps/relayer/src/relayer.ts";
 import { gitCommit, ROOT } from "./lib/harness.ts";
+import { gateStatus } from "./gates.ts";
 
 const network = process.argv.includes("--network") ? process.argv[process.argv.indexOf("--network") + 1]! : "testnet";
 const preflight = process.argv.includes("--preflight");
 
 async function main() {
-  if (network !== "testnet") {
-    console.error("Refusing: only BOT Chain testnet deployment is scripted. Mainnet requires gate M0 and owner authorisation (PRD §18, §22).");
+  if (network !== "testnet" && network !== "mainnet") {
+    console.error(`Unknown network ${network}; expected testnet or mainnet.`);
     process.exit(2);
   }
+  const mainnet = network === "mainnet";
+  const label = mainnet ? "BOT Chain mainnet" : "BOT Chain testnet";
   const problems: string[] = [];
-  const probePath = resolve(ROOT, "deployments/testnet.probe.json");
-  if (!existsSync(probePath)) throw new Error("Gate T0 not met: run `pnpm probe:testnet` first.");
+  if (mainnet) {
+    const status = gateStatus();
+    const m0 = status.find((x) => x.id === "M0")!;
+    if (!m0.passed) problems.push(`Gate M0 not passed: ${m0.missing.join("; ")}`);
+    const unmet = status.filter((x) => x.id !== "M0" && !x.passed).map((x) => x.id);
+    if (m0.passed && unmet.length) console.log(`OWNER OVERRIDE (evidence/gates/M0.json): deploying with ${unmet.join(", ")} unmet.`);
+    if (existsSync(resolve(ROOT, "deployments/mainnet.json"))) problems.push("deployments/mainnet.json already exists: a second mainnet deployment is a new decision (DECISIONS.md), not a re-run.");
+    if (!preflight && !process.argv.includes("--confirm-mainnet")) problems.push("Spending run needs --confirm-mainnet: it deploys with real BOT and publishes the address.");
+  }
+  const probePath = resolve(ROOT, `deployments/${network}.probe.json`);
+  if (!existsSync(probePath)) throw new Error(`Gate T0 not met: run \`pnpm probe:${network}\` first.`);
   const probe = NetworkProbeSchema.parse(JSON.parse(readFileSync(probePath, "utf8")));
   const ageH = (Date.now() - Date.parse(probe.probedAt)) / 3.6e6;
   if (!probe.agreement) problems.push("T0 probe recorded a chain-ID disagreement.");
-  if (ageH > 24) problems.push(`T0 probe is ${ageH.toFixed(1)}h old; re-run \`pnpm probe:testnet\` before deploying.`);
+  if (ageH > 24) problems.push(`T0 probe is ${ageH.toFixed(1)}h old; re-run \`pnpm probe:${network}\` before deploying.`);
 
   const { chainId, rpcUrl, explorerUrl, nativeSymbol } = probe.documented;
   const client = createPublicClient({ transport: http(rpcUrl) });
@@ -41,7 +56,7 @@ async function main() {
 
   const key = process.env.DEPLOYER_PRIVATE_KEY as Hex | undefined;
   const storageUrl = process.env.STORAGE_URL;
-  const relayerDir = process.env.RELAYER_DIR ?? ".relay-testnet/relayers";
+  const relayerDir = process.env.RELAYER_DIR ?? `.relay-${network}/relayers`;
   if (!key) problems.push("DEPLOYER_PRIVATE_KEY is not set (owner decision: deployment wallet and funds).");
   if (!storageUrl) problems.push("STORAGE_URL is not set (public URL of the PROJECT_BASELINE storage server).");
   let identities: ReturnType<typeof loadIdentities> = [];
@@ -52,17 +67,18 @@ async function main() {
   }
 
   const gasPrice = await client.getGasPrice();
-  const deployGas = 2_600_000n;
+  const deployGas = 2_800_000n; // 2,729,551 measured on testnet
   if (key) {
     const deployer = privateKeyToAccount(key).address;
     const bal = await client.getBalance({ address: deployer });
     const need = deployGas * gasPrice;
     console.log(`deployer ${deployer}: ${formatEther(bal)} ${nativeSymbol} (deploy needs ~${formatEther(need)})`);
-    if (bal < need) problems.push(`Deployer ${deployer} is unfunded; claim test tokens at ${probe.documented.faucetUrl}.`);
+    if (bal < need) problems.push(mainnet ? `Deployer ${deployer} holds less than the ~${formatEther(need)} BOT deployment needs.` : `Deployer ${deployer} is unfunded; claim test tokens at ${probe.documented.faucetUrl}.`);
   }
   for (const id of identities) {
     const bal = await client.getBalance({ address: id.address });
-    const need = 400_000n * gasPrice;
+    // Key registration plus one capsule's release request and receipt (measured: 45,619 + 34,951 + 63,855).
+    const need = (mainnet ? 150_000n : 400_000n) * gasPrice;
     console.log(`relayer ${id.label} ${id.address}: ${formatEther(bal)} ${nativeSymbol}`);
     if (bal < need) problems.push(`Relayer ${id.address} needs gas for key registration and receipts.`);
   }
@@ -72,13 +88,13 @@ async function main() {
   }
 
   if (problems.length || preflight) {
-    console.log(`\n${problems.length ? "BLOCKED" : "READY"} — BOT Chain testnet deployment preflight`);
+    console.log(`\n${problems.length ? "BLOCKED" : "READY"} — ${label} deployment preflight`);
     for (const p of problems) console.log(`  • ${p}`);
     process.exit(problems.length ? 1 : 0);
   }
 
   const account = privateKeyToAccount(key!);
-  const chainStub = { id: chainId, name: "BOT Chain testnet", nativeCurrency: { name: nativeSymbol, symbol: nativeSymbol, decimals: 18 }, rpcUrls: { default: { http: [rpcUrl] } } } as const;
+  const chainStub = { id: chainId, name: label, nativeCurrency: { name: nativeSymbol, symbol: nativeSymbol, decimals: 18 }, rpcUrls: { default: { http: [rpcUrl] } } } as const;
   const wallet = createWalletClient({ account, chain: chainStub, transport: http(rpcUrl) });
   console.log("deploying CapsuleRegistry…");
   const hash = await wallet.deployContract({ abi: capsuleRegistryAbi, bytecode: capsuleRegistryBytecode });
@@ -103,13 +119,13 @@ async function main() {
 
   const deployment: Deployment = DeploymentSchema.parse({
     schema: "relay.deployment/v1",
-    network: "testnet",
-    label: "BOT Chain testnet",
+    network,
+    label,
     chainId,
     nativeSymbol,
     rpcUrl,
     explorerUrl,
-    probe: { file: "deployments/testnet.probe.json", probedAt: probe.probedAt },
+    probe: { file: `deployments/${network}.probe.json`, probedAt: probe.probedAt },
     contract: {
       name: "CapsuleRegistry",
       address,
@@ -140,11 +156,11 @@ async function main() {
     verifier: { version: "0.1.0", sourceCommit: gitCommit(), url: process.env.VERIFIER_URL ?? null },
     deployedAt: new Date().toISOString(),
   });
-  writeFileSync(resolve(ROOT, "deployments/testnet.json"), `${JSON.stringify(deployment, null, 2)}\n`);
+  writeFileSync(resolve(ROOT, `deployments/${network}.json`), `${JSON.stringify(deployment, null, 2)}\n`);
   const relayer = new Relayer({ deployment, identities, store: new HttpBlobStore(storageUrl!), autoRequestRelease: true });
   await relayer.ensureRegistered();
   void chainFromDeployment;
-  console.log("deployments/testnet.json written; relayer keys registered. Next: pnpm proof:testnet");
+  console.log(`deployments/${network}.json written; relayer keys registered. Next: ${mainnet ? "pnpm verify:mainnet, then record M1 (PRD §22)" : "pnpm proof:testnet"}`);
 }
 
 main().catch((e) => {

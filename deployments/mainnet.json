@@ -1,0 +1,71 @@
+{
+  "schema": "relay.deployment/v1",
+  "network": "mainnet",
+  "label": "BOT Chain mainnet",
+  "chainId": 677,
+  "nativeSymbol": "BOT",
+  "rpcUrl": "https://rpc.botchain.ai",
+  "explorerUrl": "https://scan.botchain.ai",
+  "probe": {
+    "file": "deployments/mainnet.probe.json",
+    "probedAt": "2026-09-26T14:18:23.849Z"
+  },
+  "contract": {
+    "name": "CapsuleRegistry",
+    "address": "0xb565bd5875ae429f2ebca9e69e202407021c6d62",
+    "deployer": "0xB514b6dC577b9A9c5200616F2Ae8883f570a71aC",
+    "transactionHash": "0x5a356b5443ab56410c2667c523ec8e1f4c0d934e29effd49bce0748f980d4c2c",
+    "deploymentBlock": 24607284,
+    "runtimeSha256": "77a4b893d3b1add5d9cfe5ffdf67d0e54b8653f763e0736fd3955362bb921838",
+    "verifiedSource": "VERIFIED",
+    "verificationUrl": "https://scan.botchain.ai/address/0xb565bd5875ae429f2ebca9e69e202407021c6d62?tab=contract"
+  },
+  "abiSha256": "3fcd5af1c61d914f393f8bb76a54eff8d96c752348f947ae51eba49f446fe3e6",
+  "sourceCommit": "b45a00702d4974a79535452c42b48e2afd2eab3d+dirty",
+  "quorum": {
+    "relayers": [
+      {
+        "address": "0xccfeaF221F429c7BC58782352778Dee2527E4129",
+        "label": "relayer-1",
+        "independence": "PROJECT_BASELINE",
+        "operator": "Relay project",
+        "encryptionKeyFingerprint": "0x077f08b51de56c5c2c7543670db4ca6065f79650ac81e19e773effa105c16714",
+        "endpoint": null
+      },
+      {
+        "address": "0x2Df6ccD9786242C3CeC8abfee915f4C8B79efC87",
+        "label": "relayer-2",
+        "independence": "PROJECT_BASELINE",
+        "operator": "Relay project",
+        "encryptionKeyFingerprint": "0x46e82a8cdfb8c57197330349184bd5f80eb6655744808cee8811d4437099454b",
+        "endpoint": null
+      },
+      {
+        "address": "0x8c59eFfBf6050Dd1Ec28ac06700887B818AbAFb3",
+        "label": "relayer-3",
+        "independence": "PROJECT_BASELINE",
+        "operator": "Relay project",
+        "encryptionKeyFingerprint": "0x9165a51fd29467ea72a3a47258b30e033a4d9a90ab2d60b175442cf7efbe1ced",
+        "endpoint": null
+      }
+    ],
+    "defaultThreshold": 2,
+    "independence": "PROJECT_BASELINE",
+    "note": "All relayers are operated by the Relay project. A colluding threshold could disclose early; this is not an independent quorum."
+  },
+  "storage": {
+    "url": "https://storage-mainnet.relay.169-58-153-9.sslip.io",
+    "operator": "Relay project — hosted on the build VPS (PROJECT_BASELINE)",
+    "label": "PROJECT_BASELINE"
+  },
+  "steward": {
+    "url": null,
+    "address": null
+  },
+  "verifier": {
+    "version": "0.1.0",
+    "sourceCommit": "b45a00702d4974a79535452c42b48e2afd2eab3d+dirty",
+    "url": null
+  },
+  "deployedAt": "2026-09-26T16:24:39.850Z"
+}

@@ -4,6 +4,8 @@ const config: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ["@relay/sdk", "@relay/protocol-types", "@relay/reference", "@relay/verifier", "@relay/claim-ledger"],
   poweredByHeader: false,
+  // A second build (e.g. mainnet beside the hosted testnet site) can live in its own directory.
+  distDir: process.env.NEXT_DIST_DIR ?? ".next",
   async headers() {
     return [
       {

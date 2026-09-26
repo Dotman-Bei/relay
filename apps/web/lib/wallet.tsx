@@ -118,7 +118,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     }
     let key: `0x${string}` | null = null;
     if (pref.kind === "fixture") key = network === "local" ? (FIXTURE_KEYS[pref.fixture ?? 0] ?? null) : null;
-    if (pref.kind === "session") {
+    // Session keys are a testnet convenience; on mainnet a key in browser storage would hold real funds.
+    if (pref.kind === "session" && network !== "mainnet") {
       try {
         key = localStorage.getItem(SESSION_KEY) as `0x${string}` | null;
       } catch {
@@ -134,7 +135,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     setError(null);
     const eth = injectedProvider();
     if (!eth) {
-      setError("No browser wallet found. Install one, or use a browser session key for testnet.");
+      setError(network === "mainnet" ? "No browser wallet found. Install one (MetaMask, Rabby, BO Wallet) to use Relay on mainnet." : "No browser wallet found. Install one, or use a browser session key for testnet.");
       return;
     }
     try {
@@ -145,7 +146,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     }
-  }, []);
+  }, [network]);
 
   const switchNetwork = useCallback(async () => {
     const eth = injectedProvider();
