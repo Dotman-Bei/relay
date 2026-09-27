@@ -31,6 +31,8 @@
     "verify:mainnet": "tsx packages/verifier/src/cli.ts --deployment deployments/mainnet.json",
     "claims:generate": "tsx packages/claim-ledger/src/cli.ts generate",
     "claims:check": "tsx packages/claim-ledger/src/cli.ts check",
+    "brand": "tsx scripts/brand.ts",
+    "brand:png": "tsx scripts/brand-render.ts",
     "web:dev": "pnpm --filter @relay/web dev",
     "web:build": "pnpm --filter @relay/web build",
     "evidence": "tsx scripts/collect-evidence.ts",
