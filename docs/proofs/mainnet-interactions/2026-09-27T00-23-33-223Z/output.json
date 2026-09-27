@@ -1,0 +1,72 @@
+{
+  "runId": "2026-09-27T00-23-33-223Z",
+  "label": "BOT Chain mainnet — TEAM TEST WALLETS (project-controlled; not users)",
+  "registry": "0xb565bd5875ae429f2ebca9e69e202407021c6d62",
+  "circleId": "3",
+  "policy": {
+    "sealAt": 1790472213,
+    "releaseAt": 1790475813,
+    "expiresAt": 1790479413,
+    "capacity": 3,
+    "minContributions": 3,
+    "unanimousConsent": true,
+    "receiptThreshold": 2,
+    "relayers": [
+      "0xccfeaF221F429c7BC58782352778Dee2527E4129",
+      "0x2Df6ccD9786242C3CeC8abfee915f4C8B79efC87",
+      "0x8c59eFfBf6050Dd1Ec28ac06700887B818AbAFb3"
+    ]
+  },
+  "transactions": [
+    {
+      "n": 1,
+      "wallet": "A",
+      "address": "0x4B8b679fa9c7dEA7451FeffF3A26220dA1F25D7e",
+      "action": "createCircle → Circle #3",
+      "hash": "0x42cba2c91bfa51ed46eddc42326737a58104c15207393ae1771070c99a65f8a9",
+      "explorer": "https://scan.botchain.ai/tx/0x42cba2c91bfa51ed46eddc42326737a58104c15207393ae1771070c99a65f8a9"
+    },
+    {
+      "n": 2,
+      "wallet": "A",
+      "address": "0x4B8b679fa9c7dEA7451FeffF3A26220dA1F25D7e",
+      "action": "openCircle (rule published)",
+      "hash": "0xb82505d7167b350175f0e06b40a17a0f4f93f38936230898641bac4058eb5b0d",
+      "explorer": "https://scan.botchain.ai/tx/0xb82505d7167b350175f0e06b40a17a0f4f93f38936230898641bac4058eb5b0d"
+    },
+    {
+      "n": 3,
+      "wallet": "A",
+      "address": "0x4B8b679fa9c7dEA7451FeffF3A26220dA1F25D7e",
+      "action": "issueInvitations (2 invite keys)",
+      "hash": "0xf331f8bea5219633d23e3d049a84b64e7ea4d7252b2ba25345812721722736b5",
+      "explorer": "https://scan.botchain.ai/tx/0xf331f8bea5219633d23e3d049a84b64e7ea4d7252b2ba25345812721722736b5"
+    },
+    {
+      "n": 4,
+      "wallet": "B",
+      "address": "0x442BfbF0eb7a057678a7d053e1703f2960DD114d",
+      "action": "acceptInvitation (joined as member 2)",
+      "hash": "0xceb0a0843d710fe71f0b8d7f3839552add6ce77fb03aaa0f33764a96e8a3649f",
+      "explorer": "https://scan.botchain.ai/tx/0xceb0a0843d710fe71f0b8d7f3839552add6ce77fb03aaa0f33764a96e8a3649f"
+    },
+    {
+      "n": 5,
+      "wallet": "C",
+      "address": "0x61aB51EDcbCB36d1Dd65E721B2B9b1b25eb46b92",
+      "action": "acceptInvitation (joined as member 3)",
+      "hash": "0x104da03e35ecfdb32d15ecc1a3aadc15fa9cf65251dddd2a9cf2940ad5fa4392",
+      "explorer": "https://scan.botchain.ai/tx/0x104da03e35ecfdb32d15ecc1a3aadc15fa9cf65251dddd2a9cf2940ad5fa4392"
+    }
+  ],
+  "verifier": {
+    "verdict": "VALID",
+    "lifecycle": "AWAITING_CONSENT",
+    "members": [
+      "0x4b8b679fa9c7dea7451fefff3a26220da1f25d7e",
+      "0x442bfbf0eb7a057678a7d053e1703f2960dd114d",
+      "0x61ab51edcbcb36d1dd65e721b2b9b1b25eb46b92"
+    ]
+  },
+  "passed": true
+}

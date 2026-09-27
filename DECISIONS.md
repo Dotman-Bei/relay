@@ -187,3 +187,15 @@ Date: 2026-09-26
 Status: active
 Evidence: docs/proofs/mainnet/2026-09-26T16-52-11-989Z (create 0x55b98cc2…f8f8, eligibility 0xe59e9b40…88d6 by relayer-3, receipts 0x5e0fb0df…3811 and 0x0d59588f…b98b, 0 plaintext needles in 18 registry logs), evidence/verifier/mainnet.json (Circle 1 SEALED VALID, Circle 2 RELEASED VALID, bytecode matches).
 Cost: Developer wallets, not users; the paid early-release rejection was skipped on mainnet (testnet evidence only). Relayer-3's own receipt for Circle #2 is refused for gas (0.00139 held, 0.00155 needed up front) and relayers 1–2 hold ≈0.0009 BOT, so every mainnet relayer is below one more receipt: new mainnet capsules will stop at RELEASE_UNAVAILABLE until they are topped up.
+
+D-032: The mainnet relayers are kept funded for several capsules ahead (≈0.01 BOT each, about five capsules), not for the next transaction.
+Date: 2026-09-26
+Status: active
+Evidence: after the owner's top-up, relayer balances 0.0109 / 0.0109 / 0.0101 BOT; relayer-3 recorded Circle #2's third receipt 0x5242ee82fb2bc4c73ff6b5dada194100bea38c85031099861775e508f4084b64 on its next pass; verify:mainnet Circle 2 RELEASED, 3/3 receipts, VALID.
+Cost: Someone has to watch relayer balances; nothing alerts yet when one drops below a receipt (~0.0016 BOT held).
+
+D-033: Mainnet interaction evidence comes from team test wallets that are published as project wallets (`deployments/mainnet.developer-wallets.json`), and is described as the product working on mainnet, never as users or adoption.
+Date: 2026-09-27
+Status: active
+Evidence: `pnpm interact:mainnet` (scripts/interact.ts) — Circle #3: createCircle 0x42cba2c9… (321,938 gas), openCircle 0xb82505d7… (35,401), issueInvitations×2 0xf331f8be… (82,728), acceptInvitation 0xceb0a084… (113,402) and 0x104da03e… (113,390), all status 1; verify:mainnet Circles 1–3 VALID; funded 0.0096 / 0.0029 / 0.0029 BOT against a precheck of 475k / 142k / 142k gas at 20 gwei.
+Cost: Circle #3 stays on mainnet as a team test Circle that expires unconsented at 2026-09-27T03:23:33Z; incubator eligibility that requires independent users is not met by it.

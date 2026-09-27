@@ -1,0 +1,13 @@
+{
+  "schema": "relay.developer-wallets/v1",
+  "network": "mainnet",
+  "note": "Wallets generated or controlled by the Relay project on BOT Chain mainnet. Their transactions are team tests of the product, never evidence of users or adoption (PRD §17). Addresses only; no keys.",
+  "wallets": [
+    { "address": "0xB514b6dC577b9A9c5200616F2Ae8883f570a71aC", "role": "deployer" },
+    { "address": "0xa7d755a07b520723b57E83Da2A1aD2cdD141Ad9f", "role": "M1 proof-run creator" },
+    { "address": "0xCD8C2706Ac50D2Cc6970b9F35c20591766d9a08A", "role": "M1 proof-run member" },
+    { "address": "0x4B8b679fa9c7dEA7451FeffF3A26220dA1F25D7e", "role": "interaction check wallet A (creator)" },
+    { "address": "0x442BfbF0eb7a057678a7d053e1703f2960DD114d", "role": "interaction check wallet B (member)" },
+    { "address": "0x61aB51EDcbCB36d1Dd65E721B2B9b1b25eb46b92", "role": "interaction check wallet C (member)" }
+  ]
+}

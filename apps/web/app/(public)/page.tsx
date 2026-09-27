@@ -139,7 +139,10 @@ export default function Home() {
           Every public claim has a status and the evidence behind it. Nothing below says more than its evidence does.
         </p>
         <Reveal className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {LEDGER.claims.slice(0, 6).map((c) => (
+          {(process.env.NEXT_PUBLIC_RELAY_NETWORK === "mainnet"
+            ? [...LEDGER.claims].sort((a, b) => Number(b.status === "OBSERVED_MAINNET") - Number(a.status === "OBSERVED_MAINNET"))
+            : LEDGER.claims
+          ).slice(0, 6).map((c) => (
             <ClaimCard key={c.id} claim={c} />
           ))}
         </Reveal>

@@ -55,7 +55,7 @@ export function Footer() {
       <div className="flex flex-wrap items-start justify-between gap-6">
         <div className="max-w-sm">
           <Logo />
-          <p className="mt-2">A group time capsule with a release record anyone can check. Built for BOT Chain; testnet first.</p>
+          <p className="mt-2">A group time capsule with a release record anyone can check. {process.env.NEXT_PUBLIC_RELAY_NETWORK === "mainnet" ? "Deployed on BOT Chain mainnet." : "Built for BOT Chain; testnet first."}</p>
         </div>
         <ul className="grid gap-1.5 font-bold">
           <li>

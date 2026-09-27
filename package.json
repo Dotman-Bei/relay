@@ -21,6 +21,7 @@
     "proof:local": "tsx scripts/proof-run.ts --network local",
     "proof:testnet": "tsx scripts/proof-run.ts --network testnet",
     "proof:mainnet": "tsx scripts/proof-run.ts --network mainnet",
+    "interact:mainnet": "tsx scripts/interact.ts",
     "adversarial:local": "tsx scripts/adversarial.ts --network local",
     "adversarial:testnet": "tsx scripts/adversarial.ts --network testnet",
     "deploy:testnet": "tsx scripts/deploy.ts --network testnet",
