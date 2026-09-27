@@ -33,6 +33,7 @@
     "claims:check": "tsx packages/claim-ledger/src/cli.ts check",
     "brand": "tsx scripts/brand.ts",
     "brand:png": "tsx scripts/brand-render.ts",
+    "brand:social": "tsx scripts/brand-social.ts",
     "web:dev": "pnpm --filter @relay/web dev",
     "web:build": "pnpm --filter @relay/web build",
     "evidence": "tsx scripts/collect-evidence.ts",
