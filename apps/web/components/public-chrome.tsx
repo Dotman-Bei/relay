@@ -49,6 +49,12 @@ export function PublicNav() {
   );
 }
 
+// Official BOT Chain links, visible on every page. The explorer follows the build's network.
+const MAINNET = process.env.NEXT_PUBLIC_RELAY_NETWORK === "mainnet";
+const EXPLORER = MAINNET ? "https://scan.botchain.ai" : "https://scan.bohr.life";
+const REGISTRY = MAINNET ? "0xb565bd5875ae429f2ebca9e69e202407021c6d62" : "0x6f6e2c0fb44016d621e133612c61069de15cd710";
+const footLink = "underline decoration-[3px] underline-offset-2 inline-flex min-h-6 items-center pointer-coarse:min-h-11";
+
 export function Footer() {
   return (
     <footer className="mt-16 border-t-[3px] border-line pt-6 pb-10 text-sm font-medium text-ink/80">
@@ -65,7 +71,16 @@ export function Footer() {
             <Link href="/how-it-works#limits" className="underline decoration-[3px] underline-offset-2">What Relay does not promise →</Link>
           </li>
           <li>
-            <a href="https://dev-docs.botchain.ai" target="_blank" rel="noreferrer" className="underline decoration-[3px] underline-offset-2">BOT Chain developer docs ↗</a>
+            <a href="https://botchain.ai" target="_blank" rel="noreferrer" className={footLink}>Built on BOT Chain · botchain.ai ↗</a>
+          </li>
+          <li>
+            <a href={EXPLORER} target="_blank" rel="noreferrer" className={footLink}>{MAINNET ? "BOTScan · scan.botchain.ai" : "BOTScan testnet · scan.bohr.life"} ↗</a>
+          </li>
+          <li>
+            <a href={`${EXPLORER}/address/${REGISTRY}`} target="_blank" rel="noreferrer" className={footLink}>Relay contract on BOTScan ↗</a>
+          </li>
+          <li>
+            <a href="https://dev-docs.botchain.ai" target="_blank" rel="noreferrer" className={footLink}>BOT Chain developer docs ↗</a>
           </li>
         </ul>
       </div>
